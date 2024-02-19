@@ -1,0 +1,238 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'ABeeZee', sans-serif;
+    background-color: #43A5FF;
+    height: 100%;
+    color: white;
+  }
+
+.cloud-overlay-1 {
+    position: absolute; /* Position the cloud overlay relative to the body */
+    top: 0;
+    left: 300px;
+    width: 50%;
+    height: 50%;
+    object-fit: cover; /* Cover the entire body with the cloud image */
+    z-index: -1; /* Place the cloud overlay below the content */
+    user-select: none;
+}
+
+.cloud-overlay-2 {
+    position: absolute; /* Position the cloud overlay relative to the body */
+    top: 0;
+    left: 900px;
+    width: 25%;
+    height: 25%;
+    object-fit: cover; /* Cover the entire body with the cloud image */
+    z-index: -1; /* Place the cloud overlay below the content */
+    user-select: none;
+}
+  
+.container {
+    display: flex;
+    height: 100%;
+}
+  
+.column {
+    box-sizing: border-box;
+    padding: 20px;
+    border: 1px solid #ccc;
+}
+
+.favorites-column {
+    width: 25%;
+    background-color: rgba(16, 64, 132, 0.3);
+    height: 100vh;
+    display: flex;
+    flex-direction: row; /* Update flex-direction to row */
+    justify-content: space-between; /* Align items to either side */
+}
+
+.favorites-text {
+    font-weight: 300;
+    font-size: 28px;
+}
+
+.weather-column {
+    width: 75%;
+    height: 100%;
+}
+
+
+.search-bar {
+    display: flex;
+    justify-content: flex-end; /* Align search bar to the top right */
+    margin-bottom: 20px; /* Add margin to separate the search bar from the content */
+}
+
+.search-bar input {
+    margin-right: 10px; /* Add some space between input and button */
+}
+
+.weather-details {
+    text-align: center;
+}
+
+.city-name {
+    font-size: 24px;
+}
+
+.temperature {
+    font-weight: bold;
+    font-size: 48px;
+}
+
+.condition {
+    font-size: 16px;
+    margin-top: 5px;
+}
+
+.high-low {
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.weather-info {
+    background-color: rgba(16, 64, 132, 0.3);
+    border-radius: 15px; /* Set border radius to 15 */
+    padding: 15px;
+    margin-top: 25px;
+}
+
+.forecast-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.forecast-title {
+    font-size: 20px;
+    margin-left: 8px;
+    margin-top: 3px;
+}
+
+.current-date {
+    font-size: 18px;
+    margin-top: 3px;
+}
+
+.time-slots-container {
+    margin-top: 35px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding-bottom: 15px;
+}
+
+.time-slot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.temp {
+    font-size: 18px;
+}
+
+.weather-icon {
+    font-size: 24px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.time {
+    font-size: 16px;
+}
+
+.additional-info {
+    margin-top: 25px;
+    display: flex;
+}
+
+.Fourteen-day-column {
+    width: 34%;
+    background-color: rgba(16, 64, 132, 0.3);
+    border-radius: 15px; /* Set border radius to 15 */
+    padding: 10px; /* Adjust padding to create space for the scrollbar */
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;  /* Enable vertical scrollbar if needed */
+    max-height: 400px; /* Set the maximum height to limit the visible days */
+}
+
+/* For WebKit browsers */
+.Fourteen-day-column::-webkit-scrollbar {
+    width: 12px; /* Set width of the scrollbar */
+}
+
+.Fourteen-day-column::-webkit-scrollbar-thumb {
+    background-color: lightgray; /* Set color of the scrollbar thumb */
+    border-radius: 6px; /* Set border radius for rounded corners */
+}
+
+.Fourteen-day-column::-webkit-scrollbar-track {
+    background-color: rgba(255, 255, 255, 0.8); /* Set color of the scrollbar track with some transparency */
+    border-radius: 15px; /* Set border radius for the scrollbar track */
+    padding: 5px; /* Adjust padding to create space for the scrollbar thumb */
+}
+
+
+.widgets-column {
+    width: 66%;
+    margin-left: 15px;
+}
+
+.day-slot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ccc; /* Add a border between day slots */
+}
+
+.day-info {
+    text-align: left;
+}
+
+.conditions {
+    font-size: 24px;
+}
+
+.temperature-info {
+    text-align: right;
+}
+
+.date,
+.day-name{
+    font-size: 14px;
+}
+
+.widgets-column {
+    width: 66%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.widget-small {
+    width: calc(33.33% - 10px); /* Adjusted width with extra spacing */
+    height: 175px;
+    background-color: rgba(16, 64, 132, 0.3);
+    padding: 15px;
+    box-sizing: border-box;
+    border-radius: 15px;
+    margin-bottom: 20px; /* Added margin to create space between widgets */
+}
+
+.widget-large {
+    width: calc(66.66% - 10px); /* Adjusted width with extra spacing */
+    height: 175px;
+    background-color: rgba(16, 64, 132, 0.3);
+    padding: 15px;
+    box-sizing: border-box;
+    border-radius: 15px;
+    margin-bottom: 20px; /* Added margin to create space between widgets */
+}
+
