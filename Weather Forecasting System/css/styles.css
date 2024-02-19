@@ -159,7 +159,7 @@ body {
     display: flex;
     flex-direction: column;
     overflow-y: auto;  /* Enable vertical scrollbar if needed */
-    max-height: 400px; /* Set the maximum height to limit the visible days */
+    max-height: 738px; /* Set the maximum height to limit the visible days */
 }
 
 /* For WebKit browsers */
