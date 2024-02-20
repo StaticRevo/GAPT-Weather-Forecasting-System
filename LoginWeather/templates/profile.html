@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+    <section class="profile">
+        <h1>Profile</h1>
+        <div class="profile-info">
+            <p>User ID: {{ user.user_id }}</p>
+            <p>Full Name: {{ user.Name }} {{ user.Surname }}</p>
+            <p>Email: {{ user.Email }}</p>
+        </div>
+    </section>
+
+{% endblock %}

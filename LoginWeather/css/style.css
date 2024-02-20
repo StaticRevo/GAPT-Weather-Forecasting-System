@@ -1,0 +1,90 @@
+/* Main CSS*/
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+/*    background-color: 0;*/
+}
+body{
+    font-family: "Montserrat", sans-serif;
+    background: #29304B;
+    color: white;
+    line-height: 1.6;
+    height: 100vh;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+/* Header styling */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #071A3D; 
+    padding: 20px; 
+    color: white; 
+}
+
+/* Logo styling */
+.logo {
+    width: 100px; /* Adjust size as needed */
+    height: auto; /* Maintain aspect ratio */
+}
+
+/* Navigation styling */
+nav {
+    display: flex;
+}
+
+.nav_links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav_links li {
+    margin-right: 20px; /* Adjust spacing between links */
+}
+
+.nav_links li:last-child {
+    margin-right: 0; /* Remove margin from last link */
+}
+
+.nav_links li a {
+    text-decoration: none;
+    color: white; /* Link color */
+}
+
+/* User links styling */
+.user {
+    text-decoration: none;
+    color: white; /* Link color */
+    margin-right: 20px; /* Adjust spacing between links */
+}
+
+/* Menu icon styling */
+#menu-icon {
+    display: none; /* Hide by default */
+    cursor: pointer;
+    font-size: 24px; /* Adjust size as needed */
+}
+
+/* Responsive styling */
+@media screen and (max-width: 768px) {
+    .nav_links {
+        display: none; /* Hide navigation links */
+    }
+
+    .user, #menu-icon {
+        display: block; /* Show user links and menu icon */
+    }
+
+    .main {
+        display: flex;
+        align-items: center; /* Center vertically */
+    }
+
+    .logo, #menu-icon {
+        margin-right: 20px; /* Adjust spacing between logo and menu icon */
+    }
+}

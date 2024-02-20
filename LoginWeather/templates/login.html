@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="login_cont">
+
+    <div class ="box">
+        <form method="post">
+            <h2>Sign in</h2>
+            {% if error %}
+            <div class="error">{{ error }}</div>
+            {% endif %}
+            
+            {% if validations.emailError is not empty %}
+            <span class="error">{{ validations.emailError }}</span>
+            {% endif %}
+            <div class="inputBox">
+                <input type="text" name="email" required="required">
+                <span>Email</span>
+                <i></i>
+            </div>
+            {% if validations.passwordError is not empty %}
+            <span class="error">{{ validations.passwordError }}</span> <!-- required -->
+            {% endif %}
+            <div class="inputBox">
+                <input type="password" name="password" required="required">
+                <span>Password</span>
+                <i></i>
+            </div>
+            <div class="links">
+                <br>
+                <a href="register.php">Sign Up</a>
+            </div>
+            <input type="submit" name="login" value="Login">
+        </form>
+    </div>
+
+</div>
+
+{% endblock %}
