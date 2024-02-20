@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="reg_cont">
+    <div class ="regbox">
+        <form id="registration-form" method="post" onsubmit="return checkPassword() && checkEmail();">
+            <h2>Register</h2>
+            {% if error_message %}
+            <div class="error_message">{{ error_message }}</div>
+            {% endif %}
+            
+            <!-- name -->
+            {% if validations.nameError is not empty %}
+            <span class="error">{{ validations.nemeError }}</span>
+            {% endif %}
+            <div class="inputBox">
+                <input type="text" name="name" required="required">
+                <span>Name</span>
+                <i></i>
+            </div>
+            
+            {% if validations.surnameError is not empty %}
+            <span class="error">{{ validations.surnameError }}</span>
+            {% endif %}
+            <div class="inputBox">
+                <input type="text" name="surname" required="required">
+                <span>Surname</span>
+                <i></i>
+            </div>
+            
+            {% if validations.emailError is not empty %}
+            <span class="error">{{ validations.emailError }}</span>
+            {% endif %}
+            <div class="inputBox">
+                <input type="text" name="email" id="emailInput" required="required">
+                <span>Email</span>
+                <i></i> 
+            </div>
+            
+            {% if validations.passwordError is not empty %}
+            <span class="error">{{ validations.passwordError }}</span>
+            {% endif %}
+            <div class="inputBox">
+                <input type="password" name="password" id="password" required="required">
+                <span>Password</span>
+                <i></i>
+            </div>
+            
+            {% if validations.confirmPasswordError is not empty %}
+            <span class="error">{{ validations.confirmPasswordError }}</span>
+            {% endif %}
+            <div class="inputBox">
+                <input type="password" name="confirmPassword" id="confirmPassword"required="required">
+                <span>Confirm Password</span>
+                <i></i>
+            </div>
+            <script src="javascript/register.js"></script>
+            <input type="submit" value="Register">
+        </form>        
+    </div>
+</div>
+{% endblock %}
