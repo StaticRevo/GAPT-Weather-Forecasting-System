@@ -5,12 +5,13 @@ body {
     background-color: #43A5FF;
     height: 100%;
     color: white;
+    overflow: auto;
   }
 
 .cloud-overlay-1 {
     position: absolute; /* Position the cloud overlay relative to the body */
     top: 0;
-    left: 300px;
+    left: 25%;
     width: 50%;
     height: 50%;
     object-fit: cover; /* Cover the entire body with the cloud image */
@@ -21,7 +22,7 @@ body {
 .cloud-overlay-2 {
     position: absolute; /* Position the cloud overlay relative to the body */
     top: 0;
-    left: 900px;
+    left: 70%;
     width: 25%;
     height: 25%;
     object-fit: cover; /* Cover the entire body with the cloud image */
@@ -31,22 +32,25 @@ body {
   
 .container {
     display: flex;
-    height: 100%;
+    height: 100vh; /* Use viewport height instead of percentage */
+    overflow: auto;
 }
-  
+
 .column {
     box-sizing: border-box;
     padding: 20px;
-    border: 1px solid #ccc;
 }
 
 .favorites-column {
     width: 25%;
     background-color: rgba(16, 64, 132, 0.3);
-    height: 100vh;
+    height: 100vh; /* Set the height to 100vh to match the viewport height */
+    position: sticky;
+    top: 0; /* Stick to the top of the viewport */
     display: flex;
-    flex-direction: row; /* Update flex-direction to row */
-    justify-content: space-between; /* Align items to either side */
+    flex-direction: row;
+    justify-content: space-between;
+    border: 1px solid #ccc;
 }
 
 .favorites-text {
@@ -159,7 +163,7 @@ body {
     display: flex;
     flex-direction: column;
     overflow-y: auto;  /* Enable vertical scrollbar if needed */
-    max-height: 738px; /* Set the maximum height to limit the visible days */
+    max-height: 47.5rem; /* Set the maximum height to limit the visible days */
 }
 
 /* For WebKit browsers */
