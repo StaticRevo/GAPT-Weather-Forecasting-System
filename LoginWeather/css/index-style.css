@@ -118,12 +118,15 @@ body {
 }
 
 .city-name {
-    font-size: 24px;
+    font-size: 32px;
+    font-weight: 500;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .temperature {
     font-weight: bold;
     font-size: 48px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .condition {
@@ -202,7 +205,7 @@ body {
     display: flex;
     flex-direction: column;
     overflow-y: auto;  /* Enable vertical scrollbar if needed */
-    max-height: 47.5rem; /* Set the maximum height to limit the visible days */
+    max-height: 35.25rem; /* Set the maximum height to limit the visible days */
 }
 
 /* For WebKit browsers */
@@ -285,11 +288,24 @@ body {
     margin-bottom: 20px; /* Added margin to create space between widgets */
 }
 
+.widget-windy {
+    width: 100%; /* Adjusted width with extra spacing */
+    height: 40%;
+    display: flex;
+    flex-direction: column; /* or row, depending on your layout */
+    justify-content: space-between; /* or other appropriate value */
+    background-color: rgba(16, 64, 132, 0.3);
+    padding: 15px;
+    box-sizing: border-box;
+    border-radius: 15px;
+    margin-bottom: 20px; /* Added margin to create space between widgets */
+}
+
 .favorites-column.collapsed {
     width: 0;
     padding: 0;
     overflow: hidden;
-    transition: width 0.3s ease-out;
+    /*transition: width 0.3s ease-out;*/
 }
 
 .full-width {
@@ -327,4 +343,11 @@ body {
     font-weight: bold;
     align-self: bottom;
     font-size: 14px; /* Adjust the font size as needed */
+}
+
+#windy {
+    margin-top: 5px;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
 }
