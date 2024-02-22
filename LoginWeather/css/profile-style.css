@@ -1,10 +1,8 @@
 
-.profile {
-    display: flex;
-    flex-direction: column; 
-    align-items: center;
-    justify-content: center;
-    margin-top: 50px;
+  .profile {
+  position: relative; 
+  z-index: 1; 
+  overflow-y: auto;
   } 
   h1{
     font-size: 4vw;
@@ -41,24 +39,27 @@
     align-content: center;
     scroll-snap-align: center;
   }
-  /* Overriding the footer with additional functionality*/
-  footer{
-    bottom: 0;
-    width: 100%; 
-    padding: 20px 15%; 
-    background: #29304B; 
-    color: white;
-    display: flex; 
-    z-index: 2; 
-    scroll-snap-align: center;
+  .back-video {
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    pointer-events: none; 
+    opacity: 80%;
   }
-  h1:after {
-    content: "\f007";
-    font-family: FontAwesome;
-    font-size: 2vw;
-    margin-right: 0px;
-    vertical-align: 0.2em;
-    margin-left: 0.5em;
+
+  @media (min-aspect-ratio: 16/9){
+    .back-video{
+      width: 100%;
+      height: auto;
+    }
   }
-  
-  
+  @media (max-aspect-ratio: 16/9){
+    .back-video{
+      width: auto;
+      height: 100%;
+    }
+  }
