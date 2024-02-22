@@ -20,12 +20,14 @@
         <div class="container">
             <div class="column favorites-column" id="favorites-column">
                 <!-- favorites column -->
-                <div>
-                    <h2 class="favorites-text">Favorites</h2>
-                </div>
-                <div>
-                    <button>Add Favorite</button>
-                    <div class="bx bx-menu" id="menu-icon">&#9776;</div>
+                <div class="favorites-header">
+                    <div>
+                        <h2 class="favorites-text">Favorites</h2>
+                    </div>
+                    <div>
+                        <button>Add Favorite</button>
+                        <div class="bx bx-menu" id="menu-icon">&#9776;</div>
+                    </div>
                 </div>
             </div>
         
@@ -37,13 +39,14 @@
                     <div class="mainHead">
                         <div class="toggleButton" id="toggleButton">
                             <img src="images/three-lines-header.png" alt="Favorite Icon" class="toggle-favorites">
-                        </div>                                   
+                        </div> 
+                        <a href="settings.php"><img src="images/settings.png" alt="Settings Icon" class="settings-button"></a>                                        
                         {% if logged_in %}
-                            <a href="profile.php" class="user"><i class="ri-user-fill"></i>Profile</a>
-                            <a href="gen-php/signout.php">Sign Out</a>
+                            <a href="profile.php" class="user user-link"><i class="ri-user-fill"></i>Profile</a>
+                            <a href="gen-php/signout.php" class="user-link">Sign Out</a>
                         {% else %}
-                            <a href="login.php" class="user"><i class="ri-user-fill"></i>Sign in</a>
-                            <a href="register.php">Register</a>
+                            <a href="login.php" class="user user-link"><i class="ri-user-fill"></i>Sign in</a>
+                            <a href="register.php" class="user-link">Register</a>
                         {% endif %}
                         <div class="bx bx-menu" id="menu-icon"></div>
                     </div>
@@ -51,7 +54,7 @@
                     <!--<nav>
                         <ul class = "nav_links">
                             <li><a href="index.php">Home</a></li>
-                            <li><a href="settings.html">Settings</a></li>
+                            
                         </ul>
                     </nav> --> 
 
