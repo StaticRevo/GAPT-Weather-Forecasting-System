@@ -2,7 +2,10 @@
 
 {% block content %}
 
-    <section class="profile">
+    <section class="profile"> 
+        <video autoplay loop muted plays-inline class="back-video"> 
+            <source src="images/Earth360loop.mp4" type="video/mp4">
+        </video>
         <h1>Profile</h1>
         <div class="profile-info">
             <p>User ID: {{ user.user_id }}</p>
