@@ -44,13 +44,22 @@ body {
 .favorites-column {
     width: 25%;
     background-color: rgba(16, 64, 132, 0.3);
-    height: 100vh; /* Set the height to 100vh to match the viewport height */
+    height: 100vh;
     position: sticky;
-    top: 0; /* Stick to the top of the viewport */
+    top: 0;
+    display: flex;
+    flex-direction: column; /* Set to column to make the favorites column vertical */
+    border: 1px solid #ccc;
+}
+
+.favorites-header {
+    width: 100%; /* Adjusted width to take up the full width of the favorites column */
+    height: auto; /* Adjusted height to automatically adjust to content */
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    border: 1px solid #ccc;
+    padding: 10px; /* Added padding for better appearance */
+    box-sizing: border-box; /* Box-sizing to include padding in width */
 }
 
 .favorites-text {
@@ -328,6 +337,16 @@ body {
     display: inline-block; /* Display as inline-block to allow setting width and height */
 }
 
+.settings-button {
+    width: 20px; /* Adjust the width as needed */
+    height: 25px; /* Adjust the height as needed */
+    margin-left: 10px;
+    margin-right: 10px; /* Optional: Add spacing between the image and text */
+    background: transparent; /* Set the background to transparent */
+    border: none; /* Remove any border if there is one */
+    padding-top:5px;
+}
+
 .widget-text {
     font-weight: bold;
     font-size: 22px; /* Adjust the font size as needed */
@@ -350,4 +369,23 @@ body {
     width: 100%;
     height: 100%;
     border-radius: 20px;
+}
+
+.user-link {
+    text-decoration: none;
+    color: white;
+    padding: 10px;
+    margin-right: 5px;
+    margin-left: 5px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.user-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.ri-user-fill {
+    margin-right: 10px; /* Adjust the margin as needed */
 }
