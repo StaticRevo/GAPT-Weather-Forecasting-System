@@ -8,34 +8,37 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
         <script src="https://kit.fontawesome.com/9877e2c6ca.js" crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/style.css">  
         <link rel="stylesheet" href="css/{{ filename }}-style.css">
+        <link rel="stylesheet" href="css/layout-style.css">
         <script type="text/javascript" src="javascript/header.js"></script> <!-- updated -->
     </head>
-    <body>
-        <!--<div class="transition transition is-active"></div>-->
-            <div class="container">
-                <header>
-                    <nav>
-                        <ul class = "nav_links">
-                            <li><a href="index.php">Home</a></li>
-                            <li><a href="settings.html">Settings</a></li>
-                        </ul>
-                    </nav>
-                    <div class="main">
-                        {% if logged_in %}
-                            <a href="profile.php" class="user"><i class="ri-user-fill"></i>Profile</a>
-                            <a href="gen-php/signout.php">Sign Out</a>
-                            <a href="displayfavs.php">Favourites</a>  
-                        {% else %}
-                            <a href="login.php" class="user"><i class="ri-user-fill"></i>Sign in</a>
-                            <a href="register.php">Register</a>
-                        {% endif %}
-                        <div class="bx bx-menu" id="menu-icon"></div>
+        <header>
+            <div class="header">
+                <!-- Sign In And Login Menu -->
+                <div class="mainHead">
+                    <div>
+                        <a href="index.php"><img src="images/weather.png" alt="Weather Icon" class="settings-button"></a>      
+                        <a href="settings.php"><img src="images/settings.png" alt="Settings Icon" class="settings-button"></a>   
                     </div>
-                   
-                </header>
-                              
+                        
+                    <div>
+                        {% if logged_in %}
+                        <a href="profile.php" class="user user-link"><i class="ri-user-fill"></i>Profile</a>
+                        <a href="gen-php/signout.php" class="user-link">Sign Out</a>
+                    {% else %}
+                        <a href="login.php" class="user user-link"><i class="ri-user-fill"></i>Sign in</a>
+                        <a href="register.php" class="user-link">Register</a>
+                    {% endif %}
+                    </div>
+                    <div class="bx bx-menu" id="menu-icon"></div>
+                </div>
+            </div>
+        </header>
+    <body>
+        <div class="transition transition is-active"></div>
+            <div class="container">
+              
                 {% block content %}
                 {% endblock %}
              
