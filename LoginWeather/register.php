@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($password == $confirmPassword){
         ;
     } else {
-        $validation['confirmPasswordError'] = 'Password does not match.';
+        $validations['confirmPasswordError'] = 'Password does not match.';
     }
     
     // update variables for continuation of script
