@@ -3,6 +3,9 @@
 {% block content %}
 
 <section class="settings"> 
+    <video autoplay loop muted plays-inline class="back-video"> 
+        <source src="images/Earth360loop.mp4" type="video/mp4">
+    </video>
     <div class="settings-content">
         <h1>Account Settings</h1>
         <div class="setting">
@@ -13,10 +16,26 @@
             </select>
         </div>
         <div class="setting">
-            <h2>Altitude Unit</h2>
+            <h2>Distance Unit</h2>
             <select name="altitude-unit">
                 <option value="meters">Meters</option>
                 <option value="feet">Feet</option>
+            </select>
+        </div>
+        <div class="setting">
+            <h2>Precipation Unit</h2>
+            <select name="altitude-unit">
+                <option value="millimeters">Millimeters</option>
+                <option value="inches">Inches</option>
+            </select>
+        </div>
+        <div class="setting">
+            <h2>Wind Unit</h2>
+            <select name="altitude-unit">
+                <option value="kmh">Kilometers per hour</option>
+                <option value="mph">Miles per hour</option>
+                <option value="beaufort">Beaufort</option>
+                <option value="knots">Knots</option>
             </select>
         </div>
         <button type="submit">Save Changes</button>
