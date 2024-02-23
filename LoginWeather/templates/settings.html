@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<section class="settings"> 
+    <div class="settings-content">
+        <h1>Account Settings</h1>
+        <div class="setting">
+            <h2>Temperature Unit</h2>
+            <select name="temperature-unit">
+                <option value="celsius">Celsius</option>
+                <option value="fahrenheit">Fahrenheit</option>
+            </select>
+        </div>
+        <div class="setting">
+            <h2>Altitude Unit</h2>
+            <select name="altitude-unit">
+                <option value="meters">Meters</option>
+                <option value="feet">Feet</option>
+            </select>
+        </div>
+        <button type="submit">Save Changes</button>
+    </div>
+</section>
+
+{% endblock %}
