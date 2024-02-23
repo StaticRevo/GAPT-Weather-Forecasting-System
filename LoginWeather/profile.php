@@ -34,11 +34,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Check if any of the update fields are not empty
     if (!empty($newName) || !empty($newSurname) || !empty($newEmail) || !empty($newPassword)) {
         // Update user information in the database
-        $stmt = $db->prepare('UPDATE Users SET Name=?, Surname=?, Email=?, Password=? WHERE user_id = ?');
-        $stmt->bind_param('ssssi', $newName, $newSurname, $newEmail, $newPassword, $_SESSION['user_id']);
-        $stmt->execute();
-    }
+        //$stmt = $db->prepare('UPDATE Users SET Name=?, Surname=?, Email=?, Password=? WHERE user_id = ?');
+       // $stmt->bind_param('ssssi', $newName, $newSurname, $newEmail, $newPassword, $_SESSION['user_id']);
+        //$stmt->execute();
+                // Build the update query dynamically
+                $updateQuery = 'UPDATE Users SET';
+                $params = [];
+                $types = '';
+        
+                if (!empty($newName)) {
+                    $updateQuery .= ' Name=?,';
+                    $params[] = $newName;
+                    $types .= 's';
+                }
+        
+                if (!empty($newSurname)) {
+                    $updateQuery .= ' Surname=?,';
+                    $params[] = $newSurname;
+                    $types .= 's';
+                }
+        
+                if (!empty($newEmail)) {
+                    $updateQuery .= ' Email=?,';
+                    $params[] = $newEmail;
+                    $types .= 's';
+                }
+        
+                if (!empty($newPassword)) {
+                    $updateQuery .= ' Password=?,';
+                    $params[] = $newPassword;
+                    $types .= 's';
+                }
+        
+                // Remove trailing comma
+                $updateQuery = rtrim($updateQuery, ',');
+                
+                // Add WHERE clause
+                $updateQuery .= ' WHERE user_id = ?';
+                $types .= 'i';
+                $params[] = $_SESSION['user_id'];
+        
+                // Prepare and execute the update query
+                $stmt = $db->prepare($updateQuery);
+                $stmt->bind_param($types, ...$params);
+                $stmt->execute();
+            }
+        
     
+
     // Handle file upload for profile picture
     if (isset($_FILES['profile-picture']) && $_FILES['profile-picture']['error'] === UPLOAD_ERR_OK) {
         $uploadDir = __DIR__ . '/uploads/';
@@ -58,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $bio = $_POST['bio'];
         $stmt = $db->prepare('UPDATE ExtraUsers SET bio = ? WHERE user_id = ?');
         $stmt->bind_param('si', $bio, $_SESSION['user_id']);
-        $stmt->execute();
+        $stmt->execute(); 
     }
 }
 
