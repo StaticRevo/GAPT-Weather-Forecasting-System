@@ -1,14 +1,30 @@
-.settings {
+body, html {
+  overflow-y: auto; /* Enable vertical scrolling for the entire page */
+}
+  .settings {
+    margin-top: 5%;
+    position: relative; 
+    z-index: 1; 
+    overflow-y: auto;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+   }
+  .back-video {
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    pointer-events: none; 
+    opacity: 0.8; /* Adjusted opacity for a subtle effect */
   }
-  
   .settings-content {
     background-color: #f9f9f9;
     padding: 30px;
-    border-radius: 10px;
+    border-radius: 20px;
     text-align: center;
   }
   .settings-content h1 {
