@@ -1,0 +1,53 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    z-index: 5;
+}
+
+.mainHead {
+    display: flex;
+    align-items: center;
+}
+
+.toggle-favorites {
+    width: 20px; /* Adjust the width as needed */
+    height: 20px; /* Adjust the height as needed */
+    margin-right: 15px; /* Optional: Add spacing between the image and text */
+    background: transparent; /* Set the background to transparent */
+    border: none; /* Remove any border if there is one */
+    padding-top:5px;
+}
+
+.toggleButton {
+    cursor: pointer; /* Change cursor to hand icon on hover */
+    display: inline-block; /* Display as inline-block to allow setting width and height */
+}
+
+.settings-button {
+    width: 20px; /* Adjust the width as needed */
+    height: 25px; /* Adjust the height as needed */
+    margin-left: 10px;
+    margin-right: 10px; /* Optional: Add spacing between the image and text */
+    background: transparent; /* Set the background to transparent */
+    border: none; /* Remove any border if there is one */
+    padding-top:5px;
+}
+
+.user-link {
+    text-decoration: none;
+    color: white;
+    padding: 10px;
+    margin-right: 5px;
+    margin-left: 5px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.user-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.ri-user-fill {
+    margin-right: 10px; /* Adjust the margin as needed */
+}
