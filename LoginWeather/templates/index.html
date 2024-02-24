@@ -61,7 +61,7 @@
                     <!-- Content for the right column goes here -->
                     <div class="search-bar">
                         <input class="search-input" id="searchInput" type="text" placeholder="Search...">
-                        <button onclick="searchLocation()" class="search-button">Search</button>
+                        <button onclick="searchLocation(), searchLocationForecast()" class="search-button">Search</button>
                     </div>
                 </div>
 
@@ -69,11 +69,12 @@
                 <img src="images/cloud.png" alt="Cloud Overlay" class="cloud-overlay-2">
                 
                 <div class="weather-details">
-                    <div class="city-name">Valletta</div>
-                    <div class="temperature">25°C</div>
-                    <div class="condition">Mostly Clear</div>
-                    <div class="high-low">High: 28°C, Low: 20°C</div>
+                    <div class="city-name" id="city-name">Valletta</div>
+                    <div class="temperature" id="temperature">Loading...</div>
+                    <div class="condition" id="condition">Loading...</div>
+                    <div class="high-low" id="high-low">Loading...</div>
                 </div>
+
                 <!-- New div with weather information -->
                 <div class="weather-info">
                 <div class="forecast-header">
@@ -140,186 +141,22 @@
                     <div class="forecast-title">14 Day Forecast</div>
                     <!-- Individual day slots -->
                     <!-- Day 1 -->
-                    <div class="day-slot">
-                        <div class="day-info">
-                            <div class="day-name">Tuesday</div>
-                            <div class="date">Feb 20, 2024</div>
-                        </div>
-                        <div class="conditions">⛅</div>
-                        <div class="temperature-info">
-                            <div class="high-low">High: 26°C</div>
-                            <div class="high-low">Low: 18°C</div>
-                        </div>
-                    </div>
 
-                    <!-- Day 2 -->
-                    <div class="day-slot">
-                        <div class="day-info">
-                            <div class="day-name">Wednesday</div>
-                            <div class="date">Feb 21, 2024</div>
+                    {% for day in 1..14 %}
+                        <!-- Individual day slots -->
+                        <div class="day-slot">
+                            <div class="day-info">
+                                <div class="day-name" id="day-name{{ day }}">Loading...</div>
+                                <div class="date" id="date{{ day }}">Loading...</div>
+                            </div>
+                            <div class="conditions" id="conditions{{ day }}">Loading...</div>
+                            <div class="temperature-info">
+                                <div class="high-temp" id="high-temp{{ day }}">High: Loading...</div>
+                                <div class="low-temp" id="low-temp{{ day }}">Low: Loading...</div>
+                            </div>
                         </div>
-                        <div class="conditions">🌧️</div>
-                        <div class="temperature-info">
-                            <div class="high-low">High: 24°C</div>
-                            <div class="high-low">Low: 17°C</div>
-                        </div>
-                    </div>
+                    {% endfor %}
 
-                    <!-- Day 3 -->
-                    <div class="day-slot">
-                        <div class="day-info">
-                            <div class="day-name">Thursday</div>
-                            <div class="date">Feb 22, 2024</div>
-                        </div>
-                        <div class="conditions">⛅</div>
-                        <div class="temperature-info">
-                            <div class="high-low">High: 28°C</div>
-                            <div class="high-low">Low: 19°C</div>
-                        </div>
-                    </div>
-
-                    <!-- Day 4 -->
-                    <div class="day-slot">
-                        <div class="day-info">
-                            <div class="day-name">Friday</div>
-                            <div class="date">Feb 23, 2024</div>
-                        </div>
-                        <div class="conditions">☁️</div>
-                        <div class="temperature-info">
-                            <div class="high-low">High: 23°C</div>
-                            <div class="high-low">Low: 16°C</div>
-                        </div>
-                    </div>
-
-                    <!-- Day 5 -->
-                    <div class="day-slot">
-                        <div class="day-info">
-                            <div class="day-name">Saturday</div>
-                            <div class="date">Feb 24, 2024</div>
-                        </div>
-                        <div class="conditions">🌤️</div>
-                        <div class="temperature-info">
-                            <div class="high-low">High: 25°C</div>
-                            <div class="high-low">Low: 17°C</div>
-                        </div>
-                    </div>
-
-                    <!-- Day 6 -->
-                    <div class="day-slot">
-                        <div class="day-info">
-                            <div class="day-name">Sunday</div>
-                            <div class="date">Feb 25, 2024</div>
-                        </div>
-                        <div class="conditions">⛅</div>
-                        <div class="temperature-info">
-                            <div class="high-low">High: 27°C</div>
-                            <div class="high-low">Low: 18°C</div>
-                        </div>
-                    </div>
-
-                    <!-- Day 7 -->
-                    <div class="day-slot">
-                        <div class="day-info">
-                            <div class="day-name">Monday</div>
-                            <div class="date">Feb 26, 2024</div>
-                        </div>
-                        <div class="conditions">🌦️</div>
-                        <div class="temperature-info">
-                            <div class="high-low">High: 24°C</div>
-                            <div class="high-low">Low: 16°C</div>
-                        </div>
-                    </div>
-
-                    <!-- Day 8 -->
-                    <div class="day-slot">
-                        <div class="day-info">
-                            <div class="day-name">Tuesday</div>
-                            <div class="date">Feb 27, 2024</div>
-                        </div>
-                        <div class="conditions">🌧️</div>
-                        <div class="temperature-info">
-                            <div class="high-low">High: 22°C</div>
-                            <div class="high-low">Low: 15°C</div>
-                        </div>
-                    </div>
-
-                    <!-- Day 9 -->
-                    <div class="day-slot">
-                        <div class="day-info">
-                            <div class="day-name">Wednesday</div>
-                            <div class="date">Feb 28, 2024</div>
-                        </div>
-                        <div class="conditions">⛅</div>
-                        <div class="temperature-info">
-                            <div class="high-low">High: 26°C</div>
-                            <div class="high-low">Low: 18°C</div>
-                        </div>
-                    </div>
-
-                    <!-- Day 10 -->
-                    <div class="day-slot">
-                        <div class="day-info">
-                            <div class="day-name">Thursday</div>
-                            <div class="date">Feb 29, 2024</div>
-                        </div>
-                        <div class="conditions">🌦️</div>
-                        <div class="temperature-info">
-                            <div class="high-low">High: 23°C</div>
-                            <div class="high-low">Low: 16°C</div>
-                        </div>
-                    </div>
-
-                    <!-- Day 11 -->
-                    <div class="day-slot">
-                        <div class="day-info">
-                            <div class="day-name">Friday</div>
-                            <div class="date">Mar 1, 2024</div>
-                        </div>
-                        <div class="conditions">🌤️</div>
-                        <div class="temperature-info">
-                            <div class="high-low">High: 25°C</div>
-                            <div class="high-low">Low: 17°C</div>
-                        </div>
-                    </div>
-
-                    <!-- Day 12 -->
-                    <div class="day-slot">
-                        <div class="day-info">
-                            <div class="day-name">Saturday</div>
-                            <div class="date">Mar 2, 2024</div>
-                        </div>
-                        <div class="conditions">⛅</div>
-                        <div class="temperature-info">
-                            <div class="high-low">High: 27°C</div>
-                            <div class="high-low">Low: 18°C</div>
-                        </div>
-                    </div>
-
-                    <!-- Day 13 -->
-                    <div class="day-slot">
-                        <div class="day-info">
-                            <div class="day-name">Sunday</div>
-                            <div class="date">Mar 3, 2024</div>
-                        </div>
-                        <div class="conditions">🌦️</div>
-                        <div class="temperature-info">
-                            <div class="high-low">High: 24°C</div>
-                            <div class="high-low">Low: 16°C</div>
-                        </div>
-                    </div>
-
-                    <!-- Day 14 -->
-                    <div class="day-slot">
-                        <div class="day-info">
-                            <div class="day-name">Monday</div>
-                            <div class="date">Mar 4, 2024</div>
-                        </div>
-                        <div class="conditions">☁️</div>
-                        <div class="temperature-info">
-                            <div class="high-low">High: 22°C</div>
-                            <div class="high-low">Low: 15°C</div>
-                        </div>
-                    </div>
                 </div>
                 
                 <div class="widgets-column">
@@ -394,48 +231,9 @@
         </div>
 
         <script src="scripts/toggleFavorites.js"></script>
-
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                // Function to find the pressure widget and extract the value
-                function findPressureWidget() {
-                    const widgets = document.querySelectorAll('.widget-small');
-                    for (const widget of widgets) {
-                        if (widget.querySelector('h3').innerText.includes('Pressure')) {
-                            return widget.querySelector('.widget-text').innerText;
-                        }
-                    }
-                    return null; // Widget not found
-                }
+        <script src="scripts/getWeather.js"></script>
+        <script src="scripts/pressureBar.js"></script>
+        <script src="scripts/fourteenDayForecast.js"></script>
         
-                // Get the pressure value from the widget
-                const pressureText = findPressureWidget();
-        
-                if (pressureText) {
-                    // Extract the numerical value from the pressure text
-                    const pressureValue = parseFloat(pressureText);
-        
-                    // Define lower and upper bounds for pressure levels
-                    const lowerBound = 900;
-                    const upperBound = 1100;
-        
-                    // Calculate the fill percentage based on the pressure value and bounds
-                    let fillPercentage = 0;
-        
-                    if (pressureValue >= lowerBound && pressureValue <= upperBound) {
-                        fillPercentage = ((pressureValue - lowerBound) / (upperBound - lowerBound)) * 100;
-                    } else if (pressureValue < lowerBound) {
-                        fillPercentage = 0;
-                    } else if (pressureValue > upperBound) {
-                        fillPercentage = 100;
-                    }
-        
-                    // Set the width of the pressure bar
-                    const pressureBar = document.getElementById('pressureBar');
-                    pressureBar.style.width = fillPercentage + '%';
-                }
-            });
-        </script>
-
     </body>
 </html>
