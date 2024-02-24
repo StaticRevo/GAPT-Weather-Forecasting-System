@@ -26,7 +26,7 @@ openCageRequest.onload = function() {
             verbose: true,
             lat: lat,
             lon: lon,
-            zoom: 5,
+            zoom: 7,
         };
 
         // Initialize Windy API
@@ -51,7 +51,7 @@ openCageRequest.send();
 
 // main.js
 
-function searchLocation() {
+function searchLocationWindy() {
     var api_key = 'd22d3e2e4fe2447b831cc75d3b5a9d60';
     var query = document.getElementById('searchInput').value;
 
@@ -82,7 +82,7 @@ function searchLocation() {
                 verbose: true,
                 lat: lat,
                 lon: lon,
-                zoom: 5,
+                zoom: 7,
             };
 
             // Initialize Windy API
