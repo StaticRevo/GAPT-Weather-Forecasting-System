@@ -143,7 +143,8 @@ body {
     margin-top: 5px;
 }
 
-.high-low {
+.high-temp,
+.low-temp {
     font-size: 14px;
     margin-top: 5px;
 }
