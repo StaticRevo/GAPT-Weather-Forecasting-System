@@ -1,18 +1,20 @@
-// Replace 'YOUR_API_KEY' with your actual API key
-const apiKey = 'K7AN4VPX6ZTLUL4ET72UFN5DB';
+const OPEN_CAGE_API_KEY = 'd22d3e2e4fe2447b831cc75d3b5a9d60';
 
-// Function to fetch and update weather data
-function updateWeather(city) {
-    const apiUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?unitGroup=metric&key=${apiKey}&contentType=json`;
+function getWeatherCondition(weatherCode, cityName = "") {
+    // Weather condition mapping remains the same as before
+    // You can customize this function further if needed
+}
+
+function updateWeather(latitude, longitude) {
+    const apiUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,weather_code`;
 
     fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
-            // Update HTML content with fetched data
-            document.getElementById('city-name').innerText = city;
-            document.getElementById('temperature').innerText = `${data.currentConditions.temp}°C`;
-            document.getElementById('condition').innerText = data.currentConditions.conditions;
-            document.getElementById('high-low').innerText = `High: ${data.days[0].tempmax}°C, Low: ${data.days[0].tempmin}°C`;
+            document.getElementById('city-name').innerText = document.getElementById('searchInput').value || 'Valletta';
+            document.getElementById('temperature').innerText = `${data.current.temperature_2m}°C`;
+            document.getElementById('condition').innerText = getWeatherConditionTop(data.current.weather_code, document.getElementById('searchInput').value || 'Valletta');
+            document.getElementById('high-low').innerText = ''; // Adjust based on the API response
         })
         .catch(error => {
             console.error('Error fetching weather data:', error);
@@ -23,22 +25,96 @@ function updateWeather(city) {
         });
 }
 
-// Initial load with Valletta's weather
-document.addEventListener('DOMContentLoaded', function () {
-    updateWeather('Valletta');
-});
-
-// Function to handle search
 function searchLocation() {
-    // Get the user's search query
     const searchQuery = document.getElementById('searchInput').value;
 
-    // Update with Valletta's weather if the search query is empty
     if (searchQuery.trim() === '') {
-        updateWeather('Valletta');
-    } else {
-        // Otherwise, update with the user's search query
-        updateWeather(searchQuery);
+        alert('Please enter a valid city name.');
+        return;
+    }
+
+    fetch(`https://api.opencagedata.com/geocode/v1/json?q=${searchQuery}&key=${OPEN_CAGE_API_KEY}`)
+        .then(response => response.json())
+        .then(data => {
+            const firstResult = data.results[0];
+            if (firstResult) {
+                const { lat, lng } = firstResult.geometry;
+                updateWeather(lat, lng);
+            } else {
+                alert('City not found. Please try again.');
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching geocoding data:', error);
+            alert('An error occurred. Please try again.');
+        });
+}
+
+function getWeatherConditionTop(weatherCode, cityName = "") {
+    // You can customize this function further based on your needs
+    switch (weatherCode) {
+        case 0:
+            return "Sunny";
+        case 1:
+            return "Mainly Sunny";
+        case 2:
+            return "Partly Cloudy";
+        case 3:
+            return "Cloudy";
+        case 45:
+            return "Foggy";
+        case 48:
+            return "Rime Fog";
+        case 51:
+            return "Light Drizzle";
+        case 53:
+            return "Drizzle";
+        case 55:
+            return "Heavy Drizzle";
+        case 56:
+            return "Light Freezing Drizzle";
+        case 57:
+            return "Freezing Drizzle";
+        case 61:
+            return "Light Rain";
+        case 63:
+            return "Rain";
+        case 65:
+            return "Heavy Rain";
+        case 66:
+            return "Light Freezing Rain";
+        case 67:
+            return "Freezing Rain";
+        case 71:
+            return "Light Snow";
+        case 73:
+            return "Snow";
+        case 75:
+            return "Heavy Snow";
+        case 77:
+            return "Snow Grains";
+        case 80:
+            return "Light Showers";
+        case 81:
+            return "Showers";
+        case 82:
+            return "Heavy Showers";
+        case 85:
+            return "Light Snow Showers";
+        case 86:
+            return "Snow Showers";
+        case 95:
+            return "Thunderstorm";
+        case 96:
+            return "Light Thunderstorms With Hail";
+        case 99:
+            return "Thunderstorm With Hail";
+        default:
+            return "Unknown Weather";
     }
 }
 
+// Initialize with Valletta's weather
+document.addEventListener('DOMContentLoaded', function () {
+    updateWeather(35.8997, 14.5148); // Default to Valletta's coordinates
+});
