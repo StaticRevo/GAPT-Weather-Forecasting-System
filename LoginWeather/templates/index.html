@@ -61,7 +61,7 @@
                     <!-- Content for the right column goes here -->
                     <div class="search-bar">
                         <input class="search-input" id="searchInput" type="text" placeholder="Search...">
-                        <button onclick="searchLocation(), searchLocationForecast(), searchLocationWindy()" class="search-button">Search</button>
+                        <button onclick="searchLocation(), searchLocationForecast(), searchLocationWindy(), searchLocationHourly()" class="search-button">Search</button>
                     </div>
                 </div>
 
@@ -81,60 +81,18 @@
                 <div class="forecast-title">Today's Forecast</div>
                 <div class="current-date">February 19, 2024</div>
             </div>
+
                 <!-- Container for time slots -->
                 <div class="time-slots-container">
-                    <!-- time slots -->
-                    <div class="time-slot">
-                        <div class="temp">22°C</div>
-                        <div class="weather-icon">☀️</div>
-                        <div class="time">13:00</div>
-                    </div>
-                    <div class="time-slot">
-                        <div class="temp">24°C</div>
-                        <div class="weather-icon">🌤️</div>
-                        <div class="time">14:00</div>
-                    </div>
-                    <div class="time-slot">
-                        <div class="temp">26°C</div>
-                        <div class="weather-icon">⛅</div>
-                        <div class="time">15:00</div>
-                    </div>
-                    <div class="time-slot">
-                        <div class="temp">28°C</div>
-                        <div class="weather-icon">🌥️</div>
-                        <div class="time">16:00</div>
-                    </div>
-                    <div class="time-slot">
-                        <div class="temp">25°C</div>
-                        <div class="weather-icon">☁️</div>
-                        <div class="time">17:00</div>
-                    </div>
-                    <div class="time-slot">
-                        <div class="temp">23°C</div>
-                        <div class="weather-icon">🌦️</div>
-                        <div class="time">18:00</div>
-                    </div>
-                    <div class="time-slot">
-                        <div class="temp">21°C</div>
-                        <div class="weather-icon">🌧️</div>
-                        <div class="time">19:00</div>
-                    </div>
-                    <div class="time-slot">
-                        <div class="temp">19°C</div>
-                        <div class="weather-icon">🌧️</div>
-                        <div class="time">20:00</div>
-                    </div>
-                    <div class="time-slot">
-                        <div class="temp">18°C</div>
-                        <div class="weather-icon">🌧️</div>
-                        <div class="time">21:00</div>
-                    </div>
-                    <div class="time-slot">
-                        <div class="temp">17°C</div>
-                        <div class="weather-icon">🌧️</div>
-                        <div class="time">22:00</div>
-                    </div>
-                </div>
+                    {% for hour in 1..6 %}
+                        <div class="time-slot">
+                            <div class="temp" id="temp{{ hour }}">Loading...</div>
+                            <div class="weather-icon" id="weather-icon{{ hour }}">Loading...</div>
+                            <div class="time" id="time{{ hour }}">Loading...</div>
+                        </div>
+                    {% endfor %}
+                </div>                
+
             </div>
             <div class="additional-info">
                 <div class="Fourteen-day-column">
@@ -234,6 +192,8 @@
         <script src="scripts/getWeather.js"></script>
         <script src="scripts/pressureBar.js"></script>
         <script src="scripts/fourteenDayForecast.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="scripts/hourlyForecast.js"> </script>
 
     </body>
 </html>
