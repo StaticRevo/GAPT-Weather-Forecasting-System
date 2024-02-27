@@ -17,7 +17,7 @@ $db = new Db();
 $user_id = $_SESSION['user_id'];
 
 //Fetch user data from the DB
-$stmt = $db->prepare('SELECT Name, Surname, Email, user_id FROM Users WHERE user_id = ?');
+$stmt = $db->prepare('SELECT Users.Name, Users.Surname, Users.Email, Users.user_id, ExtraUsers.bio FROM Users LEFT JOIN ExtraUsers ON Users.user_id = ExtraUsers.user_id WHERE Users.user_id = ?');
 $stmt->bind_param('i', $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -26,6 +26,7 @@ $user = $result->fetch_assoc();
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get form data
+
     $newName = $_POST['new-name'];
     $newSurname = $_POST['new-surname'];
     $newEmail = $_POST['new-email'];
@@ -82,29 +83,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
     
 
-    // Handle file upload for profile picture
+   // Handle file upload for profile picture
     if (isset($_FILES['profile-picture']) && $_FILES['profile-picture']['error'] === UPLOAD_ERR_OK) {
-        $uploadDir = __DIR__ . '/uploads/';
-        $uploadFile = $uploadDir . basename($_FILES['profile-picture']['name']);
-        
+        $uploadDir = '/Applications/XAMPP/xamppfiles/htdocs/LoginWeather2/uploads/'; // Ensure this path is correct and accessible
+        $fileExtension = pathinfo($_FILES['profile-picture']['name'], PATHINFO_EXTENSION);
+        $uploadFile = $uploadDir . uniqid() . '.' . $fileExtension;
+    
         // Move uploaded file to permanent location
         if (move_uploaded_file($_FILES['profile-picture']['tmp_name'], $uploadFile)) {
-            // Insert file path into ExtraUsers table
+            // Update database with new file path
             $stmt = $db->prepare('UPDATE ExtraUsers SET profile_picture = ? WHERE user_id = ?');
             $stmt->bind_param('si', $uploadFile, $_SESSION['user_id']);
             $stmt->execute();
+        } else {
+            echo 'Failed to move uploaded file.';
         }
     }
 
-    // Insert bio into ExtraUsers table
-    if (!empty($_POST['bio'])) {
-        $bio = $_POST['bio'];
-        $stmt = $db->prepare('UPDATE ExtraUsers SET bio = ? WHERE user_id = ?');
-        $stmt->bind_param('si', $bio, $_SESSION['user_id']);
-        $stmt->execute(); 
-    }
-}
 
+     // Insert or update bio in ExtraUsers table
+     if (!empty($_POST['bio'])) {
+        $bio = $_POST['bio'];
+        // Check if a record exists for the user in the ExtraUsers table
+        $stmt = $db->prepare('SELECT COUNT(*) AS count FROM ExtraUsers WHERE user_id = ?');
+        $stmt->bind_param('i', $_SESSION['user_id']);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        $count = $row['count'];
+
+        if ($count > 0) {
+            // If a record exists, update the bio
+            $stmt = $db->prepare('UPDATE ExtraUsers SET bio = ? WHERE user_id = ?');
+            $stmt->bind_param('si', $bio, $_SESSION['user_id']);
+            $stmt->execute();
+        } else {
+            // If a record doesn't exist, insert a new record
+            $stmt = $db->prepare('INSERT INTO ExtraUsers (bio, user_id) VALUES (?, ?)');
+            $stmt->bind_param('si', $bio, $_SESSION['user_id']);
+            $stmt->execute();
+        }
+     }
+
+}
 // adds to the title tag
 $title = "Profile";
     
