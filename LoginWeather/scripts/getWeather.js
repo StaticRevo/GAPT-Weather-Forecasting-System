@@ -11,8 +11,10 @@ function updateWeather(latitude, longitude) {
     fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
+            const roundedTemperature = Math.round(data.current.temperature_2m); //Rounds the temperature to the nearest int
+            
             document.getElementById('city-name').innerText = document.getElementById('searchInput').value || 'Valletta';
-            document.getElementById('temperature').innerText = `${data.current.temperature_2m}°C`;
+            document.getElementById('temperature').innerText = `${roundedTemperature}°C`;
             document.getElementById('condition').innerText = getWeatherConditionTop(data.current.weather_code, document.getElementById('searchInput').value || 'Valletta');
             document.getElementById('high-low').innerText = ''; // Adjust based on the API response
         })
@@ -22,31 +24,6 @@ function updateWeather(latitude, longitude) {
             document.getElementById('temperature').innerText = '';
             document.getElementById('condition').innerText = '';
             document.getElementById('high-low').innerText = '';
-        });
-}
-
-function searchLocation() {
-    const searchQuery = document.getElementById('searchInput').value;
-
-    if (searchQuery.trim() === '') {
-        alert('Please enter a valid city name.');
-        return;
-    }
-
-    fetch(`https://api.opencagedata.com/geocode/v1/json?q=${searchQuery}&key=${OPEN_CAGE_API_KEY}`)
-        .then(response => response.json())
-        .then(data => {
-            const firstResult = data.results[0];
-            if (firstResult) {
-                const { lat, lng } = firstResult.geometry;
-                updateWeather(lat, lng);
-            } else {
-                alert('City not found. Please try again.');
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching geocoding data:', error);
-            alert('An error occurred. Please try again.');
         });
 }
 
