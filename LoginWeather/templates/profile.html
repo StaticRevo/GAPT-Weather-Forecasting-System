@@ -8,10 +8,15 @@
     </video>
     <div class="profile-content">
         <div class="profile-info">
-            <h1>Your Profile</h1>
+            <h1>Your Weather Profile</h1>
             <p>Weather ID: {{ user.user_id }}</p>
             <p>Full Name: {{ user.Name }} {{ user.Surname }}</p>
             <p>Email: {{ user.Email }}</p>
+
+            <h3>About me:</h3>
+            <div class="profile-bio">
+                <p>{{ user.bio }}</p>
+            </div>
         </div>
         <div class="profile-details">
             <h2>Edit Profile</h2>
