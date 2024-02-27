@@ -61,7 +61,7 @@
                     <!-- Content for the right column goes here -->
                     <div class="search-bar">
                         <input class="search-input" id="searchInput" type="text" placeholder="Search...">
-                        <button onclick="searchLocation(), searchLocationForecast(), searchLocationWindy(), searchLocationHourly()" class="search-button">Search</button>
+                        <button onclick="searchLocation(), searchLocationForecast()" class="search-button">Search</button>
                     </div>
                 </div>
 
@@ -188,12 +188,16 @@
 
         </div>
 
-        <script src="scripts/toggleFavorites.js"></script>
-        <script src="scripts/getWeather.js"></script>
-        <script src="scripts/pressureBar.js"></script>
-        <script src="scripts/fourteenDayForecast.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-        <script src="scripts/hourlyForecast.js"> </script>
+        <script src="scripts/pressureBar.js"></script> <!-- Handles Pressure Bar -->
+        <script src="scripts/toggleFavorites.js"></script> <!-- Handles Toggle Favorites Bar -->
 
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="scripts/getCoordinates.js"></script>  <!-- Takes Coordinates from the Location Search Query -->
+
+        <!-- Below Scripts handle API access to update page -->
+        <script src="scripts/getWeather.js"></script> 
+        <script src="scripts/fourteenDayForecast.js"></script>
+        <script src="scripts/hourlyForecast.js"> </script>
+        
     </body>
 </html>
