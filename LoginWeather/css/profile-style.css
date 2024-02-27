@@ -35,6 +35,25 @@ body, html {
   max-height: 100vh; /* Example maximum height */
   overflow-y: auto; /
 }
+.profile-bio {
+  background-color: #fff; /* White background */
+  color: #000; /* Black text */
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Optional: Adds a subtle shadow */
+}
+
+.profile-bio h3 {
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+.profile-bio p {
+  margin: 0;
+  font-size: 1rem;
+}
+
 
 .profile-info h1 {
   font-size: 2.5rem; /* Adjusted font size for better readability */
