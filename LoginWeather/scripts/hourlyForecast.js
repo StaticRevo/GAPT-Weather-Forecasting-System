@@ -1,52 +1,5 @@
 // Function to get weather data
 
-async function getCoordinates(location) {
-    const opencageApiKey = 'd22d3e2e4fe2447b831cc75d3b5a9d60'; // Replace with your OpenCage API key
-    const timezoneDbApiKey = 'A37RMT7ZS3PE'; // Replace with your TimezoneDB API key
-
-    const opencageResponse = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(location)}&key=${opencageApiKey}`);
-    
-    const { results } = opencageResponse.data;
-    if (results && results.length > 0) {
-        const { lat, lng } = results[0].geometry;
-
-        // Use TimezoneDB API to get timezone information
-        const timezoneResponse = await axios.get(`http://api.timezonedb.com/v2.1/get-time-zone?key=${timezoneDbApiKey}&format=json&by=position&lat=${lat}&lng=${lng}`);
-
-        const { status, message, zoneName } = timezoneResponse.data;
-        if (status === 'OK') {
-            return { latitude: lat, longitude: lng, timezone: zoneName };
-        } else {
-            throw new Error(`TimezoneDB error: ${message}`);
-        }
-    } else {
-        throw new Error('Unable to fetch coordinates for the location');
-    }
-}
-
-
-async function searchLocationHourly() {
-    try {
-        // Get the search input value
-        const searchInput = document.getElementById('searchInput').value;
-
-        // Fetch coordinates using OpenCage API for the search location
-        const { latitude, longitude, timezone } = await getCoordinates(searchInput);
-        
-        // Call the getWeather function with the obtained coordinates and timezone
-        getWeather(latitude, longitude, timezone)
-            .then((data) => {
-                // Update HTML elements with weather data and timezone
-                updateWeatherElements(data, timezone);
-            })
-            .catch((error) => {
-                console.error('Error fetching weather data:', error);
-            });
-    } catch (error) {
-        console.error('Error fetching coordinates:', error);
-    }
-}
-
 function getWeather(lat, lon, timezone) {
     return axios
     .get(
@@ -138,68 +91,25 @@ function updateWeatherElements(data, timezone) {
         timeElement.textContent = localTime;
     }
 }
+
 function getWeatherCondition(weatherCode) {
-switch (weatherCode) {
-case 0:
-return "☀️";
-case 1:
-return "☀️";
-case 2:
-return "⛅";
-case 3:
-return "☁️";
-case 45:
-return "☁️";
-case 48:
-return "☁️";
-case 51:
-return "🌧️";
-case 53:
-return "🌧️";
-case 55:
-return "🌧️";
-case 56:
-return "🌧️";
-case 57:
-return "🌧️";
-case 61:
-return "🌧️";
-case 63:
-return "🌧️";
-case 65:
-return "🌧️";
-case 66:
-return "🌧️";
-case 67:
-return "🌧️";
-case 71:
-return "🌨️";
-case 73:
-return "🌨️";
-case 75:
-return "🌨️";
-case 77:
-return "🌨️";
-case 80:
-return "🌧️";
-case 81:
-return "🌧️";
-case 82:
-return "🌧️";
-case 85:
-return "🌨️";
-case 86:
-return "🌨️";
-case 95:
-return "🌩️";
-case 96:
-return "⛈️";
-case 99:
-return "⛈️";
-default:
-return "❓";
-}
-}
+    const weatherMap = {
+      "0,1": "☀️",
+      "2,3,45,48": "☁️",
+      "51,53,55,56,57,61,63,65,66,67,80,81,82": "🌧️",
+      "71,73,75,77,85,86": "🌨️",
+      "95,96,99": "⛈️",
+    };
+  
+    for (const key in weatherMap) {
+      const codes = key.split(",").map(Number);
+      if (codes.includes(weatherCode)) {
+        return weatherMap[key];
+      }
+    }
+  
+    return "❓";
+  }
 
 async function fetchWeatherAndPopulate() {
     const location = 'Valletta'; // Your desired location
