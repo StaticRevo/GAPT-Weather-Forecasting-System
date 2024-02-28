@@ -40,6 +40,7 @@ async function searchLocation() {
             .then((data) => {
                 // Update HTML elements with weather data and timezone
                 updateWeatherElements(data, timezone);
+                updateWeatherElements14(data, timezone);
             })
             .catch((error) => {
                 console.error('Error fetching weather data:', error);
