@@ -6,8 +6,7 @@ function getWeatherCondition(weatherCode, cityName = "") {
 }
 
 function updateWeather(latitude, longitude) {
-    const apiUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,weather_code`;
-
+    const apiUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,surface_pressure,wind_speed_10m,wind_direction_10m&daily=sunrise,sunset,uv_index_max,precipitation_sum`;
     fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
@@ -17,6 +16,11 @@ function updateWeather(latitude, longitude) {
             document.getElementById('temperature').innerText = `${roundedTemperature}°C`;
             document.getElementById('condition').innerText = getWeatherConditionTop(data.current.weather_code, document.getElementById('searchInput').value || 'Valletta');
             document.getElementById('high-low').innerText = ''; // Adjust based on the API response
+            
+            updateRealFeel(data);
+            updatePressure(data.current.surface_pressure);
+            updateUVIndex(data.daily.uv_index_max[0], data.daily.uv_index_max[1]);
+            updatePrecipitation(data.daily.precipitation_sum[0], data.daily.precipitation_sum[1]);
         })
         .catch(error => {
             console.error('Error fetching weather data:', error);
@@ -25,6 +29,67 @@ function updateWeather(latitude, longitude) {
             document.getElementById('condition').innerText = '';
             document.getElementById('high-low').innerText = '';
         });
+}
+
+function updatePrecipitation(past24hrs, expectedTomorrow) {
+    // Update the Precipitation widget using getElementById
+    const precipitationAmtElement = document.getElementById('precipitation-amt');
+    const precipitationTmrElement = document.getElementById('precip-tmr');
+
+    precipitationAmtElement.innerText = `${past24hrs}mm of`;
+    precipitationTmrElement.innerText = `${expectedTomorrow}mm expected tomorrow`;
+}
+
+
+function updatePressure(surfacePressure) {
+    // Update the Pressure widget using getElementById
+    document.getElementById('pressure-amt').innerText = `${surfacePressure}hPa`;
+}
+
+function updateUVIndex(uvIndex, uvIndexTomorrow) {
+    // Update the UV Index widget using getElementById
+    document.getElementById('uv-index').innerText = `${uvIndex} of 10`;
+    
+    const uvTextElement = document.getElementById('uv-text');
+    let uvText = '';
+
+    if (uvIndex >= 0 && uvIndex < 3) {
+        uvText = 'Low';
+    } else if (uvIndex >= 3 && uvIndex < 6) {
+        uvText = 'Medium';
+    } else if (uvIndex >= 6 && uvIndex < 8) {
+        uvText = 'High';
+    } else if (uvIndex >= 8 && uvIndex <= 10) {
+        uvText = 'Very High';
+    } else {
+        uvText = 'Extreme';
+    }
+
+    uvTextElement.innerText = uvText;
+
+    
+    // Update the UV Index expectation for tomorrow using getElementById
+    document.getElementById('uv-tomorrow').innerText = `${uvIndexTomorrow} of 10 expected tomorrow`;
+}
+
+function updateRealFeel(data) {
+    const roundedTemperature = Math.round(data.current.temperature_2m);
+    const realFeelTemperature = Math.round(data.current.apparent_temperature);
+
+    // Update the Real Feel widget using getElementById
+    document.getElementById('real-feel-temp').innerText = `${realFeelTemperature}°C`;
+
+    // Update the text in the bottom text element
+    const temperatureDifference = realFeelTemperature - roundedTemperature;
+    const realFeelTextElement = document.getElementById('real-feel-text');
+
+    if (temperatureDifference > 0) {
+        realFeelTextElement.innerText = `Feels warmer than actual temperature`;
+    } else if (temperatureDifference < 0) {
+        realFeelTextElement.innerText = `Feels colder than actual temperature`;
+    } else {
+        realFeelTextElement.innerText = `Feels same as actual temperature`;
+    }
 }
 
 function getWeatherConditionTop(weatherCode, cityName = "") {
