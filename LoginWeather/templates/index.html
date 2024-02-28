@@ -30,7 +30,6 @@
                     </div>
                 </div>
             </div>
-        
 
             <div class="column weather-column" id="weather-column">
 
@@ -51,14 +50,6 @@
                         <div class="bx bx-menu" id="menu-icon"></div>
                     </div>
 
-                    <!--<nav>
-                        <ul class = "nav_links">
-                            <li><a href="index.php">Home</a></li>
-                            
-                        </ul>
-                    </nav> --> 
-
-                    <!-- Content for the right column goes here -->
                     <div class="search-bar">
                         <input class="search-input" id="searchInput" type="text" placeholder="Search...">
                         <button onclick="searchLocation(), searchLocationForecast()" class="search-button">Search</button>
@@ -80,7 +71,7 @@
                 <div class="forecast-header">
                 <div class="forecast-title">Today's Forecast</div>
                 <div class="current-date">February 19, 2024</div>
-            </div>
+                </div>
 
                 <!-- Container for time slots -->
                 <div class="time-slots-container">
@@ -94,6 +85,7 @@
                 </div>                
 
             </div>
+
             <div class="additional-info">
                 <div class="Fourteen-day-column">
                     <div class="forecast-title">14 Day Forecast</div>
@@ -121,27 +113,24 @@
                     <!-- Pressure Widget (1/3) -->
                     <div class="widget-small">
                         <h3>🌧️ Precipitation</h3>
-                        <p class="widget-text">0mm in</p>
-                        <p class="widget-text2">past 24hrs</p>
-                        <p class="widget-bottom-text">3mm expected tomorrow</p>
+                        <p class="widget-text" id="precipitation-amt">0mm of</p>
+                        <p class="widget-text2">precipitation today</p>
+                        <p class="widget-bottom-text" id="precip-tmr">3mm expected tomorrow</p>
                     </div>
-                
-                    <!-- Wind Map Widget (2/3) -->
-                    
                 
                     <!-- Precipitation Widget (1/3) -->
                     <div class="widget-small">
                         <h3>☀️ UV Index</h3>
-                        <p class="widget-text">6 of 10</p>
-                        <p class="widget-text2">High</p>
-                        <p class="widget-bottom-text">3 of 10 expect tomorrow</p>
+                        <p class="widget-text" id="uv-index">6 of 10</p>
+                        <p class="widget-text2" id="uv-text">High</p>
+                        <p class="widget-bottom-text" id="uv-tomorrow">3 of 10 expect tomorrow</p>
                     </div>
 
                     <div class="widget-small">
                         <h3>🌡️ Real Feel</h3>
-                        <p class="widget-text">12°C</p>
+                        <p class="widget-text" id="real-feel-temp">12°C</p>
                         <p class="widget-text2"></p>
-                        <p class="widget-bottom-text">Feels colder than actual temperature</p>
+                        <p class="widget-bottom-text" id="real-feel-text">Feels colder than actual temperature</p>
                     </div>
 
                     <div class="widget-small">
@@ -165,7 +154,7 @@
 
                     <div class="widget-small">
                         <h3>🗜️ Pressure</h3>
-                        <p class="widget-text">1024hPa</p>
+                        <p class="widget-text" id="pressure-amt">1024hPa</p>
                         <div class="pressure-bar-wrapper">
                             <div class="pressure-bar" id="pressureBar"></div>
                         </div>
