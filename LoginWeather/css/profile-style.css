@@ -1,104 +1,97 @@
 body, html {
-  overflow-y: auto; /* Enable vertical scrolling for the entire page */
+  overflow-y: auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Consistent font family */
 }
 
 .profile {
-  margin-top: 5%;
-  position: relative; 
-  z-index: 1; 
+  margin-top: 0%;
+  position: relative;
+  z-index: 1;
   overflow-y: auto;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.back-video {
-  position: fixed; 
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: -1;
-  pointer-events: none; 
-  opacity: 0.8; /* Adjusted opacity for a subtle effect */
+  background-image: url('../images/background3.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center; 
 }
 
 .profile-content {
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-  padding: 40px;
+  background: rgba(90, 90, 90, 0.6); 
+  border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 10px;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 30px;
   text-align: center;
   color: #fff;
-  max-width: 800px;
-  width: 80%;
-  max-height: 100vh; /* Example maximum height */
-  overflow-y: auto; /
+  max-width: 75%;
+  width: 50%;
 }
-.profile-bio {
-  background-color: #fff; /* White background */
-  color: #000; /* Black text */
+.profile-details textarea {
+  width: 100%; 
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  resize: vertical; 
+  overflow-y: auto; 
+}
+
+.profile-bio, .profile-details form {
+  background-color: #ffffff;
+  color: #333; 
   padding: 20px;
   margin-top: 20px;
   border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Optional: Adds a subtle shadow */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.profile-bio h3 {
-  margin-bottom: 5px;
-  text-align: left;
+.profile-bio h3, .profile-details h2, .profile-info h1 {
+  color: #5cb5f9; 
+}
+.profile-picture-preview img {
+  width: 100px; 
+  height: 100px;
+  border-radius: 50%; 
+  object-fit: cover; 
+  display: block; 
+  margin: 10px auto; 
 }
 
-.profile-bio p {
-  margin: 0;
-  font-size: 1rem;
-}
-
-
-.profile-info h1 {
-  font-size: 2.5rem; /* Adjusted font size for better readability */
-  margin-bottom: 20px;
-}
-
-.profile-info p {
-  font-size: 1.5rem; /* Adjusted font size for better readability */
-  margin-bottom: 10px;
-}
-
-.profile-details {
-  margin-top: 30px;
-
-}
-
-.profile-details h2 {
-  font-size: 2rem;
-  margin-bottom: 20px;
-}
-
-.profile-details form {
-  display: flex;
-  flex-direction: column;
-}
-
-.profile-details input[type="file"],
-.profile-details textarea {
-  margin-bottom: 20px;
-  padding: 10px;
-  border-radius: 5px;
-  border: none;
+.profile-details input[type="file"], .profile-details textarea, .profile-details input[type="text"], .profile-details input[type="email"], .profile-details input[type="password"] {
+  width: 100%; 
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box; 
 }
 
 .profile-details button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
+  width: 100%;
   background-color: #4CAF50;
   color: white;
-  font-size: 1.2rem;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
 .profile-details button:hover {
   background-color: #45a049;
+}
+
+@media screen and (max-width: 768px) {
+  .profile-content {
+    flex-direction: column;
+    padding: 20px;
+    max-width: 100%;
+  }
 }
