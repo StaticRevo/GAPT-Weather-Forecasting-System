@@ -17,7 +17,7 @@ $db = new Db();
 $user_id = $_SESSION['user_id'];
 
 //Fetch user data from the DB
-$stmt = $db->prepare('SELECT Users.Name, Users.Surname, Users.Email, Users.user_id, ExtraUsers.bio FROM Users LEFT JOIN ExtraUsers ON Users.user_id = ExtraUsers.user_id WHERE Users.user_id = ?');
+$stmt = $db->prepare('SELECT Users.Name, Users.Surname, Users.Email, Users.user_id, ExtraUsers.bio, ExtraUsers.image_path FROM Users LEFT JOIN ExtraUsers ON Users.user_id = ExtraUsers.user_id WHERE Users.user_id = ?');
 $stmt->bind_param('i', $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -34,10 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Check if any of the update fields are not empty
     if (!empty($newName) || !empty($newSurname) || !empty($newEmail) || !empty($newPassword)) {
-        // Update user information in the database
-        //$stmt = $db->prepare('UPDATE Users SET Name=?, Surname=?, Email=?, Password=? WHERE user_id = ?');
-       // $stmt->bind_param('ssssi', $newName, $newSurname, $newEmail, $newPassword, $_SESSION['user_id']);
-        //$stmt->execute();
                 // Build the update query dynamically
                 $updateQuery = 'UPDATE Users SET';
                 $params = [];
@@ -83,22 +79,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
     
 
-   // Handle file upload for profile picture
+  // Handle file upload for profile picture
     if (isset($_FILES['profile-picture']) && $_FILES['profile-picture']['error'] === UPLOAD_ERR_OK) {
         $uploadDir = '/Applications/XAMPP/xamppfiles/htdocs/LoginWeather2/uploads/'; // Ensure this path is correct and accessible
         $fileExtension = pathinfo($_FILES['profile-picture']['name'], PATHINFO_EXTENSION);
-        $uploadFile = $uploadDir . uniqid() . '.' . $fileExtension;
-    
+        $fileName = uniqid() . '.' . $fileExtension;
+        $uploadFile = $uploadDir . $fileName;
+
         // Move uploaded file to permanent location
         if (move_uploaded_file($_FILES['profile-picture']['tmp_name'], $uploadFile)) {
             // Update database with new file path
-            $stmt = $db->prepare('UPDATE ExtraUsers SET profile_picture = ? WHERE user_id = ?');
-            $stmt->bind_param('si', $uploadFile, $_SESSION['user_id']);
+            $stmt = $db->prepare('UPDATE ExtraUsers SET image_path = ? WHERE user_id = ?');
+            $relativeFilePath = 'uploads/' . $fileName; // Store a relative path that's usable in your application
+            $stmt->bind_param('si', $relativeFilePath, $_SESSION['user_id']);
             $stmt->execute();
+            echo 'File is uploaded successfully.';
         } else {
             echo 'Failed to move uploaded file.';
         }
     }
+
 
 
      // Insert or update bio in ExtraUsers table
