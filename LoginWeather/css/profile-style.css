@@ -40,9 +40,9 @@ body, html {
 }
 
 .profile-bio {
-  max-width: 100%; /* Ensures it doesn't exceed the width of its parent */
-  padding: 20px; /* Adjust padding as necessary */
-  box-sizing: border-box; /* Includes padding in the element's total width */
+  max-width: 100%; 
+  padding: 20px; 
+  box-sizing: border-box; 
 }
 
 .profile-details textarea {
