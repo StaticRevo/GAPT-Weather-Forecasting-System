@@ -30,6 +30,21 @@ body, html {
   max-width: 75%;
   width: 50%;
 }
+#emptyCircle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 2px dashed #ccc;
+  display: block;
+  margin: 10px auto;
+}
+
+.profile-bio {
+  max-width: 100%; /* Ensures it doesn't exceed the width of its parent */
+  padding: 20px; /* Adjust padding as necessary */
+  box-sizing: border-box; /* Includes padding in the element's total width */
+}
+
 .profile-details textarea {
   width: 100%; 
   padding: 12px 20px;
@@ -40,6 +55,7 @@ body, html {
   box-sizing: border-box;
   resize: vertical; 
   overflow-y: auto; 
+  
 }
 
 .profile-bio, .profile-details form {
