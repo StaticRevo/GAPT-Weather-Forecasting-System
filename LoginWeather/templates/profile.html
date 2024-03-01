@@ -5,9 +5,16 @@
     <div class="profile-content">
         <div class="profile-info">
             <h1>Your Weather Profile</h1>
-            <p>Weather ID: {{ user.user_id }}</p>
-            <p>Full Name: {{ user.Name }} {{ user.Surname }}</p>
-            <p>Email: {{ user.Email }}</p>
+            <div class="profile-picture-preview">
+              {% if user.image_path %}
+                  <img id="imagePreview" src="{{ user.image_path }}" alt="Profile Picture"/>
+              {% else %}
+                  <div id="emptyCircle" style="display: block;"></div>
+              {% endif %}
+            </div>
+            <p><strong>Weather ID:</strong> {{ user.user_id }}</p>
+            <p><strong>Full Name:</strong> {{ user.Name }} {{ user.Surname }}</p>
+            <p><strong>Email:</strong> {{ user.Email }}</p>
 
             <h3>About me:</h3>
             <div class="profile-bio">
@@ -21,7 +28,7 @@
                 <div class="profile-picture-preview">
                     <img id="imagePreview" src="#" alt="Profile Picture Preview" style="display: none;"/>
                   </div>
-                <textarea name="bio" placeholder="Enter your bio"></textarea>
+                <textarea name="bio" placeholder="Enter your bio" wrap="soft"></textarea>
 
                 <h3>Update Information</h3>
                 <label for="new-name">Update Name:</label>
@@ -44,7 +51,7 @@
       reader.onload = function () {
         var output = document.getElementById('imagePreview');
         output.src = reader.result;
-        output.style.display = 'block'; // Make the image visible
+        output.style.display = 'block'; 
       };
       reader.readAsDataURL(event.target.files[0]);
     };
