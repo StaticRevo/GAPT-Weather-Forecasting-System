@@ -31,14 +31,15 @@ async function searchLocation() {
         // Fetch coordinates using OpenCage API for the search location
         const { latitude, longitude, timezone } = await getCoordinates(searchInput);
         
+        // Set latitude and longitude to hidden input fields
+        document.getElementById('latitude').value = latitude;
+        document.getElementById('longitude').value = longitude;
+
+        // Update weather and other functionalities
         updateWeather(latitude, longitude);
-
-        updateWindy(latitude, longitude)
-
-        // Call the getWeather function with the obtained coordinates and timezone
+        updateWindy(latitude, longitude);
         getWeather(latitude, longitude, timezone)
             .then((data) => {
-                // Update HTML elements with weather data and timezone
                 updateWeatherElements(data, timezone);
                 updateWeatherElements14(data, timezone);
             })
@@ -49,3 +50,44 @@ async function searchLocation() {
         console.error('Error fetching coordinates:', error);
     }
 }
+
+
+async function saveFavouriteLocation(latitude, longitude) {
+    try {
+        // Make AJAX call to PHP script to save favorite location
+        const response = await fetch('favourites.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                latitude: latitude,
+                longitude: longitude
+            })
+        });
+
+        // Check if request was successful
+        if (!response.ok) {
+            throw new Error('Failed to save location to favourites');
+        }
+
+        const data = await response.text();
+        console.log(data); // Output success message from PHP script
+
+    } catch (error) {
+        console.error('Error saving location to favourites:', error);
+        // Handle error, e.g., show error message to the user
+    }
+}
+
+document.getElementById('addFavouriteBtn').addEventListener('click', function() {
+    // Get the latitude and longitude from the hidden input fields
+    const latitude = document.getElementById('latitude').value;
+    const longitude = document.getElementById('longitude').value;
+
+    console.log('Latitude:', latitude);
+    console.log('Longitude:', longitude);
+    
+    // Call the function to save the favorite location
+    saveFavouriteLocation(latitude, longitude);
+});
