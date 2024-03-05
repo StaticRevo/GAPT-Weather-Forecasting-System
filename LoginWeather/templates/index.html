@@ -1,88 +1,92 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>{{ title }} - Weather Channel</title>
-        <meta name="description" content="Discover our restaurant by the sea!">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
-        <script src="https://kit.fontawesome.com/9877e2c6ca.js" crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="css/style.css">
-        <link rel="stylesheet" href="css/{{ filename }}-style.css">
-        <script type="text/javascript" src="javascript/header.js"></script> <!-- updated -->
-        <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
-        <script src="https://api.windy.com/assets/map-forecast/libBoot.js"></script>
-    </head>
 
-    <body>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{{ title }} - Weather Channel</title>
+    <meta name="description" content="Discover our restaurant by the sea!">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/9877e2c6ca.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/{{ filename }}-style.css">
+    <script type="text/javascript" src="javascript/header.js"></script> <!-- updated -->
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+    <script src="https://api.windy.com/assets/map-forecast/libBoot.js"></script>
+</head>
 
-        <div class="container">
-            <div class="column favorites-column" id="favorites-column">
-                <!-- favorites column -->
-                <div class="favorites-header">
-                    <div>
-                        <h2 class="favorites-text">Favorites</h2>
+<body>
+
+    <div class="container">
+        <div class="column favorites-column" id="favorites-column">
+            <!-- favorites column -->
+            <div class="favorites-header">
+                <div>
+                    <h2 class="favorites-text">Favourites</h2>
+                </div>
+                <div>
+                    <button id="addFavouriteBtn" class="favourites-button">Add to Favourite</button>
+                    <div class="bx bx-menu" id="menu-icon">&#9776;</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="column weather-column" id="weather-column">
+
+            <div class="header">
+                <!-- Sign In And Login Menu -->
+                <div class="mainHead">
+                    <div class="toggleButton" id="toggleButton">
+                        <img src="images/three-lines-header.png" alt="Favorite Icon" class="toggle-favorites">
                     </div>
-                    <div>
-                        <button>Add Favorite</button>
-                        <div class="bx bx-menu" id="menu-icon">&#9776;</div>
-                    </div>
+                    <a href="settings.php"><img src="images/settings.png" alt="Settings Icon"
+                            class="settings-button"></a>
+                    {% if logged_in %}
+                    <a href="profile.php" class="user user-link"><i class="ri-user-fill"></i>Profile</a>
+                    <a href="gen-php/signout.php" class="user-link">Sign Out</a>
+                    {% else %}
+                    <a href="login.php" class="user user-link"><i class="ri-user-fill"></i>Sign in</a>
+                    <a href="register.php" class="user-link">Register</a>
+                    {% endif %}
+                    <div class="bx bx-menu" id="menu-icon"></div>
+                </div>
+
+                <div class="search-bar">
+                    <input class="search-input" id="searchInput" type="text" placeholder="Search...">
+                    <button onclick="searchLocation(), searchLocationForecast()" class="search-button">Search</button>
+                    <input type="hidden" id="latitude">
+                    <input type="hidden" id="longitude">
                 </div>
             </div>
 
-            <div class="column weather-column" id="weather-column">
+            <img src="images/cloud.png" alt="Cloud Overlay" class="cloud-overlay-1">
+            <img src="images/cloud.png" alt="Cloud Overlay" class="cloud-overlay-2">
 
-                <div class="header">
-                    <!-- Sign In And Login Menu -->
-                    <div class="mainHead">
-                        <div class="toggleButton" id="toggleButton">
-                            <img src="images/three-lines-header.png" alt="Favorite Icon" class="toggle-favorites">
-                        </div> 
-                        <a href="settings.php"><img src="images/settings.png" alt="Settings Icon" class="settings-button"></a>                                        
-                        {% if logged_in %}
-                            <a href="profile.php" class="user user-link"><i class="ri-user-fill"></i>Profile</a>
-                            <a href="gen-php/signout.php" class="user-link">Sign Out</a>
-                        {% else %}
-                            <a href="login.php" class="user user-link"><i class="ri-user-fill"></i>Sign in</a>
-                            <a href="register.php" class="user-link">Register</a>
-                        {% endif %}
-                        <div class="bx bx-menu" id="menu-icon"></div>
-                    </div>
+            <div class="weather-details">
+                <div class="city-name" id="city-name">Valletta</div>
+                <div class="temperature" id="temperature">Loading...</div>
+                <div class="condition" id="condition">Loading...</div>
+                <div class="high-low" id="high-low">Loading...</div>
+            </div>
 
-                    <div class="search-bar">
-                        <input class="search-input" id="searchInput" type="text" placeholder="Search...">
-                        <button onclick="searchLocation(), searchLocationForecast()" class="search-button">Search</button>
-                    </div>
-                </div>
-
-                <img src="images/cloud.png" alt="Cloud Overlay" class="cloud-overlay-1">
-                <img src="images/cloud.png" alt="Cloud Overlay" class="cloud-overlay-2">
-                
-                <div class="weather-details">
-                    <div class="city-name" id="city-name">Valletta</div>
-                    <div class="temperature" id="temperature">Loading...</div>
-                    <div class="condition" id="condition">Loading...</div>
-                    <div class="high-low" id="high-low">Loading...</div>
-                </div>
-
-                <!-- New div with weather information -->
-                <div class="weather-info">
+            <!-- New div with weather information -->
+            <div class="weather-info">
                 <div class="forecast-header">
-                <div class="forecast-title">Today's Forecast</div>
-                <div class="current-date">February 19, 2024</div>
+                    <div class="forecast-title">Today's Forecast</div>
+                    <div class="current-date">February 19, 2024</div>
                 </div>
 
                 <!-- Container for time slots -->
                 <div class="time-slots-container">
                     {% for hour in 1..6 %}
-                        <div class="time-slot">
-                            <div class="temp" id="temp{{ hour }}">Loading...</div>
-                            <div class="weather-icon" id="weather-icon{{ hour }}">Loading...</div>
-                            <div class="time" id="time{{ hour }}">Loading...</div>
-                        </div>
+                    <div class="time-slot">
+                        <div class="temp" id="temp{{ hour }}">Loading...</div>
+                        <div class="weather-icon" id="weather-icon{{ hour }}">Loading...</div>
+                        <div class="time" id="time{{ hour }}">Loading...</div>
+                    </div>
                     {% endfor %}
-                </div>                
+                </div>
 
             </div>
 
@@ -93,22 +97,22 @@
                     <!-- Day 1 -->
 
                     {% for day in 1..14 %}
-                        <!-- Individual day slots -->
-                        <div class="day-slot">
-                            <div class="day-info">
-                                <div class="day-name" id="day-name{{ day }}">Loading...</div>
-                                <div class="date" id="date{{ day }}">Loading...</div>
-                            </div>
-                            <div class="conditions" id="conditions{{ day }}">Loading...</div>
-                            <div class="temperature-info">
-                                <div class="high-temp" id="high-temp{{ day }}">High: Loading...</div>
-                                <div class="low-temp" id="low-temp{{ day }}">Low: Loading...</div>
-                            </div>
+                    <!-- Individual day slots -->
+                    <div class="day-slot">
+                        <div class="day-info">
+                            <div class="day-name" id="day-name{{ day }}">Loading...</div>
+                            <div class="date" id="date{{ day }}">Loading...</div>
                         </div>
+                        <div class="conditions" id="conditions{{ day }}">Loading...</div>
+                        <div class="temperature-info">
+                            <div class="high-temp" id="high-temp{{ day }}">High: Loading...</div>
+                            <div class="low-temp" id="low-temp{{ day }}">Low: Loading...</div>
+                        </div>
+                    </div>
                     {% endfor %}
 
                 </div>
-                
+
                 <div class="widgets-column">
                     <!-- Pressure Widget (1/3) -->
                     <div class="widget-small">
@@ -117,7 +121,7 @@
                         <p class="widget-text2">precipitation today</p>
                         <p class="widget-bottom-text" id="precip-tmr">3mm expected tomorrow</p>
                     </div>
-                
+
                     <!-- Precipitation Widget (1/3) -->
                     <div class="widget-small">
                         <h3>☀️ UV Index</h3>
@@ -166,11 +170,11 @@
                         <p class="widget-text2"></p>
                         <p class="widget-bottom-text">The dew point is 10°C</p>
                     </div>
-                </div>  
+                </div>
             </div>
 
             <div class="widget-windy">
-               <!-- <h3>Wind Map</h3>-->
+                <!-- <h3>Wind Map</h3>-->
                 <div id="windy"></div>
                 <script src="scripts/windy.js"></script>
             </div>
@@ -181,11 +185,12 @@
         <script src="scripts/toggleFavorites.js"></script> <!-- Handles Toggle Favorites Bar -->
 
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-        <script src="scripts/getCoordinates.js"></script>  <!-- Takes Coordinates from the Location Search Query -->
+        <script src="scripts/getCoordinates.js"></script> <!-- Takes Coordinates from the Location Search Query -->
 
         <!-- Below Scripts handle API access to update page -->
-        <script src="scripts/getWeather.js"></script> 
+        <script src="scripts/getWeather.js"></script>
         <script src="scripts/getForecast.js"> </script>
-        
-    </body>
+
+</body>
+
 </html>
