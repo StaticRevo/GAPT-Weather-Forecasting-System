@@ -9,14 +9,18 @@ body, html {
     display: flex;
     justify-content: center;
     align-items: center;
+    opacity: 0;
+    animation: fadeIn 2s ease-out forwards; 
+  }
 
-   }
    .header {
     display: flex;
     justify-content: space-between;
     z-index: 999;
     position: relative;
     background-color: #29304B;
+    transform: translateY(-100%); 
+    animation: slideDown 0.5s ease-out forwards 0.5s; 
     
   }
   .back-video {
@@ -29,6 +33,8 @@ body, html {
     z-index: -1;
     pointer-events: none; 
     opacity: 1;
+    opacity: 0; /* Start invisible */
+    animation: fadeInSlow 2s ease-out forwards; /* Slow fade in */
   }
   .settings-content {
     background-color: #f9f9f9;
@@ -76,5 +82,19 @@ body, html {
   
   button[type="submit"]:hover {
     background-color: #45a049;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes fadeInSlow {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes slideDown {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(0); }
   }
   
