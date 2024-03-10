@@ -1,5 +1,5 @@
 body, html {
-  overflow-y: auto; /* Enable vertical scrolling for the entire page */
+  overflow-y: auto; 
 }
   .settings {
     margin-top: 5%;
@@ -9,7 +9,16 @@ body, html {
     display: flex;
     justify-content: center;
     align-items: center;
+
    }
+   .header {
+    display: flex;
+    justify-content: space-between;
+    z-index: 999;
+    position: relative;
+    background-color: #29304B;
+    
+  }
   .back-video {
     position: fixed; 
     top: 0;
@@ -19,7 +28,7 @@ body, html {
     object-fit: cover;
     z-index: -1;
     pointer-events: none; 
-    opacity: 0.8; /* Adjusted opacity for a subtle effect */
+    opacity: 1;
   }
   .settings-content {
     background-color: #f9f9f9;
