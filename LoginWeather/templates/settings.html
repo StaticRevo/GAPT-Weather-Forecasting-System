@@ -7,39 +7,40 @@
         <source src="images/Earth360loop.mp4" type="video/mp4">
     </video>
     <div class="settings-content">
-        <h1>Account Settings</h1>
-        <div class="setting">
-            <h2>Temperature Unit</h2>
-            <select name="temperature-unit">
-                <option value="celsius">Celsius</option>
-                <option value="fahrenheit">Fahrenheit</option>
-            </select>
-        </div>
-        <div class="setting">
-            <h2>Distance Unit</h2>
-            <select name="altitude-unit">
-                <option value="meters">Meters</option>
-                <option value="feet">Feet</option>
-            </select>
-        </div>
-        <div class="setting">
-            <h2>Precipation Unit</h2>
-            <select name="altitude-unit">
-                <option value="millimeters">Millimeters</option>
-                <option value="inches">Inches</option>
-            </select>
-        </div>
-        <div class="setting">
-            <h2>Wind Unit</h2>
-            <select name="altitude-unit">
-                <option value="kmh">Kilometers per hour</option>
-                <option value="mph">Miles per hour</option>
-                <option value="beaufort">Beaufort</option>
-                <option value="knots">Knots</option>
-            </select>
-        </div>
-        <button type="submit">Save Changes</button>
+        <form id="settingsForm" method ="post">
+            <h1>Account Settings</h1>
+            <div class="setting">
+                <h2>Temperature Unit</h2>
+                <select name="temperature_unit">
+                    <option value="celsius">Celsius</option>
+                    <option value="fahrenheit">Fahrenheit</option>
+                </select>
+            </div>
+            <div class="setting">
+                <h2>Distance Unit</h2>
+                <select name="altitude_unit">
+                    <option value="meters">Meters</option>
+                    <option value="feet">Feet</option>
+                </select>
+            </div>
+            <div class="setting">
+                <h2>Precipation Unit</h2>
+                <select name="precipitation_unit">
+                    <option value="millimeters">Millimeters</option>
+                    <option value="inches">Inches</option>
+                </select>
+            </div>
+            <div class="setting">
+                <h2>Wind Unit</h2>
+                <select name="wind-unit">
+                    <option value="kmh">Kilometers per hour</option>
+                    <option value="mph">Miles per hour</option>
+                    <option value="beaufort">Beaufort</option>
+                    <option value="knots">Knots</option>
+                </select>
+            </div>
+            <button type="submit">Save Changes</button>
+        </form>
     </div>
 </section>
-
 {% endblock %}
