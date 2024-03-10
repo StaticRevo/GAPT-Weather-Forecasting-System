@@ -135,15 +135,21 @@
 
                     <div class="widget-small">
                         <h3>💨 Wind</h3>
-                        <p class="widget-text">9.7km/h</p>
+                        <p class="widget-text" id="wind-speed">0km/h</p>
                         <p class="widget-text2"></p>
-                        <p class="widget-bottom-text">Wind is coming from the east</p>
+                        <p class="widget-bottom-text" id="wind-direction">Wind is coming from the north</p>
                     </div>
 
                     <div class="widget-large">
                         <h3>🌕 Sunrise & Sunset</h3>
-                        <!-- Add content specific to precipitation widget here -->
-                    </div>
+                        <p class="widget-text" id="sunrise-time">Sunrise: --:--</p>
+                        <p class="widget-bottom-text" id="sunset-time">Sunset: --:--</p>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" id="day-progress">
+                                <div class="sun-icon" id="sun-icon">🌞</div>
+                            </div>
+                        </div>
+                    </div>             
 
                     <div class="widget-small">
                         <h3>👁️ Visibility</h3>
