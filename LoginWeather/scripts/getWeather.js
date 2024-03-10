@@ -10,17 +10,22 @@ function updateWeather(latitude, longitude) {
     fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
-            const roundedTemperature = Math.round(data.current.temperature_2m); //Rounds the temperature to the nearest int
-            
+            const roundedTemperature = Math.round(data.current.temperature_2m);
+
             document.getElementById('city-name').innerText = document.getElementById('searchInput').value || 'Valletta';
             document.getElementById('temperature').innerText = `${roundedTemperature}°C`;
             document.getElementById('condition').innerText = getWeatherConditionTop(data.current.weather_code, document.getElementById('searchInput').value || 'Valletta');
-            document.getElementById('high-low').innerText = ''; // Adjust based on the API response
-            
+            document.getElementById('high-low').innerText = '';
+
             updateRealFeel(data);
             updatePressure(data.current.surface_pressure);
             updateUVIndex(data.daily.uv_index_max[0], data.daily.uv_index_max[1]);
             updatePrecipitation(data.daily.precipitation_sum[0], data.daily.precipitation_sum[1]);
+            updateWind(data.current.wind_speed_10m, data.current.wind_direction_10m);
+            updateSunriseSunset(data.daily.sunrise[0], data.daily.sunset[0]);
+
+            updateProgress(data.daily.sunrise[0], data.daily.sunset[0]);
+
         })
         .catch(error => {
             console.error('Error fetching weather data:', error);
@@ -31,6 +36,65 @@ function updateWeather(latitude, longitude) {
         });
 }
 
+function updateSunriseSunset(sunrise, sunset) {
+    // Update the Sunrise & Sunset widget using getElementById
+    const sunriseTimeElement = document.getElementById('sunrise-time');
+    const sunsetTimeElement = document.getElementById('sunset-time');
+
+    // Check if sunrise and sunset data is available and valid
+    if (sunrise !== undefined && sunset !== undefined) {
+        const formattedSunrise = new Date(sunrise).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const formattedSunset = new Date(sunset).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+        sunriseTimeElement.innerText = `Sunrise: ${formattedSunrise}`;
+        sunsetTimeElement.innerText = `Sunset: ${formattedSunset}`;
+    } else {
+        // Display a message if sunrise and sunset data is not available or invalid
+        console.error('Sunrise or sunset data is not available or invalid.');
+        sunriseTimeElement.innerText = 'Sunrise: --:--';
+        sunsetTimeElement.innerText = 'Sunset: --:--';
+    }
+}
+
+function updateProgress(sunriseISO, sunsetISO) {
+    const now = new Date();
+    let sunrise = new Date(sunriseISO);
+    let sunset = new Date(sunsetISO);
+
+    // Swap sunrise and sunset if sunrise is after sunset
+    if (sunrise > sunset) {
+        const temp = sunrise;
+        sunrise = sunset;
+        sunset = temp;
+    }
+
+    const totalDuration = sunset - sunrise;
+    let elapsedDuration;
+
+    if (now > sunset) {
+        // After sunset, calculate elapsed time since sunset
+        elapsedDuration = now - sunset;
+    } else {
+        elapsedDuration = now - sunrise;
+    }
+
+    const percentage = (elapsedDuration / totalDuration) * 100;
+
+    const progressBar = document.getElementById('day-progress');
+    const sunIcon = document.getElementById('sun-icon');
+
+    if (now > sunset) {
+        sunIcon.innerHTML = '🌜'; // Moon emoji
+    } else {
+        sunIcon.innerHTML = '🌞'; // Sun emoji
+    }
+
+    progressBar.style.width = `${percentage}%`;
+    sunIcon.style.left = `calc(${percentage}% - 15px)`; // Adjust the icon position
+
+    console.log(`Progress: ${percentage}%`);
+}
+
 function updatePrecipitation(past24hrs, expectedTomorrow) {
     // Update the Precipitation widget using getElementById
     const precipitationAmtElement = document.getElementById('precipitation-amt');
@@ -38,6 +102,24 @@ function updatePrecipitation(past24hrs, expectedTomorrow) {
 
     precipitationAmtElement.innerText = `${past24hrs}mm of`;
     precipitationTmrElement.innerText = `${expectedTomorrow}mm expected tomorrow`;
+}
+
+function updateWind(speed, direction) {
+    // Update the Wind widget using getElementById
+    const windSpeedElement = document.getElementById('wind-speed');
+    const windDirectionElement = document.getElementById('wind-direction');
+
+    const roundedSpeed = Math.round(speed * 10) / 10; // Round speed to one decimal place
+
+    windSpeedElement.innerText = `${roundedSpeed}km/h`;
+    windDirectionElement.innerText = `Wind is coming from the ${getWindDirection(direction)}`;
+}
+
+function getWindDirection(degrees) {
+    // Convert degrees to cardinal direction
+    const directions = ['north', 'northeast', 'east', 'southeast', 'south', 'southwest', 'west', 'northwest'];
+    const index = Math.round(degrees / 45) % 8;
+    return directions[index];
 }
 
 
