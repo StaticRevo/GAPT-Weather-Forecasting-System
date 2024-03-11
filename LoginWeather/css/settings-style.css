@@ -13,6 +13,7 @@ body, html {
     animation: fadeIn 2s ease-out forwards; 
   }
 
+   
    .header {
     display: flex;
     justify-content: space-between;
@@ -20,7 +21,7 @@ body, html {
     position: relative;
     background-color: #29304B;
     transform: translateY(-100%); 
-    animation: slideDown 0.5s ease-out forwards 0.5s; 
+    animation: slideDown 0.5s ease-out forwards 0.5s; /* Slide down */
     
   }
   .back-video {
@@ -69,7 +70,8 @@ body, html {
     margin-bottom: 10px;
   }
   
-  button[type="submit"] {
+  button[type="submit"], /* Specific type of button */
+  button /* If you want all buttons to have this style */ {
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
@@ -78,11 +80,34 @@ body, html {
     font-size: 1.2rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    display: inline-block; /* Adjusted if necessary */
+    text-align: center; /* Center text inside the button */
   }
   
-  button[type="submit"]:hover {
+  button[type="submit"]:hover,
+  button:hover /* If you want all buttons to have this hover effect */ {
     background-color: #45a049;
   }
+  .alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+    z-index: 1;
+}
+
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+    z-index: 1;
+}
+  
   @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
