@@ -7,7 +7,19 @@
         <source src="images/Earth360loop.mp4" type="video/mp4">
     </video>
     <div class="settings-content">
+      
         <form id="settingsForm" method ="post">
+            {% if success_message %}
+            <div class="alert alert-success" role="alert">
+                {{ success_message }}
+            </div>
+            {% endif %}
+            
+            {% if error_message %}
+            <div class="alert alert-danger" role="alert">
+                {{ error_message }}
+            </div>
+            {% endif %}
             <h1>Account Settings</h1>
             <div class="setting">
                 <h2>Temperature Unit</h2>
@@ -18,7 +30,7 @@
             </div>
             <div class="setting">
                 <h2>Distance Unit</h2>
-                <select name="altitude_unit">
+                <select name="distance_unit">
                     <option value="meters">Meters</option>
                     <option value="feet">Feet</option>
                 </select>
@@ -32,14 +44,14 @@
             </div>
             <div class="setting">
                 <h2>Wind Unit</h2>
-                <select name="wind-unit">
+                <select name="wind_unit">
                     <option value="kmh">Kilometers per hour</option>
                     <option value="mph">Miles per hour</option>
                     <option value="beaufort">Beaufort</option>
                     <option value="knots">Knots</option>
                 </select>
             </div>
-            <button type="submit">Save Changes</button>
+            <button type="submit" id="SubmitButton">Save Changes</button>
         </form>
     </div>
 </section>
