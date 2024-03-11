@@ -8,43 +8,60 @@ if(!isset($_SESSION['logged_in'])){
 require_once __DIR__.'/bootstrap.php';
 require_once __DIR__.'/database.php';
 require_once 'gen-php/loginlogic.php';
+require_once 'gen-php/validate.php';
 
 //Load from the DB
 $db = new Db();
 
-// Ensure this script only runs for POST requests
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Retrieve and sanitize input
-    $temperatureUnit = $db->quote(clean_input($_POST['temperature_unit']));
-    $distanceUnit = $db->quote(clean_input($_POST['distance_unit']));
-    $precipitationUnit = $db->quote(clean_input($_POST['precipitation_unit']));
-    $windUnit = $db->quote(clean_input($_POST['wind_unit']));
+if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
+    $_SESSION['alert_message'] = 'You must be logged in to access the settings page!. Register Now to store favourite places and also save your preferences!';
+    // Redirect user to login page or show an error
+    header('Location: login.php');
+    exit;
+}
 
-    $userId = $_SESSION['user_id'];
+$user_id = $_SESSION['user_id']; // Get the user's ID from session
 
-    // Check if user preferences already exist
-    $stmt = $db->prepare('SELECT COUNT(*) FROM preferences WHERE user_id = ?');
-    $stmt->bind_param('i', $userId);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $row = $result->fetch_array(MYSQLI_NUM);
-    $preferencesCount = $row[0];
+//Handle form submission
+$error_message = '';
+$success_message = '';
 
-    if ($preferencesCount > 0) {
-        // Update existing preferences
-        $stmt = $db->prepare('UPDATE Preferences SET temperature_unit = ?, distance_unit = ?, precipitation_unit = ?, wind_unit = ? WHERE user_id = ?');
-        $stmt->bind_param('ssssi', $temperatureUnit, $distanceUnit, $precipitationUnit, $windUnit, $userId);
-    } else {
-        // Insert new preferences
-        $stmt = $db->prepare('INSERT INTO Preferences (user_id, temperature_unit, distance_unit, precipitation_unit, wind_unit) VALUES (?, ?, ?, ?, ?)');
-        $stmt->bind_param('issss', $userId, $temperatureUnit, $distanceUnit, $precipitationUnit, $windUnit);
-    }
-    $stmt->execute();
+// Handle the form submission
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $temperature_unit = $_POST['temperature_unit'];
+    $distance_unit = $_POST['distance_unit'];
+    $precipitation_unit = $_POST['precipitation_unit'];
+    $wind_unit = $_POST['wind_unit'];
 
-    header('Location: settings.php'); // Redirect to a confirmation page or back to settings
-} 
-  
-
+    //there is no need of validation as the user is not entering any input himself
+     // Check if a preferences record already exists for the user
+     $stmt = $db->prepare('SELECT COUNT(*) FROM Preferences WHERE user_id = ?');
+     $stmt->bind_param('i', $user_id); // 'i' denotes the parameter type is an integer
+     $stmt->execute();
+     $result = $stmt->get_result();
+     $row = $result->fetch_array(MYSQLI_NUM);
+     $exists = $row[0] > 0;
+ 
+     if ($exists) {
+         // Update existing record
+         $updateStmt = $db->prepare('UPDATE Preferences SET temperature_unit = ?, distance_unit = ?, precipitation_unit = ?, wind_unit = ? WHERE user_id = ?');
+         $updateStmt->bind_param('ssssi', $temperature_unit, $distance_unit, $precipitation_unit, $wind_unit, $user_id);
+         if ($updateStmt->execute()) {
+            $success_message = "Your preferences have been updated successfully.";
+         }else {
+            $error_message = "Failed to update preferences.";
+         }
+     }else {
+         // Insert new record
+         $insertStmt = $db->prepare('INSERT INTO Preferences (user_id, temperature_unit, distance_unit, precipitation_unit, wind_unit) VALUES (?, ?, ?, ?, ?)');
+         $insertStmt->bind_param('issss', $user_id, $temperature_unit, $distance_unit, $precipitation_unit, $wind_unit);
+         if ($insertStmt->execute()) {
+            $success_message = "Your preferences have been saved successfully.";
+        } else {
+            $error_message = "Failed to save preferences.";
+        }
+     }
+}
 // adds to the title tag
 $title = "Settings";
     
@@ -55,6 +72,8 @@ $filename = "settings";
 echo $twig->render($filename . '.html', [
     'title' => $title, 
     'filename' => $filename, 
-    'logged_in' => $_SESSION['logged_in']
+    'logged_in' => $_SESSION['logged_in'],
+    'success_message' => $success_message, // Pass the success message directly
+    'error_message' => $error_message, // Pass the error message directly
 ]);
 
