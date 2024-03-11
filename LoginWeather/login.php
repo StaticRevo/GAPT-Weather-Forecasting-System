@@ -3,6 +3,10 @@ session_start();
 if(!isset($_SESSION['logged_in'])){
     $_SESSION['logged_in'] = false;
 }
+if(isset($_SESSION['alert_message'])) {
+    echo '<script>alert("' . $_SESSION['alert_message'] . '");</script>';
+    unset($_SESSION['alert_message']);
+}
 
 $error = null;
 //This brings in a twig instance for use by this script
