@@ -4,7 +4,7 @@
 
 <div class="login_cont">
     <div class ="box">  
-        <form method="post">
+        <form method="post" id="loginForm">
             <h2>Login</h2>
             {% if error %}
             <div class="error">{{ error }}</div>
@@ -16,7 +16,7 @@
 
             <div class="inputBox">
                 <span class = "icon"> <ion-icon name="mail"></ion-icon> </span>
-                <input type="email" name="email" required="required">
+                <input type="email" name="email" id="email" required="required">
                 <label>Email</label>
                 <i></i>
             </div>
@@ -33,17 +33,20 @@
             </div>
 
             <div class="remember-forgot">
-                <label><input type="checkbox"> Remember me</label>
+                <label><input type="checkbox" id="rememberMe"> Remember me</label>
             </div>
 
             <input type="submit" name="login" value="Login">
 
             <div class="login-register">
                 <p>Don't have an account? <a href="register.php" class="register-link">Register</a> </p>
-                
             </div>
         </form>
     </div>
 </div>
 
+{% endblock %}
+
+{% block scripts %}
+<script src="/scripts/localStorage.js"></script>
 {% endblock %}
