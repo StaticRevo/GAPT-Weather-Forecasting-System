@@ -23,32 +23,32 @@
             <h1>Account Settings</h1>
             <div class="setting">
                 <h2>Temperature Unit</h2>
-                <select name="temperature_unit">
-                    <option value="celsius">Celsius</option>
-                    <option value="fahrenheit">Fahrenheit</option>
-                </select>
+                <select id="temperature-unit" name="temperature_unit">
+                    <option value="celsius" {{ preferences.temperature_unit == 'celsius' ? 'selected' : '' }}>Celsius</option>
+                    <option value="fahrenheit" {{ preferences.temperature_unit == 'fahrenheit' ? 'selected' : '' }}>Fahrenheit</option>
+                </select> 
             </div>
             <div class="setting">
                 <h2>Distance Unit</h2>
-                <select name="distance_unit">
-                    <option value="meters">Meters</option>
-                    <option value="feet">Feet</option>
+                <select id="distance-unit" name="distance_unit">
+                    <option value="meters" {{ preferences.distance_unit == 'meters' ? 'selected' : '' }}>Meters</option>
+                    <option value="feet" {{ preferences.distance_unit == 'feet' ? 'selected' : '' }}>Feet</option>
                 </select>
             </div>
             <div class="setting">
                 <h2>Precipation Unit</h2>
-                <select name="precipitation_unit">
-                    <option value="millimeters">Millimeters</option>
-                    <option value="inches">Inches</option>
+                <select id="precipitation-unit" name="precipitation_unit">
+                    <option value="millimeters" {{ preferences.precipitation_unit == 'millimeters' ? 'selected' : '' }}>Millimeters</option>
+                    <option value="inches" {{ preferences.precipitation_unit == 'inches' ? 'selected' : '' }}>Inches</option>
                 </select>
             </div>
             <div class="setting">
                 <h2>Wind Unit</h2>
-                <select name="wind_unit">
-                    <option value="kmh">Kilometers per hour</option>
-                    <option value="mph">Miles per hour</option>
-                    <option value="beaufort">Beaufort</option>
-                    <option value="knots">Knots</option>
+                <select id="wind-unit" name="wind_unit">
+                    <option value="kmh" {{ preferences.wind_unit == 'kmh' ? 'selected' : '' }}>Kilometers per hour</option>
+                    <option value="mph" {{ preferences.wind_unit == 'mph' ? 'selected' : '' }}>Miles per hour</option>
+                    <option value="beaufort" {{ preferences.wind_unit == 'beaufort' ? 'selected' : '' }}>Beaufort</option>
+                    <option value="knots" {{ preferences.wind_unit == 'knots' ? 'selected' : '' }}>Knots</option>
                 </select>
             </div>
             <button type="submit" id="SubmitButton">Save Changes</button>
