@@ -62,6 +62,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
      }
 }
+
+// Retrieve the user's preferences
+$stmt = $db->prepare('SELECT temperature_unit, distance_unit, precipitation_unit, wind_unit FROM Preferences WHERE user_id = ?');
+$stmt->bind_param('i', $user_id); // 'i' denotes the parameter type is an integer
+$stmt->execute();
+$result = $stmt->get_result();
+$preferences = $result->fetch_assoc();
+
 // adds to the title tag
 $title = "Settings";
     
@@ -73,7 +81,7 @@ echo $twig->render($filename . '.html', [
     'title' => $title, 
     'filename' => $filename, 
     'logged_in' => $_SESSION['logged_in'],
-    'success_message' => $success_message, // Pass the success message directly
-    'error_message' => $error_message, // Pass the error message directly
+    'success_message' => $success_message, 
+    'error_message' => $error_message, 
+    'preferences' => $preferences,
 ]);
-
