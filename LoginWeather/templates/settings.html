@@ -55,4 +55,13 @@
         </form>
     </div>
 </section>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        // Check if there's a success message
+        const successMessage = "{{ success_message }}";
+        if (successMessage) {
+            alert(successMessage);
+        }
+    });
+</script>
 {% endblock %}
