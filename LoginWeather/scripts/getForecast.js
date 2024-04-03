@@ -1,25 +1,26 @@
 // Function to get weather data
 
 function getWeather(lat, lon, timezone) {
-    return axios
-    .get(
-        "https://api.open-meteo.com/v1/forecast?hourly=temperature_2m,apparent_temperature,precipitation,weathercode,windspeed_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,precipitation_sum&current_weather=true&temperature_unit=celsius&windspeed_unit=mph&precipitation_unit=inch&timeformat=unixtime&forecast_days=14",
+    const temperatureUnit = preferences.temperature_unit === 'F' ? 'fahrenheit' : 'celsius';
+    return axios.get(
+        `https://api.open-meteo.com/v1/forecast?hourly=temperature_2m,apparent_temperature,precipitation,weathercode,windspeed_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,precipitation_sum&current_weather=true&temperature_unit=${temperatureUnit}&windspeed_unit=mph&precipitation_unit=inch&timeformat=unixtime&forecast_days=14`,
         {
-        params: {
-            latitude: lat,
-            longitude: lon,
-            timezone,
-        },
+            params: {
+                latitude: lat,
+                longitude: lon,
+                timezone,
+            },
         }
     )
     .then(({ data }) => {
         return {
-        current: parseCurrentWeather(data),
-        daily: parseDailyWeather(data),
-        hourly: parseHourlyWeather(data),
+            current: parseCurrentWeather(data),
+            daily: parseDailyWeather(data),
+            hourly: parseHourlyWeather(data),
         };
     });
 }
+
 
 function parseCurrentWeather({ current_weather, daily }) {
     const {
@@ -72,18 +73,28 @@ function parseHourlyWeather({ hourly, current_weather }) {
     .filter(({ timestamp }) => timestamp >= current_weather.time * 1000);
 }
 
-// Function to update the HTML elements with weather data
 function updateWeatherElements(data, timezone) {
+    // Loop through each hour up to 6 hours
     for (let hour = 1; hour <= 6; hour++) {
         const tempElement = document.getElementById(`temp${hour}`);
         const iconElement = document.getElementById(`weather-icon${hour}`);
         const timeElement = document.getElementById(`time${hour}`);
+        
+        // Extract the temperature for the current hour
+        const temperature = data.hourly[hour - 1].temp;
 
-        // Update temperature to Celsius
-        tempElement.textContent = `${data.hourly[hour - 1].temp}°C`;
+        // Check if the user's preference is for Fahrenheit
+        if (preferences.temperature_unit === 'fahrenheit') {
+            // Convert temperature to Fahrenheit and update the text with °F
+            const roundedTemperatureFahrenheit = Math.round((temperature * 9/5) + 32);
+            tempElement.innerText = `${roundedTemperatureFahrenheit}°F`;
+        } else {
+            // If not, display in Celsius as default
+            tempElement.innerText = `${temperature}°C`;
+        }
 
-        // Update weather icon
-        iconElement.textContent = `${getWeatherCondition(data.hourly[hour - 1].iconCode)}`;
+        // Update weather icon based on the weather code
+        iconElement.textContent = getWeatherCondition(data.hourly[hour - 1].iconCode);
 
         // Update time with timezone conversion
         const timestamp = new Date(data.hourly[hour - 1].timestamp);
@@ -91,6 +102,7 @@ function updateWeatherElements(data, timezone) {
         timeElement.textContent = localTime;
     }
 }
+
 
 function updateWeatherElements14(data, timezone) {
     for (let day = 0; day < 14; day++) {
@@ -110,13 +122,17 @@ function updateWeatherElements14(data, timezone) {
         // Update conditions
         conditionsElement.textContent = getWeatherCondition(data.daily[day].iconCode);
 
-        // Update high and low temperatures
-        highTempElement.textContent = `High: ${Math.round(data.daily[day].maxTemp)}°C`;
+        // Determine the unit label and possibly convert temperatures
+        const unitLabel = preferences.temperature_unit === 'fahrenheit' ? '°F' : '°C';
+        const highTemp = preferences.temperature_unit === 'fahrenheit' ? Math.round((data.daily[day].maxTemp * 9/5) + 32) : Math.round(data.daily[day].maxTemp);
+        const lowTemp = preferences.temperature_unit === 'fahrenheit' ? Math.round((data.current.lowTemp * 9/5) + 32) : Math.round(data.current.lowTemp);
 
-        // Corrected access to low temperature
-        lowTempElement.textContent = `Low: ${data.current.lowTemp !== undefined ? Math.round(data.current.lowTemp) : 'N/A'}°C`;
+        // Update high and low temperatures with the correct unit
+        highTempElement.textContent = `High: ${highTemp}${unitLabel}`;
+        lowTempElement.textContent = `Low: ${lowTemp !== undefined ? lowTemp : 'N/A'}${unitLabel}`;
     }
 }
+
 
 function getWeatherCondition(weatherCode) {
     const weatherMap = {
