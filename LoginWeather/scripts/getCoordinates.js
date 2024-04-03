@@ -1,27 +1,72 @@
 async function getCoordinates(location) {
     const opencageApiKey = 'd22d3e2e4fe2447b831cc75d3b5a9d60'; // Replace with your OpenCage API key
-    const timezoneDbApiKey = 'A37RMT7ZS3PE'; // Replace with your TimezoneDB API key
+    const nominatimBaseUrl = 'https://nominatim.openstreetmap.org/search';
 
-    const opencageResponse = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(location)}&key=${opencageApiKey}`);
-    
-    const { results } = opencageResponse.data;
-    if (results && results.length > 0) {
-        const { lat, lng } = results[0].geometry;
+    try {
+        const response = await axios.get(`${nominatimBaseUrl}?q=${encodeURIComponent(location)}&format=json&addressdetails=1&limit=5`);
 
-        // Use TimezoneDB API to get timezone information
-        const timezoneResponse = await axios.get(`http://api.timezonedb.com/v2.1/get-time-zone?key=${timezoneDbApiKey}&format=json&by=position&lat=${lat}&lng=${lng}`);
-
-        const { status, message, zoneName } = timezoneResponse.data;
-        if (status === 'OK') {
-            return { latitude: lat, longitude: lng, timezone: zoneName };
+        if (response.data && response.data.length > 0) {
+            // Extract latitude and longitude from the first result
+            const { lat, lon } = response.data[0];
+            return { latitude: parseFloat(lat), longitude: parseFloat(lon) };
         } else {
-            throw new Error(`TimezoneDB error: ${message}`);
+            throw new Error('No matching results found');
         }
-    } else {
+    } catch (error) {
+        console.error('Error fetching coordinates:', error);
         throw new Error('Unable to fetch coordinates for the location');
     }
 }
 
+async function handleAutosuggest() {
+    const searchInput = document.getElementById('searchInput');
+    const suggestionsList = document.getElementById('suggestionsList');
+
+    const inputValue = searchInput.value.trim();
+
+    if (inputValue.length > 2) { // Minimum characters to trigger autosuggest
+        try {
+            const response = await axios.get(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(inputValue)}`);
+
+            if (response.data && response.data.length > 0) {
+                suggestionsList.innerHTML = '';
+
+                // Limit suggestions to three
+                const maxSuggestions = 3;
+                for (let i = 0; i < Math.min(response.data.length, maxSuggestions); i++) {
+                    const result = response.data[i];
+                    const listItem = document.createElement('li');
+                    let displayText = result.display_name;
+                    // Split the display name into parts (typically city, county, country)
+                    const parts = displayText.split(', ');
+                    // If there are at least two parts, concatenate the first and last parts (city and country)
+                    if (parts.length >= 2) {
+                        displayText = parts[0] + ', ' + parts[parts.length - 1];
+                    }
+                    if (displayText.length > 35) {
+                        displayText = displayText.substring(0, 33) + '...';
+                    }
+                    listItem.textContent = displayText;
+                    listItem.addEventListener('click', () => {
+                        searchInput.value = result.display_name;
+                        suggestionsList.innerHTML = '';
+                        searchLocation();
+                    });
+                    suggestionsList.appendChild(listItem);
+                }
+            } else {
+                suggestionsList.innerHTML = '';
+            }
+        } catch (error) {
+            console.error('Error fetching suggestions:', error);
+        }
+    } else {
+        suggestionsList.innerHTML = '';
+    }
+}
+
+// Event listener for input in search bar to trigger autosuggest
+document.getElementById('searchInput').addEventListener('input', handleAutosuggest);
 
 async function searchLocation() {
     try {
