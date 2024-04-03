@@ -11,6 +11,8 @@ function updateWeather(latitude, longitude) {
         .then(response => response.json())
         .then(data => {
             const roundedTemperature = Math.round(data.current.temperature_2m);
+            const weatherCondition = getWeatherConditionTop(data.current.weather_code);
+            const generalCategory = categorizeWeatherCondition(weatherCondition).toLowerCase();
 
             document.getElementById('city-name').innerText = document.getElementById('searchInput').value || 'Valletta';
 
@@ -33,6 +35,12 @@ function updateWeather(latitude, longitude) {
 
             updateProgress(data.daily.sunrise[0], data.daily.sunset[0]);
 
+            const videoBackground = document.getElementById('video-background');
+            const videoSource = videoBackground.getAttribute(`data-${generalCategory}`);
+            if (videoSource) {
+                videoBackground.src = videoSource;
+            }
+
         })
         .catch(error => {
             console.error('Error fetching weather data:', error);
@@ -41,6 +49,21 @@ function updateWeather(latitude, longitude) {
             document.getElementById('condition').innerText = '';
             document.getElementById('high-low').innerText = '';
         });
+}
+function categorizeWeatherCondition(detailedDescription) { // new categorise function
+    if (["Light Drizzle", "Drizzle", "Heavy Drizzle", "Light Freezing Drizzle", "Freezing Drizzle", "Light Rain", "Rain", "Heavy Rain", "Light Freezing Rain", "Freezing Rain", "Light Showers", "Showers", "Heavy Showers", "Thunderstorm", "Light Thunderstorms With Hail", "Thunderstorm With Hail"].includes(detailedDescription)) {
+        return "Rain";
+    } else if (["Light Snow", "Snow", "Heavy Snow", "Snow Grains", "Light Snow Showers", "Snow Showers"].includes(detailedDescription)) {
+        return "Snow";
+    } else if (["Foggy", "Rime Fog"].includes(detailedDescription)) {
+        return "Foggy";
+    } else if (["Partly Cloudy", "Cloudy"].includes(detailedDescription)) {
+        return "Cloudy";
+    } else if (["Sunny", "Mainly Sunny"].includes(detailedDescription)) {
+        return "Sunny";
+    } else {
+        return "Unknown"; 
+    }
 }
 
 function updateSunriseSunset(sunrise, sunset) {
