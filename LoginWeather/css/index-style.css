@@ -84,9 +84,11 @@ body {
 }
 
 .search-bar {
-    display: flex;
     align-items: center;
     margin-left: auto; /* Pushes the search bar to the right */
+    position: relative;
+    display: inline-block;
+
 }
 
 /* Add other styles as needed */
@@ -432,3 +434,41 @@ body {
     color: #fff;
     font-size: 1.5em; /* Adjust the font size to make the icon larger */
 }
+
+#suggestionsList {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    border-radius: 15px;
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    font-family: 'ABeeZee', sans-serif;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#suggestionsList:not(:empty) {
+    border: 2px solid black;
+}
+
+#suggestionsList li {
+    padding: 10px;
+    cursor: pointer;
+    color: black;
+    border-bottom: 1px solid #ccc;
+}
+
+#suggestionsList li:last-child {
+    border-bottom: none;
+}
+
+#suggestionsList li:hover {
+    background-color: #f0f0f0;
+    border-radius: 15px;
+}
+
