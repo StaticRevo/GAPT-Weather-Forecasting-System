@@ -13,7 +13,14 @@ function updateWeather(latitude, longitude) {
             const roundedTemperature = Math.round(data.current.temperature_2m);
 
             document.getElementById('city-name').innerText = document.getElementById('searchInput').value || 'Valletta';
-            document.getElementById('temperature').innerText = `${roundedTemperature}°C`;
+
+            if(preferences.temperature_unit === 'fahrenheit') {
+                const roundedTemperatureFahrenheit = Math.round((roundedTemperature * 9/5) + 32);
+                document.getElementById('temperature').innerText = `${roundedTemperatureFahrenheit}°F`;
+            } else {
+                document.getElementById('temperature').innerText = `${roundedTemperature}°C`;
+            }
+    
             document.getElementById('condition').innerText = getWeatherConditionTop(data.current.weather_code, document.getElementById('searchInput').value || 'Valletta');
             document.getElementById('high-low').innerText = '';
 
@@ -96,24 +103,75 @@ function updateProgress(sunriseISO, sunsetISO) {
 }
 
 function updatePrecipitation(past24hrs, expectedTomorrow) {
+    // Access the preferred unit of precipitation from the global `preferences` object
+    const unit = preferences.precipitation_unit;
+
+    // Convert precipitation to the preferred unit if it's not in millimeters
+    let displayPast24hrs = past24hrs;
+    let displayExpectedTomorrow = expectedTomorrow;
+    let unitLabel = 'mm';
+
+    // Check if the preferred unit is inches, convert if necessary
+    if(unit === 'inches') {
+        // Conversion: 1mm = 0.0393701 inches
+        displayPast24hrs = (past24hrs * 0.0393701).toFixed(2); // Convert and keep two decimal places
+        displayExpectedTomorrow = (expectedTomorrow * 0.0393701).toFixed(2); // Convert and keep two decimal places
+        unitLabel = 'in';
+    }
+
     // Update the Precipitation widget using getElementById
     const precipitationAmtElement = document.getElementById('precipitation-amt');
     const precipitationTmrElement = document.getElementById('precip-tmr');
 
-    precipitationAmtElement.innerText = `${past24hrs}mm of`;
-    precipitationTmrElement.innerText = `${expectedTomorrow}mm expected tomorrow`;
+    // Update innerText to include the converted values and the correct unit label
+    precipitationAmtElement.innerText = `${displayPast24hrs}${unitLabel} of`;
+    precipitationTmrElement.innerText = `${displayExpectedTomorrow}${unitLabel} expected tomorrow`;
 }
 
+
 function updateWind(speed, direction) {
+    // Access the preferred unit of wind speed from the global `preferences` object
+    const unit = preferences.wind_unit;
+
+    // Initialize variables for display
+    let displaySpeed = speed; // Default is km/h
+    let unitLabel = 'km/h';
+
+    // Convert wind speed to the preferred unit if necessary
+    switch (unit) {
+        case 'mph':
+            // Conversion: 1 km/h = 0.621371 mph
+            displaySpeed = (speed * 0.621371).toFixed(1); // Convert and format to 1 decimal place
+            unitLabel = 'mph';
+            break;
+        case 'knots':
+            // Conversion: 1 km/h = 0.539957 knots
+            displaySpeed = (speed * 0.539957).toFixed(1); // Convert and format to 1 decimal place
+            unitLabel = 'knots';
+            break;
+        case 'beaufort':
+            displaySpeed = kmhToBeaufort(speed); // Use Beaufort scale
+            unitLabel = 'on the Beaufort scale';
+            break;
+        // No need for conversion if km/h is preferred or default
+    }
+
     // Update the Wind widget using getElementById
     const windSpeedElement = document.getElementById('wind-speed');
     const windDirectionElement = document.getElementById('wind-direction');
 
-    const roundedSpeed = Math.round(speed * 10) / 10; // Round speed to one decimal place
-
-    windSpeedElement.innerText = `${roundedSpeed}km/h`;
+    // Update innerText to include the converted wind speed value and the correct unit label
+    windSpeedElement.innerText = `${displaySpeed} ${unitLabel}`;
     windDirectionElement.innerText = `Wind is coming from the ${getWindDirection(direction)}`;
 }
+
+// Helper function to convert km/h to Beaufort scale
+function kmhToBeaufort(speed) {
+    const speeds = [0, 1, 6, 12, 20, 29, 39, 50, 62, 75, 89, 103, 118];
+    const index = speeds.findIndex((element) => speed < element);
+    return index === -1 ? 12 : index - 1;
+}
+
 
 function getWindDirection(degrees) {
     // Convert degrees to cardinal direction
@@ -155,13 +213,21 @@ function updateUVIndex(uvIndex, uvIndexTomorrow) {
 }
 
 function updateRealFeel(data) {
-    const roundedTemperature = Math.round(data.current.temperature_2m);
-    const realFeelTemperature = Math.round(data.current.apparent_temperature);
+    let roundedTemperature = Math.round(data.current.temperature_2m);
+    let realFeelTemperature = Math.round(data.current.apparent_temperature);
 
-    // Update the Real Feel widget using getElementById
-    document.getElementById('real-feel-temp').innerText = `${realFeelTemperature}°C`;
+    // Check if the temperature unit preference is Fahrenheit
+    if(preferences.temperature_unit === 'fahrenheit') {
+        // Convert Celsius to Fahrenheit
+        roundedTemperature = Math.round(roundedTemperature * 9/5 + 32);
+        realFeelTemperature = Math.round(realFeelTemperature * 9/5 + 32);
+        document.getElementById('real-feel-temp').innerText = `${realFeelTemperature}°F`;
+    } else {
+        // If Celsius, use the temperature as is
+        document.getElementById('real-feel-temp').innerText = `${realFeelTemperature}°C`;
+    }
 
-    // Update the text in the bottom text element
+    // Update the text in the bottom text element based on the difference
     const temperatureDifference = realFeelTemperature - roundedTemperature;
     const realFeelTextElement = document.getElementById('real-feel-text');
 
