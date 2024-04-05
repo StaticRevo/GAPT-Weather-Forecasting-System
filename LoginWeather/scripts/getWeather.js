@@ -32,7 +32,7 @@ function updateWeather(latitude, longitude) {
             updatePrecipitation(data.daily.precipitation_sum[0], data.daily.precipitation_sum[1]);
             updateWind(data.current.wind_speed_10m, data.current.wind_direction_10m);
             updateSunriseSunset(data.daily.sunrise[0], data.daily.sunset[0]);
-
+            updateVisibility(latitude, longitude);
             updateProgress(data.daily.sunrise[0], data.daily.sunset[0]);
 
             const videoBackground = document.getElementById('video-background');
@@ -64,6 +64,44 @@ function categorizeWeatherCondition(detailedDescription) { // new categorise fun
     } else {
         return "Unknown"; 
     }
+}
+
+function updateVisibility(latitude, longitude) {
+    const apiUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=visibility`;
+    
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            const visibility = data.current.visibility / 1000; // Convert meters to kilometers
+
+            // Update the Visibility widget using getElementById
+            const visibilityElement = document.getElementById('visibility-value');
+            const visibilityDescriptionElement = document.getElementById('visibility-description');
+
+            // Update innerText with the retrieved visibility value
+            visibilityElement.innerText = `${visibility.toFixed(2)}km`; // Limit to 2 decimal places
+
+            // Provide a description based on visibility range
+            if (visibility >= 20) {
+                visibilityDescriptionElement.innerText = 'Clear visibility';
+            } else if (visibility >= 10 && visibility < 20) {
+                visibilityDescriptionElement.innerText = 'Good visibility';
+            } else if (visibility >= 5 && visibility < 10) {
+                visibilityDescriptionElement.innerText = 'Moderate visibility';
+            } else if (visibility >= 1 && visibility < 5) {
+                visibilityDescriptionElement.innerText = 'Poor visibility';
+            } else {
+                visibilityDescriptionElement.innerText = 'Very poor visibility';
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching visibility data:', error);
+            // Handle error, for example:
+            const visibilityElement = document.getElementById('visibility-value');
+            const visibilityDescriptionElement = document.getElementById('visibility-description');
+            visibilityElement.innerText = 'N/A';
+            visibilityDescriptionElement.innerText = 'Visibility data not available';
+        });
 }
 
 function updateSunriseSunset(sunrise, sunset) {
@@ -330,4 +368,5 @@ function getWeatherConditionTop(weatherCode, cityName = "") {
 // Initialize with Valletta's weather
 document.addEventListener('DOMContentLoaded', function () {
     updateWeather(35.8997, 14.5148); // Default to Valletta's coordinates
+    updateVisibility(35.8997, 14.5148);
 });
