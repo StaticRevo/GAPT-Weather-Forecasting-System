@@ -8,42 +8,196 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
         <script src="https://kit.fontawesome.com/9877e2c6ca.js" crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="css/style.css">  
+        <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/{{ filename }}-style.css">
-        <link rel="stylesheet" href="css/layout-style.css">
         <script type="text/javascript" src="javascript/header.js"></script> <!-- updated -->
+        <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+        <script src="https://api.windy.com/assets/map-forecast/libBoot.js"></script>
     </head>
-        <header>
-            <div class="header">
-                <!-- Sign In And Login Menu -->
-                <div class="mainHead">
+
+    <body>
+
+        <div class="container">
+            <div class="column favorites-column" id="favorites-column">
+                <!-- favorites column -->
+                <div class="favorites-header">
                     <div>
-                        <a href="index.php"><img src="images/weather.png" alt="Weather Icon" class="settings-button"></a>      
-                        <a href="settings.php"><img src="images/settings.png" alt="Settings Icon" class="settings-button"></a>   
+                        <h2 class="favorites-text">Favorites</h2>
                     </div>
-                        
                     <div>
-                        {% if logged_in %}
-                        <a href="profile.php" class="user user-link"><i class="ri-user-fill"></i>Profile</a>
-                        <a href="gen-php/signout.php" class="user-link">Sign Out</a>
-                    {% else %}
-                        <a href="login.php" class="user user-link"><i class="ri-user-fill"></i>Sign in</a>
-                        <a href="register.php" class="user-link">Register</a>
-                    {% endif %}
+                        <button>Add Favorite</button>
+                        <div class="bx bx-menu" id="menu-icon">&#9776;</div>
                     </div>
-                    <div class="bx bx-menu" id="menu-icon"></div>
                 </div>
             </div>
-        </header>
-    <body>
-        <div class="transition transition is-active"></div>
-            <div class="container">
-              
-                {% block content %}
-                {% endblock %}
-             
-                <footer>
-                </footer>
+
+            <div class="column weather-column" id="weather-column">
+
+                <div class="header">
+                    <!-- Sign In And Login Menu -->
+                    <div class="mainHead">
+                        <div class="toggleButton" id="toggleButton">
+                            <img src="images/three-lines-header.png" alt="Favorite Icon" class="toggle-favorites">
+                        </div> 
+                        <a href="settings.php"><img src="images/settings.png" alt="Settings Icon" class="settings-button"></a>                                        
+                        {% if logged_in %}
+                            <a href="profile.php" class="user user-link"><i class="ri-user-fill"></i>Profile</a>
+                            <a href="gen-php/signout.php" class="user-link">Sign Out</a>
+                        {% else %}
+                            <a href="login.php" class="user user-link"><i class="ri-user-fill"></i>Sign in</a>
+                            <a href="register.php" class="user-link">Register</a>
+                        {% endif %}
+                        <div class="bx bx-menu" id="menu-icon"></div>
+                    </div>
+
+                    <div class="search-bar">
+                        <input class="search-input" id="searchInput" type="text" placeholder="Search...">           
+                        <button onclick="searchLocation(), searchLocationForecast()" class="search-button">Search</button>
+                        <ul id="suggestionsList"></ul>
+                    </div>                    
+                </div>
+
+                <video id="video-background" autoplay loop muted playsinline style="position: fixed; right: 0; bottom: 0; min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: -100;"
+                data-sunny="images/sunny.mp4"
+                data-cloudy="images/Cloudy_loop.mp4"
+                data-rain="images/rain.mp4"
+                data-snow="path/to/your/snow.mp4"
+                data-foggy="path/to/your/foggy.mp4"></video>
+                <div class="overlay"></div>
+            
+                
+                <div class="weather-details">
+                    <div class="city-name" id="city-name">Valletta</div>
+                    <div class="temperature" id="temperature">Loading...</div>
+                    <div class="condition" id="condition">Loading...</div>
+                    <div class="high-low" id="high-low">Loading...</div>
+                </div>
+
+                <!-- New div with weather information -->
+                <div class="weather-info">
+                <div class="forecast-header">
+                <div class="forecast-title">Today's Forecast</div>
+                <div class="current-date">February 19, 2024</div>
+                </div>
+
+                <!-- Container for time slots -->
+                <div class="time-slots-container">
+                    {% for hour in 1..6 %}
+                        <div class="time-slot">
+                            <div class="temp" id="temp{{ hour }}">Loading...</div>
+                            <div class="weather-icon" id="weather-icon{{ hour }}">Loading...</div>
+                            <div class="time" id="time{{ hour }}">Loading...</div>
+                        </div>
+                    {% endfor %}
+                </div>                
+
             </div>
+
+            <div class="additional-info">
+                <div class="Fourteen-day-column">
+                    <div class="forecast-title">14 Day Forecast</div>
+                    <!-- Individual day slots -->
+                    <!-- Day 1 -->
+
+                    {% for day in 1..14 %}
+                        <!-- Individual day slots -->
+                        <div class="day-slot">
+                            <div class="day-info">
+                                <div class="day-name" id="day-name{{ day }}">Loading...</div>
+                                <div class="date" id="date{{ day }}">Loading...</div>
+                            </div>
+                            <div class="conditions" id="conditions{{ day }}">Loading...</div>
+                            <div class="temperature-info">
+                                <div class="high-temp" id="high-temp{{ day }}">High: Loading...</div>
+                                <div class="low-temp" id="low-temp{{ day }}">Low: Loading...</div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                </div>
+                
+                <div class="widgets-column">
+                    <!-- Pressure Widget (1/3) -->
+                    <div class="widget-small">
+                        <h3>🌧️ Precipitation</h3>
+                        <p class="widget-text" id="precipitation-amt">0mm of</p>
+                        <p class="widget-text2">precipitation today</p>
+                        <p class="widget-bottom-text" id="precip-tmr">3mm expected tomorrow</p>
+                    </div>
+                
+                    <!-- Precipitation Widget (1/3) -->
+                    <div class="widget-small">
+                        <h3>☀️ UV Index</h3>
+                        <p class="widget-text" id="uv-index">6 of 10</p>
+                        <p class="widget-text2" id="uv-text">High</p>
+                        <p class="widget-bottom-text" id="uv-tomorrow">3 of 10 expect tomorrow</p>
+                    </div>
+
+                    <div class="widget-small">
+                        <h3>🌡️ Real Feel</h3>
+                        <p class="widget-text" id="real-feel-temp">12°C</p>
+                        <p class="widget-text2"></p>
+                        <p class="widget-bottom-text" id="real-feel-text">Feels colder than actual temperature</p>
+                    </div>
+
+                    <div class="widget-small">
+                        <h3>💨 Wind</h3>
+                        <p class="widget-text" id="wind-speed">0km/h</p>
+                        <p class="widget-text2"></p>
+                        <p class="widget-bottom-text" id="wind-direction">Wind is coming from the north</p>
+                    </div>
+
+                    <div class="widget-large">
+                        <h3>🌕 Sunrise & Sunset</h3>
+                        <p class="widget-text" id="sunrise-time">Sunrise: --:--</p>
+                        <p class="widget-bottom-text" id="sunset-time">Sunset: --:--</p>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" id="day-progress">
+                                <div class="sun-icon" id="sun-icon">🌞</div>
+                            </div>
+                        </div>
+                    </div>             
+
+                    <div class="widget-small">
+                        <h3>👁️ Visibility</h3>
+                        <p id="visibility-value" class="widget-text">27km</p>
+                        <p id="visibility-description" class="widget-bottom-text">Perfectly clear view</p>
+                    </div>                    
+
+                    <div class="widget-small">
+                        <h3>🗜️ Pressure</h3>
+                        <p class="widget-text" id="pressure-amt">1024hPa</p>
+                        <div class="pressure-bar-wrapper">
+                            <div class="pressure-bar" id="pressureBar"></div>
+                        </div>
+                    </div>
+
+                    <div class="widget-small">
+                        <h3>💧 Humidity</h3>
+                        <p class="widget-text">67%</p>
+                        <p class="widget-text2"></p>
+                        <p class="widget-bottom-text">The dew point is 10°C</p>
+                    </div>
+                </div>  
+            </div>
+
+            <div class="widget-windy">
+               <!-- <h3>Wind Map</h3>-->
+                <div id="windy"></div>
+                <script src="scripts/windy.js"></script>
+            </div>
+
+        </div>
+
+        <script src="scripts/pressureBar.js"></script> <!-- Handles Pressure Bar -->
+        <script src="scripts/toggleFavorites.js"></script> <!-- Handles Toggle Favorites Bar -->
+
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="scripts/getCoordinates.js"></script>  <!-- Takes Coordinates from the Location Search Query -->
+
+        <!-- Below Scripts handle API access to update page -->
+        <script src="scripts/getWeather.js"></script> 
+        <script src="scripts/getForecast.js"> </script>
+        
     </body>
 </html>
