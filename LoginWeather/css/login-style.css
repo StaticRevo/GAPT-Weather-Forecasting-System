@@ -9,14 +9,11 @@
     background-size: cover;
     background-repeat: no-repeat;
 }
-.header {
-    transform: translateY(-100%); 
-    animation: slideDown 0.5s ease-out forwards 0.5s; 
-}
 .box {
     position: relative;
     width: 400px;
     height: 440px;
+    margin-top: -50px;
     background: transparent;
     background: rgba(255, 255, 255, 0.2);
     border: 2px solid rgba(255, 255, 255, 0.5);
@@ -181,3 +178,64 @@
     from { transform: translateY(-100%); }
     to { transform: translateY(0); }
   }
+
+@media only screen and (max-width: 600px) {
+    .box {
+        width: 90%;
+        height: auto;
+        margin-top: 0;
+    }
+    .box h2 {
+        font-size: 1.5em;
+    }
+    .inputBox {
+        margin: 20px 0;
+    }
+    .remember-forgot {
+        font-size: 0.8em;
+        margin: -10px 0 10px;
+    }
+    .box form .links {
+        flex-direction: column;
+        align-items: center;
+    }
+    .box form input[type="submit"] {
+        height: 40px;
+        font-size: 0.9em;
+    }
+    .login-register {
+        font-size: 0.8em;
+        margin: 20px 0 5px;
+    }
+}
+
+@media only screen and (min-width: 601px) and (max-width: 1024px) {
+    .box {
+        width: 70%;
+        height: auto;
+        margin-top: -30px;
+    }
+    .box h2 {
+        font-size: 1.8em;
+    }
+    .inputBox {
+        margin: 25px 0;
+    }
+    .remember-forgot {
+        font-size: 0.9em;
+        margin: -12px 0 12px;
+    }
+    .box form .links {
+        flex-direction: column;
+        align-items: center;
+    }
+    .box form input[type="submit"] {
+        height: 42px;
+        font-size: 1em;
+    }
+    .login-register {
+        font-size: 0.9em;
+        margin: 22px 0 7px;
+    }
+}
+
