@@ -1,9 +1,8 @@
-/* Main CSS*/
+
 *{
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-/*    background-color: 0;*/
 }
 body{
     font-family: "Montserrat", sans-serif;
@@ -20,15 +19,18 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #071A3D; 
-    padding: 20px; 
-    color: white; 
+    background-image: linear-gradient(to right, #0f0c29, #302b63, #24243e); 
+    padding: 20px;
+    color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transform: translateY(-100%); 
+    animation: slideDown 0.5s ease-out forwards 0.5s; 
 }
 
 /* Logo styling */
 .logo {
-    width: 100px; /* Adjust size as needed */
-    height: auto; /* Maintain aspect ratio */
+    width: 100px; 
+    height: auto; 
 }
 
 /* Navigation styling */
@@ -37,54 +39,64 @@ nav {
 }
 
 .nav_links {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+    display: flex;
+    justify-content: center; /* Center the links */
+    flex-wrap: wrap; /* Allow wrapping if there's not enough space */
 }
 
 .nav_links li {
-    margin-right: 20px; /* Adjust spacing between links */
+    margin-right: 20px; 
 }
 
 .nav_links li:last-child {
-    margin-right: 0; /* Remove margin from last link */
+    margin-right: 0; 
 }
 
 .nav_links li a {
     text-decoration: none;
-    color: white; /* Link color */
+    color: white;
+    font-weight: 500; 
+    transition: color 0.3s ease;
 }
 
 /* User links styling */
 .user {
     text-decoration: none;
-    color: white; /* Link color */
-    margin-right: 20px; /* Adjust spacing between links */
+    color: white; 
+    margin-right: 20px; 
+    font-weight: 500; 
+    transition: color 0.3s ease;
 }
 
 /* Menu icon styling */
 #menu-icon {
-    display: none; /* Hide by default */
+    display: none; 
     cursor: pointer;
-    font-size: 24px; /* Adjust size as needed */
+    font-size: 24px; 
 }
 
-/* Responsive styling */
 @media screen and (max-width: 768px) {
     .nav_links {
-        display: none; /* Hide navigation links */
+        display: none; /* Initially hide the navigation links on smaller screens */
     }
 
-    .user, #menu-icon {
-        display: block; /* Show user links and menu icon */
+    #menu-icon {
+        display: block; /* Show the menu icon */
+        margin: 0 auto; /* Center the menu icon */
     }
 
-    .main {
-        display: flex;
-        align-items: center; /* Center vertically */
+    header {
+        text-align: center; /* Center header content */
+        padding: 20px 10px; /* Adjust padding */
     }
 
-    .logo, #menu-icon {
-        margin-right: 20px; /* Adjust spacing between logo and menu icon */
+    .nav_links, .user {
+        text-align: center; /* Center navigation links */
+        width: 100%; /* Full width */
+    }
+
+    .nav_links li {
+        margin-right: 0; /* Remove right margin */
+        padding: 10px 0; /* Add padding for touch targets */
     }
 }
