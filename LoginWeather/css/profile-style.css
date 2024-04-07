@@ -1,5 +1,6 @@
 body, html {
   overflow-y: auto;
+  scroll-behavior: smooth;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Consistent font family */
 }
 
@@ -29,6 +30,9 @@ body, html {
   color: #fff;
   max-width: 75%;
   width: 50%;
+  opacity: 0;
+  transform: scale(0.95);
+  animation: fadeInScaleUp 0.7s ease-out forwards;
 }
 #emptyCircle {
   width: 100px;
@@ -38,9 +42,20 @@ body, html {
   display: block;
   margin: 10px auto;
 }
+.upload-success {
+  color: #4CAF50; 
+  text-align: center;
+  margin-top: 40px;
+}
+
+.upload-error {
+  color: #FF0000; 
+  text-align: center;
+  margin-top: 10px;
+}
 
 .profile-bio {
-  max-width: 100%; 
+  max-width: 100%;
   padding: 20px; 
   box-sizing: border-box; 
 }
@@ -65,6 +80,9 @@ body, html {
   margin-top: 20px;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transform: translateY(20px);
+  opacity: 0;
+  animation: slideUpFadeIn 0.7s ease-out forwards 0.5s;
 }
 
 .profile-bio h3, .profile-details h2, .profile-info h1 {
@@ -98,10 +116,12 @@ body, html {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .profile-details button:hover {
   background-color: #45a049;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
 @media screen and (max-width: 768px) {
@@ -111,3 +131,58 @@ body, html {
     max-width: 100%;
   }
 }
+@keyframes slideDown {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(0); }
+}
+@keyframes fadeInScaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideUpFadeIn {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  /* Styles for phones */
+  .profile-content {
+    width: 90%;
+  }
+}
+
+@media screen and (min-width: 481px) and (max-width: 768px) {
+  /* Styles for tablets */
+  .profile-content {
+    width: 80%;
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  /* Styles for desktops */
+  .profile-content {
+    width: 70%;
+  }
+}
+
+@media screen and (min-width: 1025px) {
+  /* Styles for monitors */
+  .profile-content {
+    width: 50%;
+  }
+}
+
+
