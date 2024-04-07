@@ -9,14 +9,12 @@
     background-size: cover;
     background-repeat: no-repeat;
 }
-.header{
-    transform: translateY(-100%); 
-    animation: slideDown 0.5s ease-out forwards 0.5s; 
-}
+
 .regbox{
     position: relative;
     width: 30vw;
     height: 80vh;
+    margin-top: -50px;
     background: transparent;
     background: rgba(255, 255, 255, 0.2); 
     border: 2px solid rgba(255, 255, 255, .5);
@@ -166,5 +164,146 @@
     to { transform: translateY(0); }
   }
   
+@media screen and (max-width: 480px) {
+    .regbox {
+        width: 90vw;
+        height: auto;
+        margin-top: 0;
+    }
+    .regbox h2 {
+        font-size: 1.2em;
+    }
+    .inputBox {
+        margin: 15px 0;
+    }
+    .inputBox label {
+        font-size: 0.7em;
+    }
+    .inputBox input {
+        font-size: 0.8em;
+    }
+    .remember-forgot {
+        font-size: 0.7em;
+        margin: -5px 0 5px;
+    }
+    .regbox form .links a {
+        margin: 3px 0;
+        font-size: 0.6em;
+    }
+    .terms {
+        font-size: 0.7em;
+        margin: 15px 0 3px;
+    }
+    .error {
+        top: 5%;
+        font-size: 0.8em;
+    }
+}
 
+@media screen and (min-width: 481px) and (max-width: 768px) {
+    .regbox {
+        width: 80vw;
+        height: auto;
+        margin-top: 0;
+    }
+    .regbox h2 {
+        font-size: 1.5em;
+    }
+    .inputBox {
+        margin: 20px 0;
+    }
+    .inputBox label {
+        font-size: 0.8em;
+    }
+    .inputBox input {
+        font-size: 0.9em;
+    }
+    .remember-forgot {
+        font-size: 0.8em;
+        margin: -10px 0 10px;
+    }
+    .regbox form .links a {
+        margin: 5px 0;
+        font-size: 0.7em;
+    }
+    .terms {
+        font-size: 0.8em;
+        margin: 20px 0 5px;
+    }
+    .error {
+        top: 10%;
+        font-size: 0.9em;
+    }
+}
 
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .regbox {
+        width: 60vw;
+        height: auto;
+        margin-top: 0;
+    }
+    .regbox h2 {
+        font-size: 1.8em;
+    }
+    .inputBox {
+        margin: 25px 0;
+    }
+    .inputBox label {
+        font-size: 0.9em;
+    }
+    .inputBox input {
+        font-size: 1em;
+    }
+    .remember-forgot {
+        font-size: 0.9em;
+        margin: -15px 0 15px;
+    }
+    .regbox form .links a {
+        margin: 8px 0;
+        font-size: 0.8em;
+    }
+    .terms {
+        font-size: 0.9em;
+        margin: 30px 0 10px;
+    }
+    .error {
+        top: 12%;
+        font-size: 1em;
+    }
+}
+
+@media screen and (min-width: 1025px) {
+    .regbox {
+        width: 30vw;
+        height: 80vh;
+        margin-top: -50px;
+    }
+    .regbox h2 {
+        font-size: 2em;
+    }
+    .inputBox {
+        margin: 30px 0;
+    }
+    .inputBox label {
+        font-size: 1em;
+    }
+    .inputBox input {
+        font-size: 1em;
+    }
+    .remember-forgot {
+        font-size: 0.9em;
+        margin: -15px 0 15px;
+    }
+    .regbox form .links a {
+        margin: 10px 0;
+        font-size: 0.75em;
+    }
+    .terms {
+        font-size: 0.9em;
+        margin: 25px 0 10px;
+    }
+    .error {
+        top: 15%;
+        font-size: 1em;
+    }
+}
