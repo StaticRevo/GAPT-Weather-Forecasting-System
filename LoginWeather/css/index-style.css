@@ -3,37 +3,14 @@ body {
     padding: 0;
     font-family: 'ABeeZee', sans-serif;
     background-color: #43A5FF;
-    height: 100%;
     color: white;
-    overflow: auto;
-  }
-
-.cloud-overlay-1 {
-    position: absolute; /* Position the cloud overlay relative to the body */
-    top: 0;
-    left: 25%;
-    width: 50%;
-    height: 50%;
-    object-fit: cover; /* Cover the entire body with the cloud image */
-    z-index: -1; /* Place the cloud overlay below the content */
-    user-select: none;
 }
 
-.cloud-overlay-2 {
-    position: absolute; /* Position the cloud overlay relative to the body */
-    top: 0;
-    left: 70%;
-    width: 25%;
-    height: 25%;
-    object-fit: cover; /* Cover the entire body with the cloud image */
-    z-index: -1; /* Place the cloud overlay below the content */
-    user-select: none;
-}
-  
 .container {
     display: flex;
-    height: 100vh; /* Use viewport height instead of percentage */
-    overflow: auto;
+    flex-direction: column;
+    height: 100vh;
+    overflow: auto; /* Add overflow auto */
 }
 
 .column {
@@ -42,39 +19,69 @@ body {
 }
 
 .favorites-column {
-    width: 25%;
+    width: 100%;
     background-color: rgba(16, 64, 132, 0.3);
-    height: 100vh;
+    height: auto;
     position: sticky;
     top: 0;
-    display: flex;
-    flex-direction: column; /* Set to column to make the favorites column vertical */
     border: 1px solid #ccc;
 }
 
 .favorites-header {
-    width: 100%; /* Adjusted width to take up the full width of the favorites column */
-    height: auto; /* Adjusted height to automatically adjust to content */
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
-    padding: 10px; /* Added padding for better appearance */
-    box-sizing: border-box; /* Box-sizing to include padding in width */
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box;
 }
 
 .favorites-text {
     font-weight: 300;
-    font-size: 28px;
+    font-size: 24px;
+}
+
+.favourites-button {
+    border: 1px solid lightgray;
+    border-radius: 20px; 
+    padding: 8px 12px;
+    background-color: white;
+    color: black; 
+    margin-left: 5px; 
+    cursor: pointer;
+}
+
+.toggle-favorites {
+    width: 20px; /* Adjust the width as needed */
+    height: 20px; /* Adjust the height as needed */
+    margin-right: 15px; /* Optional: Add spacing between the image and text */
+    background: transparent; /* Set the background to transparent */
+    border: none; /* Remove any border if there is one */
+    padding-top:5px;
+}
+
+.toggleButton {
+    display: block; /* Initially display the toggle button */
+}
+
+/* Media query for smaller screens (e.g., mobile devices) */
+@media only screen and (max-width: 768px) {
+    .favorites-column {
+        display: none; /* Hide the favorites column */
+    }
+
+    .toggleButton {
+        display: none; /* Hide the toggle button */
+    }
 }
 
 .weather-column {
-    width: 75%;
-    height: 100%;
+    width: 100%;
 }
 
 .header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin-bottom: 20px;
 }
 
@@ -84,44 +91,56 @@ body {
 }
 
 .search-bar {
+    display: flex;
     align-items: center;
-    margin-left: auto; /* Pushes the search bar to the right */
-    position: relative;
-    display: inline-block;
-
+    margin-left: auto;
 }
 
-/* Add other styles as needed */
-
-
 .search-bar input {
-    margin-right: 10px; /* Add some space between input and button */
+    margin-right: 10px;
+    width: 100%;
 }
 
 .search-input {
     border: 1px solid lightgray;
-    border-radius: 20px; /* Adjust the border-radius value to change the roundness */
+    border-radius: 20px;
     padding: 8px 12px;
     background-color: white;
-    color: black; /* Text color */
+    color: black;
+    width: 100%;
 }
 
 .search-input::placeholder {
-    color: lightgray; /* Placeholder text color */
+    color: lightgray;
 }
 
 .search-button {
     border: 1px solid lightgray;
-    border-radius: 20px; /* Match the border-radius to the search input */
+    border-radius: 20px;
     padding: 8px 12px;
     background-color: white;
-    color: black; /* Text color */
-    margin-left: 5px; /* Adjust the spacing between input and button */
+    color: black;
     cursor: pointer;
 }
 
 .search-button:hover {
     background-color: lightgray;
+}
+
+/* Media Query for Mobile Devices */
+@media screen and (min-width: 600px) {
+    .container {
+        flex-direction: row;
+    }
+    
+    .favorites-column {
+        width: 25%;
+        height: 100vh;
+    }
+    
+    .weather-column {
+        width: 75%;
+    }
 }
 
 .weather-details {
@@ -153,7 +172,7 @@ body {
 
 .weather-info {
     background-color: rgba(16, 64, 132, 0.3);
-    border-radius: 15px; /* Set border radius to 15 */
+    border-radius: 15px;
     padding: 15px;
     margin-top: 25px;
 }
@@ -176,6 +195,7 @@ body {
     margin-top: 3px;
 }
 
+/* Base styles */
 .time-slots-container {
     margin-top: 35px;
     display: flex;
@@ -188,27 +208,87 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: calc(33.33% - 20px); /* Adjust this value as needed */
+    max-width: 200px; /* Limit maximum width if desired */
+    margin: 10px; /* Add some margin between items */
 }
 
+/* Responsive font sizes */
 .temp {
-    font-size: 18px;
+    font-size: 4vw; /* Responsive font size */
 }
 
 .weather-icon {
-    font-size: 24px;
-    padding-top: 15px;
-    padding-bottom: 15px;
+    font-size: 6vw; /* Responsive font size */
+    padding: 15px 0; /* Adjust padding for icon */
 }
 
 .time {
-    font-size: 16px;
+    font-size: 3vw; /* Responsive font size */
 }
+
+/* Desktop-specific styles */
+@media (min-width: 768px) {
+    .temp {
+        font-size: 16px; /* Adjust font size for desktop */
+    }
+
+    .weather-icon {
+        font-size: 24px; /* Adjust font size for desktop */
+    }
+
+    .time {
+        font-size: 14px; /* Adjust font size for desktop */
+    }
+}
+
 
 .additional-info {
     margin-top: 25px;
     display: flex;
 }
 
+/* Media Queries for Responsive Design */
+@media screen and (max-width: 600px) {
+    .city-name {
+        font-size: 24px;
+    }
+
+    .temperature {
+        font-size: 36px;
+    }
+
+    .condition {
+        font-size: 14px;
+    }
+
+    .high-temp,
+    .low-temp {
+        font-size: 12px;
+    }
+
+    .forecast-title {
+        font-size: 16px;
+    }
+
+    .current-date {
+        font-size: 14px;
+    }
+
+    .temp {
+        font-size: 14px;
+    }
+
+    .weather-icon {
+        font-size: 20px;
+    }
+
+    .time {
+        font-size: 12px;
+    }
+}
+
+/* Base styles */
 .Fourteen-day-column {
     width: 34%;
     background-color: rgba(16, 64, 132, 0.3);
@@ -220,7 +300,17 @@ body {
     max-height: 35.25rem; /* Set the maximum height to limit the visible days */
 }
 
-/* For WebKit browsers */
+.Fourteen-day-column {
+    width: 100%; /* Change width to 100% */
+    background-color: rgba(16, 64, 132, 0.3);
+    border-radius: 15px; /* Set border radius to 15 */
+    padding: 10px; /* Adjust padding to create space for the scrollbar */
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; /* Enable vertical scrollbar if needed */
+    max-height: 94rem; /* Set the maximum height to limit the visible days */
+}
+
 .Fourteen-day-column::-webkit-scrollbar {
     width: 12px; /* Set width of the scrollbar */
 }
@@ -236,42 +326,71 @@ body {
     padding: 5px; /* Adjust padding to create space for the scrollbar thumb */
 }
 
-
 .widgets-column {
-    width: 66%;
+    width: 100%;
+    display: flex;
     margin-left: 15px;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 .day-slot {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column; /* Change direction to column for smaller screens */
     padding: 10px;
     border-bottom: 1px solid #ccc; /* Add a border between day slots */
 }
 
-.day-info {
-    text-align: left;
+.day-info,
+.conditions,
+.temperature-info {
+    text-align: center; /* Center align text for smaller screens */
 }
 
 .conditions {
     font-size: 24px;
 }
 
-.temperature-info {
-    text-align: right;
-}
-
 .date,
-.day-name{
+.day-name {
     font-size: 14px;
 }
 
-.widgets-column {
-    width: 66%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+@media screen and (min-width: 768px) { /* Adjust breakpoint according to your design */
+    .Fourteen-day-column {
+        width: 34%; /* Revert width back to original */
+    }
+
+    .Fourteen-day-column {
+        width: 34%;
+        background-color: rgba(16, 64, 132, 0.3);
+        border-radius: 15px; /* Set border radius to 15 */
+        padding: 10px; /* Adjust padding to create space for the scrollbar */
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;  /* Enable vertical scrollbar if needed */
+        max-height: 35.25rem; /* Set the maximum height to limit the visible days */
+    }
+
+    .widgets-column {
+        width: 66%;
+        display: flex;
+        margin-left: 15px;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .day-slot {
+        flex-direction: row; /* Revert direction to row for larger screens */
+        justify-content: space-between; /* Align items with space between */
+        text-align: left; /* Align text to left */
+    }
+
+    .day-info,
+    .conditions,
+    .temperature-info {
+        text-align: left; /* Align text to left */
+    }
 }
 
 .widget-small {
@@ -300,6 +419,36 @@ body {
     margin-bottom: 20px; /* Added margin to create space between widgets */
 }
 
+@media screen and (max-width: 767px) {
+    .widgets-column {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .widget-small,
+    .widget-large {
+        width: 100%; /* Each widget takes full width on smaller screens */
+        margin-bottom: 15px; /* Adjust margin */
+    }
+}
+
+.widget-text {
+    font-weight: bold;
+    font-size: 1rem; /* Adjust the font size as needed */
+    margin-bottom: -5px;
+}
+
+.widget-text2 {
+    font-size: 0.85rem; /* Adjust the font size as needed */
+    margin-bottom: 10px;
+}
+
+.widget-bottom-text {
+    font-weight: bold;
+    align-self: bottom;
+    font-size: 0.85rem; /* Adjust the font size as needed */
+}
+
 .widget-windy {
     width: 100%; /* Adjusted width with extra spacing */
     height: 40%;
@@ -326,20 +475,6 @@ body {
     margin-right: 12.5%;
 }
 
-.toggle-favorites {
-    width: 20px; /* Adjust the width as needed */
-    height: 20px; /* Adjust the height as needed */
-    margin-right: 15px; /* Optional: Add spacing between the image and text */
-    background: transparent; /* Set the background to transparent */
-    border: none; /* Remove any border if there is one */
-    padding-top:5px;
-}
-
-.toggleButton {
-    cursor: pointer; /* Change cursor to hand icon on hover */
-    display: inline-block; /* Display as inline-block to allow setting width and height */
-}
-
 .settings-button {
     width: 20px; /* Adjust the width as needed */
     height: 25px; /* Adjust the height as needed */
@@ -348,23 +483,6 @@ body {
     background: transparent; /* Set the background to transparent */
     border: none; /* Remove any border if there is one */
     padding-top:5px;
-}
-
-.widget-text {
-    font-weight: bold;
-    font-size: 22px; /* Adjust the font size as needed */
-    margin-bottom: -10px;
-}
-
-.widget-text2 {
-    font-size: 16px; /* Adjust the font size as needed */
-    margin-bottom: 10px;
-}
-
-.widget-bottom-text {
-    font-weight: bold;
-    align-self: bottom;
-    font-size: 14px; /* Adjust the font size as needed */
 }
 
 #windy {
@@ -407,82 +525,3 @@ body {
     transition: width 0.5s ease; /* Add a smooth transition effect */
 }
 
-.progress-bar-container {
-    margin-top: 10px;
-    height: 30px;
-    background-color: #f0f0f0;
-    border-radius: 5px;
-    overflow: hidden;
-    position: relative;
-}
-
-.progress-bar {
-    height: 100%;
-    width: 0;
-    background-color: #ffeb3b; 
-    transition: width 0.5s ease;
-}
-
-.sun-icon {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    padding: 0 10px; /* Adjust the padding to make the icon larger */
-    color: #fff;
-    font-size: 1.5em; /* Adjust the font size to make the icon larger */
-}
-
-#suggestionsList {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background-color: white;
-    border-radius: 15px;
-    padding: 0;
-    margin: 0;
-    list-style-type: none;
-    font-family: 'ABeeZee', sans-serif;
-    max-width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-
-#suggestionsList:not(:empty) {
-    border: 2px solid black;
-}
-
-#suggestionsList li {
-    padding: 10px;
-    cursor: pointer;
-    color: black;
-    border-bottom: 1px solid #ccc;
-}
-
-#suggestionsList li:last-child {
-    border-bottom: none;
-}
-
-#suggestionsList li:hover {
-    background-color: #f0f0f0;
-    border-radius: 15px;
-}
-
-#video-background {
-    position: relative;
-    z-index: -3;
-}
-
-.overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.25); 
-    z-index: -2; 
-}
