@@ -6,7 +6,7 @@ function getWeatherCondition(weatherCode, cityName = "") {
 }
 
 function updateWeather(latitude, longitude) {
-    const apiUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,surface_pressure,wind_speed_10m,wind_direction_10m&daily=sunrise,sunset,uv_index_max,precipitation_sum`;
+    const apiUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,surface_pressure,wind_speed_10m,wind_direction_10m,visibility&daily=sunrise,sunset,uv_index_max,precipitation_sum`;
     fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
@@ -32,8 +32,9 @@ function updateWeather(latitude, longitude) {
             updatePrecipitation(data.daily.precipitation_sum[0], data.daily.precipitation_sum[1]);
             updateWind(data.current.wind_speed_10m, data.current.wind_direction_10m);
             updateSunriseSunset(data.daily.sunrise[0], data.daily.sunset[0]);
-
+            updateHumidity(data.current.relative_humidity_2m, roundedTemperature);
             updateProgress(data.daily.sunrise[0], data.daily.sunset[0]);
+            updateVisibility(data.current.visibility);
 
             const videoBackground = document.getElementById('video-background');
             const videoSource = videoBackground.getAttribute(`data-${generalCategory}`);
@@ -50,20 +51,55 @@ function updateWeather(latitude, longitude) {
             document.getElementById('high-low').innerText = '';
         });
 }
-function categorizeWeatherCondition(detailedDescription) { // new categorise function
-    if (["Light Drizzle", "Drizzle", "Heavy Drizzle", "Light Freezing Drizzle", "Freezing Drizzle", "Light Rain", "Rain", "Heavy Rain", "Light Freezing Rain", "Freezing Rain", "Light Showers", "Showers", "Heavy Showers", "Thunderstorm", "Light Thunderstorms With Hail", "Thunderstorm With Hail"].includes(detailedDescription)) {
-        return "Rain";
-    } else if (["Light Snow", "Snow", "Heavy Snow", "Snow Grains", "Light Snow Showers", "Snow Showers"].includes(detailedDescription)) {
-        return "Snow";
-    } else if (["Foggy", "Rime Fog"].includes(detailedDescription)) {
-        return "Foggy";
-    } else if (["Partly Cloudy", "Cloudy"].includes(detailedDescription)) {
-        return "Cloudy";
-    } else if (["Sunny", "Mainly Sunny"].includes(detailedDescription)) {
-        return "Sunny";
+
+function updateVisibility(visibility) {
+    const visibilityElement = document.getElementById('visibility-value');
+    const visibilityText = document.getElementById('visibility-description');
+
+    if (visibility >= 10000) {
+        visibilityText.innerText = 'Perfectly Clear View';
+    } else if (visibility >= 5000) {
+        visibilityText.innerText = 'Very Clear View';
+    } else if (visibility >= 2000) {
+        visibilityText.innerText = 'Clear View';
+    } else if (visibility >= 1000) {
+        visibilityText.innerText = 'Partially Cloudy';
     } else {
-        return "Unknown"; 
+        visibilityText.innerText = 'Foggy';
     }
+
+    if(preferences.distance_unit === 'feet'){
+        const visibilityFeet = visibility * 3.28084;
+        visibilityElement.innerText =  `${visibilityFeet} feet`;
+    }
+    else{
+        visibilityElement.innerText = `${visibility/1000} km`;
+    }
+}
+
+function updateHumidity(humidity, roundedTemperature) {
+    // Update the Humidity widget using getElementById
+    const humidityElement = document.getElementById('humidity-value');
+
+    // Update innerText with the humidity value
+    humidityElement.innerText = `${humidity}%`;
+
+    // Calculate and update the dew point
+    const dewPoint = calculateDewPoint(humidity, roundedTemperature);
+    const dewPointElement = document.getElementById('dew-value');
+
+    if(preferences.temperature_unit === 'farenheit'){
+        dewpointFar = Math.round((dewPoint * 9/5) + 32);
+        dewPointElement.innerText = `The dew point is ${dewPointFar}°F`;
+    } else{
+        dewPointElement.innerText = `The dew point is ${dewPoint}°C`;
+    }  
+}
+
+function calculateDewPoint(humidity, temperature) {
+    // Formula for calculating dew point
+    const dewPoint = temperature - (14.55 + 0.114 * temperature) * (1 - (0.01 * humidity)) - ((2.5 + 0.007 * temperature) * (1 - (0.01 * humidity))) ** 3 - (15.9 + 0.117 * temperature) * ((1 - (0.01 * humidity)) ** 14);
+    return dewPoint.toFixed(1); // Round to one decimal place
 }
 
 function updateSunriseSunset(sunrise, sunset) {
@@ -324,6 +360,22 @@ function getWeatherConditionTop(weatherCode, cityName = "") {
             return "Thunderstorm With Hail";
         default:
             return "Unknown Weather";
+    }
+}
+
+function categorizeWeatherCondition(detailedDescription) { // new categorise function
+    if (["Light Drizzle", "Drizzle", "Heavy Drizzle", "Light Freezing Drizzle", "Freezing Drizzle", "Light Rain", "Rain", "Heavy Rain", "Light Freezing Rain", "Freezing Rain", "Light Showers", "Showers", "Heavy Showers", "Thunderstorm", "Light Thunderstorms With Hail", "Thunderstorm With Hail"].includes(detailedDescription)) {
+        return "Rain";
+    } else if (["Light Snow", "Snow", "Heavy Snow", "Snow Grains", "Light Snow Showers", "Snow Showers"].includes(detailedDescription)) {
+        return "Snow";
+    } else if (["Foggy", "Rime Fog"].includes(detailedDescription)) {
+        return "Foggy";
+    } else if (["Partly Cloudy", "Cloudy"].includes(detailedDescription)) {
+        return "Cloudy";
+    } else if (["Sunny", "Mainly Sunny"].includes(detailedDescription)) {
+        return "Sunny";
+    } else {
+        return "Unknown"; 
     }
 }
 
