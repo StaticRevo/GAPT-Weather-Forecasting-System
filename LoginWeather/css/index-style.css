@@ -131,9 +131,6 @@ body {
 
 }
 
-/* Add other styles as needed */
-
-
 .search-bar input {
     margin-right: 10px; /* Add some space between input and button */
 }
@@ -278,6 +275,19 @@ body {
 .time {
     font-size: 3vw; /* Responsive font size */
 }
+
+/* Large-sized viewports */
+@media (min-width: 1265px) {
+    .time-slots-container {
+        flex-wrap: nowrap; /* Prevent wrapping */
+    }
+
+    .time-slot {
+        flex-basis: calc(16.666% - 20px); /* Adjust flex-basis for large-sized viewports */
+        max-width: calc(16.666% - 20px); /* Adjust max-width for large-sized viewports */
+    }
+}
+
 
 /* Desktop-specific styles */
 @media (min-width: 769px) {
@@ -587,5 +597,4 @@ body {
 
 .overlay {
     background-color: rgba(0, 0, 0, 0.4); /* Black with 30% opacity */
-  }
-  
+}
