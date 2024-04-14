@@ -583,4 +583,9 @@ body {
 #suggestionsList li:hover {
     background-color: #f0f0f0;
     border-radius: 15px;
-}
+} 
+
+.overlay {
+    background-color: rgba(0, 0, 0, 0.4); /* Black with 30% opacity */
+  }
+  
