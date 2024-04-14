@@ -124,35 +124,39 @@ body {
 }
 
 .search-bar {
-    display: flex;
     align-items: center;
-    margin-left: auto;
+    margin-left: auto; /* Pushes the search bar to the right */
+    position: relative;
+    display: inline-block;
+
 }
 
+/* Add other styles as needed */
+
+
 .search-bar input {
-    margin-right: 10px;
-    width: 100%;
+    margin-right: 10px; /* Add some space between input and button */
 }
 
 .search-input {
     border: 1px solid lightgray;
-    border-radius: 20px;
+    border-radius: 20px; /* Adjust the border-radius value to change the roundness */
     padding: 8px 12px;
     background-color: white;
-    color: black;
-    width: 100%;
+    color: black; /* Text color */
 }
 
 .search-input::placeholder {
-    color: lightgray;
+    color: lightgray; /* Placeholder text color */
 }
 
 .search-button {
     border: 1px solid lightgray;
-    border-radius: 20px;
+    border-radius: 20px; /* Match the border-radius to the search input */
     padding: 8px 12px;
     background-color: white;
-    color: black;
+    color: black; /* Text color */
+    margin-left: 5px; /* Adjust the spacing between input and button */
     cursor: pointer;
 }
 
@@ -544,3 +548,39 @@ body {
     transition: width 0.5s ease; /* Add a smooth transition effect */
 }
 
+#suggestionsList {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    border-radius: 15px;
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    font-family: 'ABeeZee', sans-serif;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#suggestionsList:not(:empty) {
+    border: 2px solid black;
+}
+
+#suggestionsList li {
+    padding: 10px;
+    cursor: pointer;
+    color: black;
+    border-bottom: 1px solid #ccc;
+}
+
+#suggestionsList li:last-child {
+    border-bottom: none;
+}
+
+#suggestionsList li:hover {
+    background-color: #f0f0f0;
+    border-radius: 15px;
+}
