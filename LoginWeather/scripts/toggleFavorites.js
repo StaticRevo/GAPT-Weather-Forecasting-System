@@ -10,4 +10,10 @@ document.addEventListener('DOMContentLoaded', function () {
             weatherColumn.classList.toggle('full-width'); 
         }
     });
+
+    // Check screen width on DOM load
+    if (window.innerWidth <= 768) {
+        favoritesColumn.classList.add('collapsed');
+        weatherColumn.classList.remove('full-width'); 
+    }
 });
