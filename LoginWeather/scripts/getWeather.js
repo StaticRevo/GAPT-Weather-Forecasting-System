@@ -65,6 +65,7 @@ function updateVisibility(visibility) {
     } else if (visibility >= 1000) {
         visibilityText.innerText = 'Partially Cloudy';
     } else {
+        return "Unknown"; 
         visibilityText.innerText = 'Foggy';
     }
 
@@ -88,12 +89,14 @@ function updateHumidity(humidity, roundedTemperature) {
     const dewPoint = calculateDewPoint(humidity, roundedTemperature);
     const dewPointElement = document.getElementById('dew-value');
 
-    if(preferences.temperature_unit === 'farenheit'){
-        dewpointFar = Math.round((dewPoint * 9/5) + 32);
-        dewPointElement.innerText = `The dew point is ${dewPointFar}°F`;
-    } else{
-        dewPointElement.innerText = `The dew point is ${dewPoint}°C`;
-    }  
+    if (preferences.temperature_unit === 'fahrenheit') {
+        const dewPointFahrenheit = Math.round((dewPoint * 9 / 5) + 32); // Convert to Fahrenheit
+        dewPointElement.innerText = `The dew point is ${dewPointFahrenheit}°F`;
+    } else {
+        dewPointElement.innerText = `The dew point is ${dewPoint}°C`; // Default to Celsius
+    }
+    
+    
 }
 
 function calculateDewPoint(humidity, temperature) {
@@ -242,7 +245,7 @@ function getWindDirection(degrees) {
 
 function updatePressure(surfacePressure) {
     // Update the Pressure widget using getElementById
-    document.getElementById('pressure-amt').innerText = `${surfacePressure}hPa`;
+    document.getElementById('pressure-amt')     .innerText = `${surfacePressure}hPa`;
 }
 
 function updateUVIndex(uvIndex, uvIndexTomorrow) {
