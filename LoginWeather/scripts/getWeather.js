@@ -69,9 +69,9 @@ function updateVisibility(visibility) {
         visibilityText.innerText = 'Foggy';
     }
 
-    if(preferences.distance_unit === 'feet'){
-        const visibilityFeet = visibility * 3.28084;
-        visibilityElement.innerText =  `${visibilityFeet} feet`;
+    if(preferences.distance_unit === 'miles'){
+        const visibilityMiles = visibility / 1609.34;
+        visibilityElement.innerText = `${visibilityMiles.toFixed(2)} miles`; 
     }
     else{
         visibilityElement.innerText = `${visibility/1000} km`;
