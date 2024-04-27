@@ -25,6 +25,7 @@ body {
     position: sticky;
     top: 0;
     border: 1px solid #ccc;
+    animation: fadeIn 1.5s ease-out forwards, scaleIn 0.5s ease-out;
 }
 
 .favorites-header {
@@ -219,6 +220,7 @@ body {
     border-radius: 15px;
     padding: 15px;
     margin-top: 25px;
+    animation: fadeIn 1.5s ease-out forwards, scaleIn 0.5s ease-out;
 }
 
 .forecast-header {
@@ -226,17 +228,20 @@ body {
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 20px;
+    animation: fadeIn 1.5s ease-out forwards, scaleIn 0.5s ease-out;
 }
 
 .forecast-title {
     font-size: 20px;
     margin-left: 8px;
     margin-top: 3px;
+    animation: fadeIn 1.5s ease-out forwards, scaleIn 0.5s ease-out;
 }
 
 .current-date {
     font-size: 18px;
     margin-top: 3px;
+    animation: fadeIn 1.5s ease-out forwards, scaleIn 0.5s ease-out;
 }
 
 .time-slots-container {
@@ -245,6 +250,7 @@ body {
     flex-wrap: wrap;
     justify-content: space-around;
     padding-bottom: 15px;
+    animation: fadeIn 1.5s ease-out forwards, scaleIn 0.5s ease-out;
 }
 
 .time-slot {
@@ -348,6 +354,7 @@ body {
     flex-direction: column;
     overflow-y: auto;
     max-height: 35.25rem; 
+    animation: fadeIn 1.5s ease-out forwards, scaleIn 0.5s ease-out;
 }
 
 .Fourteen-day-column {
@@ -382,6 +389,7 @@ body {
     margin-left: 15px;
     flex-wrap: wrap;
     justify-content: space-between;
+    animation: fadeIn 1.5s ease-out forwards, scaleIn 0.5s ease-out;
 }
 
 .day-slot {
@@ -442,6 +450,10 @@ body {
         text-align: left; 
     }
 }
+.widget-text, .widget-text2, .widget-bottom-text, .widget-small h3, .widget-large h3,
+.temp, .weather-icon, .time, .forecast-title, .day-name, .date, .conditions, .high-temp, .low-temp {
+    cursor: default;
+}
 
 .widget-small {
     width: calc(33.33% - 10px);
@@ -454,6 +466,7 @@ body {
     box-sizing: border-box;
     border-radius: 15px;
     margin-bottom: 20px; 
+    animation: fadeIn 1.5s ease-out forwards, scaleIn 0.5s ease-out;
 }
 
 .widget-large {
@@ -467,6 +480,7 @@ body {
     box-sizing: border-box;
     border-radius: 15px;
     margin-bottom: 20px;
+    animation: fadeIn 1.5s ease-out forwards, scaleIn 0.5s ease-out;
 }
 
 @media screen and (max-width: 985px) {
@@ -584,4 +598,21 @@ body {
 
 .overlay {
     background-color: rgba(0, 0, 0, 0.4);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+@keyframes scaleIn {
+    from {
+        transform: scale(0.9);
+    }
+    to {
+        transform: scale(1);
+    }
 }
