@@ -1,0 +1,27 @@
+error {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .error h1 {
+    text-align: center;
+    margin-top: 10px;
+    text-shadow: black;
+  }
+  
+  .error h2 {
+    font-size: 20px;
+    margin: 0;
+    margin-bottom: 10px; /* Add margin-bottom for spacing between h2 elements */
+  }
+  
+  .error a {
+    background-color: #0088a9;
+    border: 2px solid #0088a9;
+    color: #fff;
+    border-radius: 30px;
+    padding: 10px 20px;
+    font-size: 17px;
+  }
+  
