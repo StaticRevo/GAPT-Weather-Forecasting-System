@@ -1,10 +1,5 @@
 const OPEN_CAGE_API_KEY = 'd22d3e2e4fe2447b831cc75d3b5a9d60';
 
-function getWeatherCondition(weatherCode, cityName = "") {
-    // Weather condition mapping remains the same as before
-    // You can customize this function further if needed
-}
-
 function updateWeather(latitude, longitude) {
     const apiUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,surface_pressure,wind_speed_10m,wind_direction_10m,visibility&daily=sunrise,sunset,uv_index_max,precipitation_sum`;
     fetch(apiUrl)
@@ -16,6 +11,7 @@ function updateWeather(latitude, longitude) {
 
             document.getElementById('city-name').innerText = document.getElementById('searchInput').value || 'Valletta';
 
+            // Check preferences and convert temperature if necessary
             if(preferences.temperature_unit === 'fahrenheit') {
                 const roundedTemperatureFahrenheit = Math.round((roundedTemperature * 9/5) + 32);
                 document.getElementById('temperature').innerText = `${roundedTemperatureFahrenheit}°F`;
@@ -26,6 +22,7 @@ function updateWeather(latitude, longitude) {
             document.getElementById('condition').innerText = getWeatherConditionTop(data.current.weather_code, document.getElementById('searchInput').value || 'Valletta');
             document.getElementById('high-low').innerText = '';
 
+            // Call all widget update methods
             updateRealFeel(data);
             updatePressure(data.current.surface_pressure);
             updateUVIndex(data.daily.uv_index_max[0], data.daily.uv_index_max[1]);
@@ -36,6 +33,7 @@ function updateWeather(latitude, longitude) {
             updateProgress(data.daily.sunrise[0], data.daily.sunset[0]);
             updateVisibility(data.current.visibility);
 
+            // Dynamic Background
             const videoBackground = document.getElementById('video-background');
             const videoSource = videoBackground.getAttribute(`data-${generalCategory}`);
             if (videoSource) {
@@ -44,6 +42,7 @@ function updateWeather(latitude, longitude) {
 
         })
         .catch(error => {
+            //Error Handling for main temperature info
             console.error('Error fetching weather data:', error);
             document.getElementById('city-name').innerText = 'City not found';
             document.getElementById('temperature').innerText = '';
@@ -53,9 +52,11 @@ function updateWeather(latitude, longitude) {
 }
 
 function updateVisibility(visibility) {
+    // Update visibility widgets
     const visibilityElement = document.getElementById('visibility-value');
     const visibilityText = document.getElementById('visibility-description');
 
+    // Set Visibility comment
     if (visibility >= 10000) {
         visibilityText.innerText = 'Perfectly Clear View';
     } else if (visibility >= 5000) {
@@ -69,6 +70,7 @@ function updateVisibility(visibility) {
         visibilityText.innerText = 'Foggy';
     }
 
+    // Check preferences and convert if necessary
     if(preferences.distance_unit === 'miles'){
         const visibilityMiles = visibility / 1609.34;
         visibilityElement.innerText = `${visibilityMiles.toFixed(2)} miles`; 
@@ -79,10 +81,10 @@ function updateVisibility(visibility) {
 }
 
 function updateHumidity(humidity, roundedTemperature) {
-    // Update the Humidity widget using getElementById
+    // Update the Humidity widget
     const humidityElement = document.getElementById('humidity-value');
 
-    // Update innerText with the humidity value
+    // Update humidity value
     humidityElement.innerText = `${humidity}%`;
 
     // Calculate and update the dew point
@@ -106,7 +108,7 @@ function calculateDewPoint(humidity, temperature) {
 }
 
 function updateSunriseSunset(sunrise, sunset) {
-    // Update the Sunrise & Sunset widget using getElementById
+    // Update the Sunrise & Sunset widget
     const sunriseTimeElement = document.getElementById('sunrise-time');
     const sunsetTimeElement = document.getElementById('sunset-time');
 
@@ -126,11 +128,12 @@ function updateSunriseSunset(sunrise, sunset) {
 }
 
 function updateProgress(sunriseISO, sunsetISO) {
+    // Updates sun path progress bar
     const now = new Date();
     let sunrise = new Date(sunriseISO);
     let sunset = new Date(sunsetISO);
 
-    // Swap sunrise and sunset if sunrise is after sunset
+    // Swap sunrise and sunset if sunrise is after sunset (currently night)
     if (sunrise > sunset) {
         const temp = sunrise;
         sunrise = sunset;
@@ -141,7 +144,7 @@ function updateProgress(sunriseISO, sunsetISO) {
     let elapsedDuration;
 
     if (now > sunset) {
-        // After sunset, calculate elapsed time since sunset
+        //calculate elapsed time since sunset
         elapsedDuration = now - sunset;
     } else {
         elapsedDuration = now - sunrise;
@@ -152,12 +155,14 @@ function updateProgress(sunriseISO, sunsetISO) {
     const progressBar = document.getElementById('day-progress');
     const sunIcon = document.getElementById('sun-icon');
 
+    //Set emoji for progress bar
     if (now > sunset) {
-        sunIcon.innerHTML = '🌜'; // Moon emoji
+        sunIcon.innerHTML = '🌜';
     } else {
-        sunIcon.innerHTML = '🌞'; // Sun emoji
+        sunIcon.innerHTML = '🌞';
     }
 
+    //adjust bar size
     progressBar.style.width = `${percentage}%`;
     sunIcon.style.left = `calc(${percentage}% - 15px)`; // Adjust the icon position
 
@@ -165,15 +170,15 @@ function updateProgress(sunriseISO, sunsetISO) {
 }
 
 function updatePrecipitation(past24hrs, expectedTomorrow) {
-    // Access the preferred unit of precipitation from the global `preferences` object
+    // Access the preferred unit of precipitation from the prefs
     const unit = preferences.precipitation_unit;
 
-    // Convert precipitation to the preferred unit if it's not in millimeters
+    // Convert precipitation to the preferred unit
     let displayPast24hrs = past24hrs;
     let displayExpectedTomorrow = expectedTomorrow;
     let unitLabel = 'mm';
 
-    // Check if the preferred unit is inches, convert if necessary
+    // Check if the preferred unit is inches and convert
     if(unit === 'inches') {
         // Conversion: 1mm = 0.0393701 inches
         displayPast24hrs = (past24hrs * 0.0393701).toFixed(2); // Convert and keep two decimal places
@@ -181,34 +186,33 @@ function updatePrecipitation(past24hrs, expectedTomorrow) {
         unitLabel = 'in';
     }
 
-    // Update the Precipitation widget using getElementById
+    // Update the Precipitation widget
     const precipitationAmtElement = document.getElementById('precipitation-amt');
     const precipitationTmrElement = document.getElementById('precip-tmr');
 
-    // Update innerText to include the converted values and the correct unit label
+    // include the converted values and the correct unit label
     precipitationAmtElement.innerText = `${displayPast24hrs}${unitLabel} of`;
     precipitationTmrElement.innerText = `${displayExpectedTomorrow}${unitLabel} expected tomorrow`;
 }
 
 
 function updateWind(speed, direction) {
-    // Access the preferred unit of wind speed from the global `preferences` object
+    // Access the preferred unit of wind speed from prefs
     const unit = preferences.wind_unit;
 
-    // Initialize variables for display
-    let displaySpeed = speed; // Default is km/h
-    let unitLabel = 'km/h';
+    let displaySpeed = speed; 
+    let unitLabel = 'km/h'; // Default is km/h
 
     // Convert wind speed to the preferred unit if necessary
     switch (unit) {
         case 'mph':
             // Conversion: 1 km/h = 0.621371 mph
-            displaySpeed = (speed * 0.621371).toFixed(1); // Convert and format to 1 decimal place
+            displaySpeed = (speed * 0.621371).toFixed(1); // Convert to 1 decimal place
             unitLabel = 'mph';
             break;
         case 'knots':
             // Conversion: 1 km/h = 0.539957 knots
-            displaySpeed = (speed * 0.539957).toFixed(1); // Convert and format to 1 decimal place
+            displaySpeed = (speed * 0.539957).toFixed(1); // Convert to 1 decimal place
             unitLabel = 'knots';
             break;
         case 'beaufort':
@@ -218,11 +222,11 @@ function updateWind(speed, direction) {
         // No need for conversion if km/h is preferred or default
     }
 
-    // Update the Wind widget using getElementById
+    // Update the Wind widget
     const windSpeedElement = document.getElementById('wind-speed');
     const windDirectionElement = document.getElementById('wind-direction');
 
-    // Update innerText to include the converted wind speed value and the correct unit label
+    // include the converted wind speed value and the correct unit label
     windSpeedElement.innerText = `${displaySpeed} ${unitLabel}`;
     windDirectionElement.innerText = `Wind is coming from the ${getWindDirection(direction)}`;
 }
@@ -244,17 +248,18 @@ function getWindDirection(degrees) {
 
 
 function updatePressure(surfacePressure) {
-    // Update the Pressure widget using getElementById
+    // Update the Pressure widget
     document.getElementById('pressure-amt')     .innerText = `${surfacePressure}hPa`;
 }
 
 function updateUVIndex(uvIndex, uvIndexTomorrow) {
-    // Update the UV Index widget using getElementById
+    // Update the UV Index widget
     document.getElementById('uv-index').innerText = `${uvIndex} of 10`;
     
     const uvTextElement = document.getElementById('uv-text');
     let uvText = '';
 
+    // Set UV comment text
     if (uvIndex >= 0 && uvIndex < 3) {
         uvText = 'Low';
     } else if (uvIndex >= 3 && uvIndex < 6) {
@@ -270,11 +275,12 @@ function updateUVIndex(uvIndex, uvIndexTomorrow) {
     uvTextElement.innerText = uvText;
 
     
-    // Update the UV Index expectation for tomorrow using getElementById
+    // Update the UV Index expectation for tomorrow
     document.getElementById('uv-tomorrow').innerText = `${uvIndexTomorrow} of 10 expected tomorrow`;
 }
 
 function updateRealFeel(data) {
+    // Update real feel widget
     let roundedTemperature = Math.round(data.current.temperature_2m);
     let realFeelTemperature = Math.round(data.current.apparent_temperature);
 
@@ -285,7 +291,6 @@ function updateRealFeel(data) {
         realFeelTemperature = Math.round(realFeelTemperature * 9/5 + 32);
         document.getElementById('real-feel-temp').innerText = `${realFeelTemperature}°F`;
     } else {
-        // If Celsius, use the temperature as is
         document.getElementById('real-feel-temp').innerText = `${realFeelTemperature}°C`;
     }
 
@@ -303,7 +308,7 @@ function updateRealFeel(data) {
 }
 
 function getWeatherConditionTop(weatherCode, cityName = "") {
-    // You can customize this function further based on your needs
+    // Translate weather code to condition based on international code
     switch (weatherCode) {
         case 0:
             return "Sunny";
@@ -366,7 +371,8 @@ function getWeatherConditionTop(weatherCode, cityName = "") {
     }
 }
 
-function categorizeWeatherCondition(detailedDescription) { // new categorise function
+function categorizeWeatherCondition(detailedDescription) {
+    // Categorize weather code (make long codes short)
     if (["Light Drizzle", "Drizzle", "Heavy Drizzle", "Light Freezing Drizzle", "Freezing Drizzle", "Light Rain", "Rain", "Heavy Rain", "Light Freezing Rain", "Freezing Rain", "Light Showers", "Showers", "Heavy Showers", "Thunderstorm", "Light Thunderstorms With Hail", "Thunderstorm With Hail"].includes(detailedDescription)) {
         return "Rain";
     } else if (["Light Snow", "Snow", "Heavy Snow", "Snow Grains", "Light Snow Showers", "Snow Showers"].includes(detailedDescription)) {
@@ -384,5 +390,5 @@ function categorizeWeatherCondition(detailedDescription) { // new categorise fun
 
 // Initialize with Valletta's weather
 document.addEventListener('DOMContentLoaded', function () {
-    updateWeather(35.8997, 14.5148); // Default to Valletta's coordinates
+    updateWeather(35.8997, 14.5148); //Placeholder Location, people who log in will be greeted with Valletta weather
 });
