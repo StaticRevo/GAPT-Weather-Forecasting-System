@@ -1,4 +1,4 @@
-// Function to get weather data
+//Takes care of getting the forecast info
 
 function getWeather(lat, lon, timezone) {
     const temperatureUnit = preferences.temperature_unit === 'F' ? 'fahrenheit' : 'celsius';
@@ -21,7 +21,7 @@ function getWeather(lat, lon, timezone) {
     });
 }
 
-
+//Parses the current weather fields from API
 function parseCurrentWeather({ current_weather, daily }) {
     const {
     temperature: currentTemp,
@@ -48,6 +48,7 @@ function parseCurrentWeather({ current_weather, daily }) {
     };
 }
 
+//Parses the daily weather fields from API
 function parseDailyWeather({ daily }) {
     return daily.time.map((time, index) => {
     return {
@@ -58,6 +59,7 @@ function parseDailyWeather({ daily }) {
     });
 }
 
+//Parses the hourly weather fields from API
 function parseHourlyWeather({ hourly, current_weather }) {
     return hourly.time
     .map((time, index) => {
@@ -74,29 +76,28 @@ function parseHourlyWeather({ hourly, current_weather }) {
 }
 
 function updateWeatherElements(data, timezone) {
-    // Loop through each hour up to 6 hours
+    //Loop through 6 hours for hourly forecast
     for (let hour = 1; hour <= 6; hour++) {
         const tempElement = document.getElementById(`temp${hour}`);
         const iconElement = document.getElementById(`weather-icon${hour}`);
         const timeElement = document.getElementById(`time${hour}`);
         
-        // Extract the temperature for the current hour
+        //extract the temperature for the current hour
         const temperature = data.hourly[hour - 1].temp;
 
-        // Check if the user's preference is for Fahrenheit
         if (preferences.temperature_unit === 'fahrenheit') {
-            // Convert temperature to Fahrenheit and update the text with °F
+            //If user pref = Farenheit then update and convert
             const roundedTemperatureFahrenheit = Math.round((temperature * 9/5) + 32);
             tempElement.innerText = `${roundedTemperatureFahrenheit}°F`;
         } else {
-            // If not, display in Celsius as default
+            //Else display in Celsius as default
             tempElement.innerText = `${temperature}°C`;
         }
 
-        // Update weather icon based on the weather code
+        //Update weather icon based on weather code
         iconElement.textContent = getWeatherCondition(data.hourly[hour - 1].iconCode);
 
-        // Update time with timezone conversion
+        //Update time with timezone conversion
         const timestamp = new Date(data.hourly[hour - 1].timestamp);
         const localTime = timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', timeZone: timezone });
         timeElement.textContent = localTime;
@@ -105,6 +106,7 @@ function updateWeatherElements(data, timezone) {
 
 
 function updateWeatherElements14(data, timezone) {
+    //Loop through 14 days in the future
     for (let day = 0; day < 14; day++) {
         const dayNameElement = document.getElementById(`day-name${day + 1}`);
         const dateElement = document.getElementById(`date${day + 1}`);
@@ -112,28 +114,28 @@ function updateWeatherElements14(data, timezone) {
         const highTempElement = document.getElementById(`high-temp${day + 1}`);
         const lowTempElement = document.getElementById(`low-temp${day + 1}`);
 
-        // Update day name and date
+        //Set day name and date
         const timestamp = new Date(data.daily[day].timestamp);
         const localDay = timestamp.toLocaleDateString('en-US', { weekday: 'long', timeZone: timezone });
         const localDate = timestamp.toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: timezone });
         dayNameElement.textContent = localDay;
         dateElement.textContent = localDate;
 
-        // Update conditions
+        //Update conditions
         conditionsElement.textContent = getWeatherCondition(data.daily[day].iconCode);
 
-        // Determine the unit label and possibly convert temperatures
+        //Determine units + conversions (F or C)
         const unitLabel = preferences.temperature_unit === 'fahrenheit' ? '°F' : '°C';
         const highTemp = preferences.temperature_unit === 'fahrenheit' ? Math.round((data.daily[day].maxTemp * 9/5) + 32) : Math.round(data.daily[day].maxTemp);
         const lowTemp = preferences.temperature_unit === 'fahrenheit' ? Math.round((data.current.lowTemp * 9/5) + 32) : Math.round(data.current.lowTemp);
 
-        // Update high and low temperatures with the correct unit
+        //Update high and low temperatures with unit
         highTempElement.textContent = `High: ${highTemp}${unitLabel}`;
         lowTempElement.textContent = `Low: ${lowTemp !== undefined ? lowTemp : 'N/A'}${unitLabel}`;
     }
 }
 
-
+//Function for finding the weather emoji based on code
 function getWeatherCondition(weatherCode) {
     const weatherMap = {
       "0,1": "☀️",
@@ -154,15 +156,15 @@ function getWeatherCondition(weatherCode) {
   }
 
 async function fetchWeatherAndPopulate() {
-    const location = 'Valletta'; // Your desired location
+    const location = 'Valletta'; //Placeholder Location, people who log in will be greeted with Valletta weather
     try {
-        // Fetch coordinates using OpenCage API
+        //Fetch coordinates
         const { latitude, longitude, timezone } = await getCoordinates(location);
         
-        // Call the getWeather function with the obtained coordinates and timezone
+        //Call the getWeather function with the coordinates and timezone
         getWeather(latitude, longitude, timezone)
             .then((data) => {
-                // Update HTML elements with weather data and timezone
+                // Update weather data and timezone in frontend
                 updateWeatherElements(data, timezone);
                 updateWeatherElements14(data, timezone);
             })
@@ -174,5 +176,5 @@ async function fetchWeatherAndPopulate() {
     }
 }
 
-// Fetch weather data when the page loads
+//Fetch weather data when the page loads
 document.addEventListener('DOMContentLoaded', fetchWeatherAndPopulate);
