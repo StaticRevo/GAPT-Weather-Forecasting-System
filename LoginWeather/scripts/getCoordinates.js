@@ -1,5 +1,5 @@
 async function getCoordinates(location) {
-    const opencageApiKey = 'd22d3e2e4fe2447b831cc75d3b5a9d60'; // Replace with your OpenCage API key
+    const opencageApiKey = 'd22d3e2e4fe2447b831cc75d3b5a9d60';
     const nominatimBaseUrl = 'https://nominatim.openstreetmap.org/search';
 
     try {
@@ -24,7 +24,7 @@ async function handleAutosuggest() {
 
     const inputValue = searchInput.value.trim();
 
-    if (inputValue.length > 2) { // Minimum characters to trigger autosuggest
+    if (inputValue.length > 2) { // At least 2 characters to trigger autosuggest
         try {
             const response = await axios.get(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(inputValue)}`);
 
@@ -37,7 +37,7 @@ async function handleAutosuggest() {
                     const result = response.data[i];
                     const listItem = document.createElement('li');
                     let displayText = result.display_name;
-                    // Split the display name into parts (typically city, county, country)
+                    // Split the display name into parts (City, country + county))
                     const parts = displayText.split(', ');
                     // If there are at least two parts, concatenate the first and last parts (city and country)
                     if (parts.length >= 2) {
@@ -65,7 +65,7 @@ async function handleAutosuggest() {
     }
 }
 
-// Event listener for input in search bar to trigger autosuggest
+// Event listener waits for input in search bar to trigger autosuggest
 document.getElementById('searchInput').addEventListener('input', handleAutosuggest);
 
 async function searchLocation() {
@@ -73,17 +73,19 @@ async function searchLocation() {
         // Get the search input value
         const searchInput = document.getElementById('searchInput').value;
 
-        // Fetch coordinates using OpenCage API for the search location
+        // Fetch coordinates for the search location
         const { latitude, longitude, timezone } = await getCoordinates(searchInput);
         
+        // Update weather for coords
         updateWeather(latitude, longitude);
 
+        // Update windy with coords
         updateWindy(latitude, longitude)
 
-        // Call the getWeather function with the obtained coordinates and timezone
+        // Call getWeather function with the coords and timezone
         getWeather(latitude, longitude, timezone)
             .then((data) => {
-                // Update HTML elements with weather data and timezone
+                //Update HTML elements with weather data and timezone
                 updateWeatherElements(data, timezone);
                 updateWeatherElements14(data, timezone);
             })
