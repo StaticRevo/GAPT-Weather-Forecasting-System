@@ -10,7 +10,7 @@ body {
     display: flex;
     flex-direction: column;
     height: 100vh;
-    overflow: auto; /* Add overflow auto */
+    overflow: auto;
 }
 
 .column {
@@ -51,29 +51,28 @@ body {
 }
 
 .toggle-favorites {
-    width: 20px; /* Adjust the width as needed */
-    height: 20px; /* Adjust the height as needed */
-    margin-right: 15px; /* Optional: Add spacing between the image and text */
-    background: transparent; /* Set the background to transparent */
-    border: none; /* Remove any border if there is one */
+    width: 20px; 
+    height: 20px; 
+    margin-right: 15px;
+    background: transparent;
+    border: none; 
     padding-top:5px;
 }
 
 .toggleButton {
-    display: block; /* Initially display the toggle button */
+    display: block;
 }
 
-/* Media query for smaller screens (e.g., mobile devices) */
 @media only screen and (max-width: 768px) {
     .favorites-column {
-        width: 100%; /* Adjust the width to fit the screen */
-        background-color: rgba(16, 64, 132, 0.3); /* Retain background color */
-        border: 1px solid #ccc; /* Retain border */
-        position: relative; /* Remove sticky positioning */
+        width: 100%; 
+        background-color: rgba(16, 64, 132, 0.3);
+        border: 1px solid #ccc;
+        position: relative;
     }
 
     .toggleButton {
-        display: none; /* Hide the toggle button */
+        display: none;
     }
 }
 
@@ -81,7 +80,6 @@ body {
     width: 100%;
 }
 
-/* Default styles */
 .header {
     display: flex;
     justify-content: space-between;
@@ -95,12 +93,12 @@ body {
 }
 
 .settings-button {
-    width: 20px; /* Adjust the width as needed */
-    height: 25px; /* Adjust the height as needed */
+    width: 20px;
+    height: 25px;
     margin-left: 10px;
-    margin-right: 10px; /* Optional: Add spacing between the image and text */
-    background: transparent; /* Set the background to transparent */
-    border: none; /* Remove any border if there is one */
+    margin-right: 10px;
+    background: transparent;
+    border: none;
     padding-top:5px;
 }
 
@@ -120,40 +118,40 @@ body {
 }
 
 .ri-user-fill {
-    margin-right: 10px; /* Adjust the margin as needed */
+    margin-right: 10px; 
 }
 
 .search-bar {
     align-items: center;
-    margin-left: auto; /* Pushes the search bar to the right */
+    margin-left: auto; 
     position: relative;
     display: inline-block;
 
 }
 
 .search-bar input {
-    margin-right: 10px; /* Add some space between input and button */
+    margin-right: 10px; 
 }
 
 .search-input {
     border: 1px solid lightgray;
-    border-radius: 20px; /* Adjust the border-radius value to change the roundness */
+    border-radius: 20px; 
     padding: 8px 12px;
     background-color: white;
-    color: black; /* Text color */
+    color: black;
 }
 
 .search-input::placeholder {
-    color: lightgray; /* Placeholder text color */
+    color: lightgray; 
 }
 
 .search-button {
     border: 1px solid lightgray;
-    border-radius: 20px; /* Match the border-radius to the search input */
+    border-radius: 20px;
     padding: 8px 12px;
     background-color: white;
-    color: black; /* Text color */
-    margin-left: 5px; /* Adjust the spacing between input and button */
+    color: black;
+    margin-left: 5px; 
     cursor: pointer;
 }
 
@@ -161,22 +159,19 @@ body {
     background-color: lightgray;
 }
 
-/* Media queries for responsiveness */
 @media screen and (max-width: 550px) {
     .header {
-        flex-direction: column; /* Change flex direction to column for mobile */
-        align-items: flex-start; /* Align items to the start */
+        flex-direction: column;
+        align-items: flex-start; 
     }
 
     .search-bar {
         margin-left: auto;
-        width: 100%; /* Ensure full width */
-        margin-top: 10px; /* Add margin to separate from the header items */
+        width: 100%; 
+        margin-top: 10px;
     }
 }
 
-
-/* Media Query for Mobile Devices */
 @media screen and (min-width: 769px) {
     .container {
         flex-direction: row;
@@ -244,7 +239,6 @@ body {
     margin-top: 3px;
 }
 
-/* Base styles */
 .time-slots-container {
     margin-top: 35px;
     display: flex;
@@ -257,50 +251,46 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: calc(33.33% - 20px); /* Adjust this value as needed */
-    max-width: 200px; /* Limit maximum width if desired */
-    margin: 10px; /* Add some margin between items */
+    width: calc(33.33% - 20px);
+    max-width: 200px;
+    margin: 10px;
 }
 
-/* Responsive font sizes */
 .temp {
-    font-size: 4vw; /* Responsive font size */
+    font-size: 4vw; 
 }
 
 .weather-icon {
-    font-size: 6vw; /* Responsive font size */
-    padding: 15px 0; /* Adjust padding for icon */
+    font-size: 6vw;
+    padding: 15px 0;
 }
 
 .time {
-    font-size: 3vw; /* Responsive font size */
+    font-size: 3vw;
 }
 
-/* Large-sized viewports */
 @media (min-width: 1265px) {
     .time-slots-container {
-        flex-wrap: nowrap; /* Prevent wrapping */
+        flex-wrap: nowrap; 
     }
 
     .time-slot {
-        flex-basis: calc(16.666% - 20px); /* Adjust flex-basis for large-sized viewports */
-        max-width: calc(16.666% - 20px); /* Adjust max-width for large-sized viewports */
+        flex-basis: calc(16.666% - 20px); 
+        max-width: calc(16.666% - 20px); 
     }
 }
 
-
-/* Desktop-specific styles */
 @media (min-width: 769px) {
     .temp {
-        font-size: 16px; /* Adjust font size for desktop */
+        font-size: 16px;
     }
 
     .weather-icon {
-        font-size: 24px; /* Adjust font size for desktop */
+        font-size: 24px;
     }
 
     .time {
-        font-size: 14px; /* Adjust font size for desktop */
+        font-size: 14px;
     }
 }
 
@@ -310,7 +300,6 @@ body {
     display: flex;
 }
 
-/* Media Queries for Responsive Design */
 @media screen and (max-width: 600px) {
     .city-name {
         font-size: 24px;
@@ -350,42 +339,41 @@ body {
     }
 }
 
-/* Base styles */
 .Fourteen-day-column {
     width: 34%;
     background-color: rgba(16, 64, 132, 0.3);
-    border-radius: 15px; /* Set border radius to 15 */
-    padding: 10px; /* Adjust padding to create space for the scrollbar */
+    border-radius: 15px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
-    overflow-y: auto;  /* Enable vertical scrollbar if needed */
-    max-height: 35.25rem; /* Set the maximum height to limit the visible days */
+    overflow-y: auto;
+    max-height: 35.25rem; 
 }
 
 .Fourteen-day-column {
-    width: 100%; /* Change width to 100% */
+    width: 100%;
     background-color: rgba(16, 64, 132, 0.3);
-    border-radius: 15px; /* Set border radius to 15 */
-    padding: 10px; /* Adjust padding to create space for the scrollbar */
+    border-radius: 15px;
+    padding: 10px; 
     display: flex;
     flex-direction: column;
-    overflow-y: auto; /* Enable vertical scrollbar if needed */
-    max-height: 94rem; /* Set the maximum height to limit the visible days */
+    overflow-y: auto;
+    max-height: 94rem; 
 }
 
 .Fourteen-day-column::-webkit-scrollbar {
-    width: 12px; /* Set width of the scrollbar */
+    width: 12px; 
 }
 
 .Fourteen-day-column::-webkit-scrollbar-thumb {
-    background-color: lightgray; /* Set color of the scrollbar thumb */
-    border-radius: 6px; /* Set border radius for rounded corners */
+    background-color: lightgray; 
+    border-radius: 6px; 
 }
 
 .Fourteen-day-column::-webkit-scrollbar-track {
-    background-color: rgba(255, 255, 255, 0.8); /* Set color of the scrollbar track with some transparency */
-    border-radius: 15px; /* Set border radius for the scrollbar track */
-    padding: 5px; /* Adjust padding to create space for the scrollbar thumb */
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 15px;
+    padding: 5px; 
 }
 
 .widgets-column {
@@ -398,15 +386,15 @@ body {
 
 .day-slot {
     display: flex;
-    flex-direction: column; /* Change direction to column for smaller screens */
+    flex-direction: column;
     padding: 10px;
-    border-bottom: 1px solid #ccc; /* Add a border between day slots */
+    border-bottom: 1px solid #ccc; 
 }
 
 .day-info,
 .conditions,
 .temperature-info {
-    text-align: center; /* Center align text for smaller screens */
+    text-align: center; 
 }
 
 .conditions {
@@ -418,20 +406,20 @@ body {
     font-size: 14px;
 }
 
-@media screen and (min-width: 985px) { /* Adjust breakpoint according to your design */
+@media screen and (min-width: 985px) {
     .Fourteen-day-column {
-        width: 34%; /* Revert width back to original */
+        width: 34%; 
     }
 
     .Fourteen-day-column {
         width: 34%;
         background-color: rgba(16, 64, 132, 0.3);
-        border-radius: 15px; /* Set border radius to 15 */
-        padding: 10px; /* Adjust padding to create space for the scrollbar */
+        border-radius: 15px;
+        padding: 10px; 
         display: flex;
         flex-direction: column;
-        overflow-y: auto;  /* Enable vertical scrollbar if needed */
-        max-height: 35.25rem; /* Set the maximum height to limit the visible days */
+        overflow-y: auto;
+        max-height: 35.25rem;
     }
 
     .widgets-column {
@@ -443,42 +431,42 @@ body {
     }
 
     .day-slot {
-        flex-direction: row; /* Revert direction to row for larger screens */
-        justify-content: space-between; /* Align items with space between */
-        text-align: left; /* Align text to left */
+        flex-direction: row;
+        justify-content: space-between; 
+        text-align: left; 
     }
 
     .day-info,
     .conditions,
     .temperature-info {
-        text-align: left; /* Align text to left */
+        text-align: left; 
     }
 }
 
 .widget-small {
-    width: calc(33.33% - 10px); /* Adjusted width with extra spacing */
+    width: calc(33.33% - 10px);
     height: 175px;
     display: flex;
-    flex-direction: column; /* or row, depending on your layout */
-    justify-content: space-between; /* or other appropriate value */
+    flex-direction: column; 
+    justify-content: space-between;
     background-color: rgba(16, 64, 132, 0.3);
     padding: 15px;
     box-sizing: border-box;
     border-radius: 15px;
-    margin-bottom: 20px; /* Added margin to create space between widgets */
+    margin-bottom: 20px; 
 }
 
 .widget-large {
-    width: calc(66.66% - 10px); /* Adjusted width with extra spacing */
+    width: calc(66.66% - 10px); 
     height: 175px;
     display: flex;
-    flex-direction: column; /* or row, depending on your layout */
-    justify-content: space-between; /* or other appropriate value */
+    flex-direction: column; 
+    justify-content: space-between; 
     background-color: rgba(16, 64, 132, 0.3);
     padding: 15px;
     box-sizing: border-box;
     border-radius: 15px;
-    margin-bottom: 20px; /* Added margin to create space between widgets */
+    margin-bottom: 20px;
 }
 
 @media screen and (max-width: 985px) {
@@ -489,46 +477,45 @@ body {
 
     .widget-small,
     .widget-large {
-        width: 100%; /* Each widget takes full width on smaller screens */
-        margin-bottom: 15px; /* Adjust margin */
+        width: 100%;
+        margin-bottom: 15px;
     }
 }
 
 .widget-text {
     font-weight: bold;
-    font-size: 1rem; /* Adjust the font size as needed */
+    font-size: 1rem;
     margin-bottom: -5px;
 }
 
 .widget-text2 {
-    font-size: 0.85rem; /* Adjust the font size as needed */
+    font-size: 0.85rem;
     margin-bottom: 10px;
 }
 
 .widget-bottom-text {
     font-weight: bold;
     align-self: bottom;
-    font-size: 0.85rem; /* Adjust the font size as needed */
+    font-size: 0.85rem;
 }
 
 .widget-windy {
-    width: 100%; /* Adjusted width with extra spacing */
+    width: 100%; 
     height: 40%;
     display: flex;
-    flex-direction: column; /* or row, depending on your layout */
-    justify-content: space-between; /* or other appropriate value */
+    flex-direction: column;
+    justify-content: space-between;
     background-color: rgba(16, 64, 132, 0.3);
     padding: 15px;
     box-sizing: border-box;
     border-radius: 15px;
-    margin-bottom: 20px; /* Added margin to create space between widgets */
+    margin-bottom: 20px;
 }
 
 .favorites-column.collapsed {
     width: 0;
     padding: 0;
     overflow: hidden;
-    /*transition: width 0.3s ease-out;*/
 }
 
 .full-width {
@@ -546,16 +533,16 @@ body {
 
 .pressure-bar-wrapper {
     height: 10px;
-    border: 1px solid #000; /* Outline color */
+    border: 1px solid #000;
     border-radius: 5px;
     margin-top: 10px;
 }
 
 .pressure-bar {
     height: 100%;
-    background-color: #4caf50; /* Default color for a filled bar */
+    background-color: #4caf50;
     border-radius: 5px;
-    transition: width 0.5s ease; /* Add a smooth transition effect */
+    transition: width 0.5s ease;
 }
 
 #suggestionsList {
@@ -596,5 +583,5 @@ body {
 } 
 
 .overlay {
-    background-color: rgba(0, 0, 0, 0.4); /* Black with 30% opacity */
+    background-color: rgba(0, 0, 0, 0.4);
 }
