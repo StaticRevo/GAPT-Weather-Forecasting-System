@@ -7,21 +7,21 @@ document.addEventListener("DOMContentLoaded", function () {
                 return widget.querySelector('.widget-text').innerText;
             }
         }
-        return null; // Widget not found
+        return null; // returns null if pressure widget isn't found
     }
 
-    // Get the pressure value from the widget
+    // Get the pressure value from widget
     const pressureText = findPressureWidget();
 
     if (pressureText) {
-        // Extract the numerical value from the pressure text
+        // Extract value from pressure text
         const pressureValue = parseFloat(pressureText);
 
-        // Define lower and upper bounds for pressure levels
+        // Lower+Upper bounds set (for pressure)
         const lowerBound = 900;
         const upperBound = 1100;
 
-        // Calculate the fill percentage based on the pressure value and bounds
+        // Calculate the fill percentage based on the value & bounds
         let fillPercentage = 0;
 
         if (pressureValue >= lowerBound && pressureValue <= upperBound) {
@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
             fillPercentage = 100;
         }
 
-        // Set the width of the pressure bar
+        // Set width of the pressure bar
         const pressureBar = document.getElementById('pressureBar');
         pressureBar.style.width = fillPercentage + '%';
     }
