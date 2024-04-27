@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Check screen width on DOM load
+    // Check screen width on load and hide if small
     if (window.innerWidth <= 768) {
         favoritesColumn.classList.add('collapsed');
         weatherColumn.classList.remove('full-width'); 
