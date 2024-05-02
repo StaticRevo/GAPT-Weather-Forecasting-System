@@ -1,54 +1,62 @@
 const OPEN_CAGE_API_KEY = 'd22d3e2e4fe2447b831cc75d3b5a9d60';
 
 function updateWeather(latitude, longitude) {
-    const apiUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,surface_pressure,wind_speed_10m,wind_direction_10m,visibility&daily=sunrise,sunset,uv_index_max,precipitation_sum`;
-    fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-            const roundedTemperature = Math.round(data.current.temperature_2m);
-            const weatherCondition = getWeatherConditionTop(data.current.weather_code);
-            const generalCategory = categorizeWeatherCondition(weatherCondition).toLowerCase();
+    try {
+        const apiUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,surface_pressure,wind_speed_10m,wind_direction_10m,visibility&daily=sunrise,sunset,uv_index_max,precipitation_sum`;
+        fetch(apiUrl)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const roundedTemperature = Math.round(data.current.temperature_2m);
+                const weatherCondition = getWeatherConditionTop(data.current.weather_code);
+                const generalCategory = categorizeWeatherCondition(weatherCondition).toLowerCase();
 
-            document.getElementById('city-name').innerText = document.getElementById('searchInput').value || 'Valletta';
+                document.getElementById('city-name').innerText = document.getElementById('searchInput').value || 'Valletta';
 
-            // Check preferences and convert temperature if necessary
-            if(preferences.temperature_unit === 'fahrenheit') {
-                const roundedTemperatureFahrenheit = Math.round((roundedTemperature * 9/5) + 32);
-                document.getElementById('temperature').innerText = `${roundedTemperatureFahrenheit}°F`;
-            } else {
-                document.getElementById('temperature').innerText = `${roundedTemperature}°C`;
-            }
-    
-            document.getElementById('condition').innerText = getWeatherConditionTop(data.current.weather_code, document.getElementById('searchInput').value || 'Valletta');
-            document.getElementById('high-low').innerText = '';
+                // Check preferences and convert temperature if necessary
+                if (preferences.temperature_unit === 'fahrenheit') {
+                    const roundedTemperatureFahrenheit = Math.round((roundedTemperature * 9 / 5) + 32);
+                    document.getElementById('temperature').innerText = `${roundedTemperatureFahrenheit}°F`;
+                } else {
+                    document.getElementById('temperature').innerText = `${roundedTemperature}°C`;
+                }
 
-            // Call all widget update methods
-            updateRealFeel(data);
-            updatePressure(data.current.surface_pressure);
-            updateUVIndex(data.daily.uv_index_max[0], data.daily.uv_index_max[1]);
-            updatePrecipitation(data.daily.precipitation_sum[0], data.daily.precipitation_sum[1]);
-            updateWind(data.current.wind_speed_10m, data.current.wind_direction_10m);
-            updateSunriseSunset(data.daily.sunrise[0], data.daily.sunset[0]);
-            updateHumidity(data.current.relative_humidity_2m, roundedTemperature);
-            updateProgress(data.daily.sunrise[0], data.daily.sunset[0]);
-            updateVisibility(data.current.visibility);
+                document.getElementById('condition').innerText = getWeatherConditionTop(data.current.weather_code, document.getElementById('searchInput').value || 'Valletta');
+                document.getElementById('high-low').innerText = '';
 
-            // Dynamic Background
-            const videoBackground = document.getElementById('video-background');
-            const videoSource = videoBackground.getAttribute(`data-${generalCategory}`);
-            if (videoSource) {
-                videoBackground.src = videoSource;
-            }
+                // Call all widget update methods
+                updateRealFeel(data);
+                updatePressure(data.current.surface_pressure);
+                updateUVIndex(data.daily.uv_index_max[0], data.daily.uv_index_max[1]);
+                updatePrecipitation(data.daily.precipitation_sum[0], data.daily.precipitation_sum[1]);
+                updateWind(data.current.wind_speed_10m, data.current.wind_direction_10m);
+                updateSunriseSunset(data.daily.sunrise[0], data.daily.sunset[0]);
+                updateHumidity(data.current.relative_humidity_2m, roundedTemperature);
+                updateProgress(data.daily.sunrise[0], data.daily.sunset[0]);
+                updateVisibility(data.current.visibility);
 
-        })
-        .catch(error => {
-            //Error Handling for main temperature info
-            console.error('Error fetching weather data:', error);
-            document.getElementById('city-name').innerText = 'City not found';
-            document.getElementById('temperature').innerText = '';
-            document.getElementById('condition').innerText = '';
-            document.getElementById('high-low').innerText = '';
-        });
+                // Dynamic Background
+                const videoBackground = document.getElementById('video-background');
+                const videoSource = videoBackground.getAttribute(`data-${generalCategory}`);
+                if (videoSource) {
+                    videoBackground.src = videoSource;
+                }
+
+            })
+            .catch(error => {
+                console.error('Error fetching weather data:', error);
+                // Navigate to error page
+                window.location.href = 'http://localhost/LoginWeather/templates/genError.html';
+            });
+    } catch (error) {
+        console.error('Error occurred in updateWeather function:', error);
+        // Navigate to error page
+        window.location.href = 'http://localhost/LoginWeather/templates/genError.html';
+    }
 }
 
 function updateVisibility(visibility) {
