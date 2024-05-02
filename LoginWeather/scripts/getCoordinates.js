@@ -14,6 +14,7 @@ async function getCoordinates(location) {
         }
     } catch (error) {
         console.error('Error fetching coordinates:', error);
+        window.location.href = 'http://localhost/LoginWeather/templates/genError.html';
         throw new Error('Unable to fetch coordinates for the location');
     }
 }
@@ -59,6 +60,7 @@ async function handleAutosuggest() {
             }
         } catch (error) {
             console.error('Error fetching suggestions:', error);
+            //Not going to redirect to error page, because the app shouldnt stop if something happens to autosuggest API.
         }
     } else {
         suggestionsList.innerHTML = '';
@@ -91,8 +93,10 @@ async function searchLocation() {
             })
             .catch((error) => {
                 console.error('Error fetching weather data:', error);
+                window.location.href = 'http://localhost/LoginWeather/templates/genError.html';
             });
     } catch (error) {
         console.error('Error fetching coordinates:', error);
+        window.location.href = 'http://localhost/LoginWeather/templates/genError.html';
     }
 }
