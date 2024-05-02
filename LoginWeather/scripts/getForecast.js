@@ -2,24 +2,35 @@
 
 function getWeather(lat, lon, timezone) {
     const temperatureUnit = preferences.temperature_unit === 'F' ? 'fahrenheit' : 'celsius';
-    return axios.get(
-        `https://api.open-meteo.com/v1/forecast?hourly=temperature_2m,apparent_temperature,precipitation,weathercode,windspeed_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,precipitation_sum&current_weather=true&temperature_unit=${temperatureUnit}&windspeed_unit=mph&precipitation_unit=inch&timeformat=unixtime&forecast_days=14`,
-        {
-            params: {
-                latitude: lat,
-                longitude: lon,
-                timezone,
-            },
-        }
-    )
-    .then(({ data }) => {
-        return {
-            current: parseCurrentWeather(data),
-            daily: parseDailyWeather(data),
-            hourly: parseHourlyWeather(data),
-        };
-    });
+    
+    try {
+        return axios.get(
+            `https://api.open-meteo.com/v1/forecast?hourly=temperature_2m,apparent_temperature,precipitation,weathercode,windspeed_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,precipitation_sum&current_weather=true&temperature_unit=${temperatureUnit}&windspeed_unit=mph&precipitation_unit=inch&timeformat=unixtime&forecast_days=14`,
+            {
+                params: {
+                    latitude: lat,
+                    longitude: lon,
+                    timezone,
+                },
+            }
+        )
+        .then(({ data }) => {
+            return {
+                current: parseCurrentWeather(data),
+                daily: parseDailyWeather(data),
+                hourly: parseHourlyWeather(data),
+            };
+        })
+        .catch(error => {
+            console.error('Error fetching weather data:', error);
+            window.location.href = 'http://localhost/LoginWeather/templates/genError.html';
+        });
+    } catch (error) {
+        console.error('Error occurred in getWeather function:', error);
+        window.location.href = 'http://localhost/LoginWeather/templates/genError.html';
+    }
 }
+
 
 //Parses the current weather fields from API
 function parseCurrentWeather({ current_weather, daily }) {
@@ -170,9 +181,11 @@ async function fetchWeatherAndPopulate() {
             })
             .catch((error) => {
                 console.error('Error fetching weather data:', error);
+                window.location.href = 'http://localhost/LoginWeather/templates/genError.html';
             });
     } catch (error) {
         console.error('Error fetching coordinates:', error);
+        window.location.href = 'http://localhost/LoginWeather/templates/genError.html';
     }
 }
 
