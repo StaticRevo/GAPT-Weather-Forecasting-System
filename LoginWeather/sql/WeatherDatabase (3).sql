@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 01, 2024 at 04:50 PM
+-- Generation Time: May 08, 2024 at 12:43 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -35,6 +35,38 @@ CREATE TABLE `ExtraUsers` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `favourites`
+--
+
+CREATE TABLE `favourites` (
+  `user_id` int(11) NOT NULL,
+  `latitude` decimal(10,8) NOT NULL,
+  `longitude` decimal(10,8) NOT NULL,
+  `location` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Preferences`
+--
+
+CREATE TABLE `Preferences` (
+  `preference_id` int(255) NOT NULL,
+  `user_id` int(255) NOT NULL,
+  `temperature_unit` varchar(20) NOT NULL DEFAULT 'Celsius',
+  `distance_unit` varchar(20) NOT NULL DEFAULT 'Meters',
+  `precipitation_unit` varchar(20) NOT NULL DEFAULT 'Millimeters',
+  `wind_unit` varchar(20) NOT NULL DEFAULT 'km/h'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+-- --------------------------------------------------------
+
 --
 -- Table structure for table `Users`
 --
@@ -47,6 +79,8 @@ CREATE TABLE `Users` (
   `Password` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+
+
 --
 -- Indexes for dumped tables
 --
@@ -56,6 +90,13 @@ CREATE TABLE `Users` (
 --
 ALTER TABLE `ExtraUsers`
   ADD PRIMARY KEY (`extra_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `Preferences`
+--
+ALTER TABLE `Preferences`
+  ADD PRIMARY KEY (`preference_id`),
   ADD KEY `user_id` (`user_id`);
 
 --
@@ -75,6 +116,12 @@ ALTER TABLE `ExtraUsers`
   MODIFY `extra_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;
 
 --
+-- AUTO_INCREMENT for table `Preferences`
+--
+ALTER TABLE `Preferences`
+  MODIFY `preference_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;
+
+--
 -- AUTO_INCREMENT for table `Users`
 --
 ALTER TABLE `Users`
@@ -89,6 +136,12 @@ ALTER TABLE `Users`
 --
 ALTER TABLE `ExtraUsers`
   ADD CONSTRAINT `extrausers_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `Users` (`user_id`);
+
+--
+-- Constraints for table `Preferences`
+--
+ALTER TABLE `Preferences`
+  ADD CONSTRAINT `preferences_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `Users` (`user_id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
