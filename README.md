@@ -3,7 +3,8 @@ GAPT - Weather Forecasting System by Isaac, Kayla, Greg and Nathan
 
 A fully funcional Weather Forecasting System created and tested using XAMPP.
 
-Setup Instructions
+## Setup Instructions
+
 **XAMPP**
 1. Install XAMPP
 2. Download the latest version of XAMPP from the official website: XAMPP Downloads.
