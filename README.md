@@ -21,7 +21,7 @@ Setup Instructions
 1. Open the XAMPP Control Panel and start the MySQL service if it's not already running.
 2. Access phpMyAdmin by visiting http://localhost/phpmyadmin in your web browser.
 3. Create a new database for your project called WeatherDatabase
-4. Update the database with the sql:
+4. Update the database with the sql: [WeatherDatbase](https://github.com/StaticRevo/GAPT-Weather-Forecasting-System/blob/main/LoginWeather/sql/WeatherDatabase.sql)
 
 **Ensure Permissions**
 1. To use the profile picture feature go on command line and type:
