@@ -9,7 +9,7 @@ require_once 'gen-php/loginlogic.php';
 $db = new Db();
 
 // Get the user ID from the session
-$user_id = $_SESSION['user_id'];
+$user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
 
 //Check if we need to filter
 if(isset($_GET['type'])) 
