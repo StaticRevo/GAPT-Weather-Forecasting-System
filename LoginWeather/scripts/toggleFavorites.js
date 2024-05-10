@@ -4,6 +4,12 @@ document.addEventListener('DOMContentLoaded', function () {
     var toggleButton = document.getElementById('toggleButton');
     var cloudImages = document.querySelectorAll('.cloud-overlay');
 
+    // Make favorites off by default
+    if (favoritesColumn && weatherColumn) {
+        favoritesColumn.classList.add('collapsed');
+        weatherColumn.classList.add('full-width');
+    }
+
     toggleButton.addEventListener('click', function () {
         if (favoritesColumn && weatherColumn) {
             favoritesColumn.classList.toggle('collapsed');
