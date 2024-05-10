@@ -273,10 +273,16 @@
 }
 
 @media screen and (min-width: 1025px) {
+    .parent-container-of-regbox {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
     .regbox {
-        width: 30vw;
-        height: 80vh;
-        margin-top: -50px;
+        width: 25vw; 
+        height: auto; 
+        padding: 20px; 
     }
     .regbox h2 {
         font-size: 2em;
