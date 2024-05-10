@@ -17,20 +17,13 @@
 
     <body>
 
-        <div class="container overlay">
+        <div class="container">
             <div class="column favorites-column" id="favorites-column">
                 <!-- favorites column -->
                 <div class="favorites-header">
-                    <div>
-                        <h2 class="favorites-text">Favorites</h2>
-                    </div>
-                    <div>
-                        <button>Add Favorite</button>
                         <div class="bx bx-menu" id="menu-icon">&#9776;</div>
                     </div>
                 </div>
-            </div>
-
             <div class="column weather-column" id="weather-column">
 
                 <div class="header">
@@ -42,6 +35,8 @@
                         <a href="settings.php"><img src="images/settings.png" alt="Settings Icon" class="settings-button"></a>                                        
                         {% if logged_in %}
                             <a href="profile.php" class="user user-link"><i class="ri-user-fill"></i>Profile</a>
+                            <a href="fetchfavs.php" class="user-link">Favourites</a>
+                            <a href="game.php" class="user-link">Games</a>
                             <a href="gen-php/signout.php" class="user-link">Sign Out</a>
                         {% else %}
                             <a href="login.php" class="user user-link"><i class="ri-user-fill"></i>Sign in</a>
@@ -49,7 +44,10 @@
                         {% endif %}
                         <div class="bx bx-menu" id="menu-icon"></div>
                     </div>
-
+                    
+                    <button id="addFavouriteBtn" class="favourites-button">Add to Favourite</button>
+                    <div class="bx bx-menu" id="menu-icon">&#9776;</div>
+                    
                     <!-- Search Bar -->
                     <div class="search-bar">
                         <input class="search-input" id="searchInput" type="text" placeholder="Search...">           
@@ -61,9 +59,9 @@
                 <!--dynamic Background-->
                 <video id="video-background" autoplay loop muted playsinline style="position: fixed; right: 0; bottom: 0; min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: -100;"
                 data-sunny="images/sunny.mp4"
-                data-cloudy="images/Cloudy_loop.mp4"
-                data-rain="images/rain.mp4"
-                data-snow="path/to/your/snow.mp4"
+                data-cloudy="images/cloudy.mp4"
+                data-rain="images/rainy.mp4"
+                data-snow="path/to/your/snowy.mp4"
                 data-foggy="path/to/your/foggy.mp4"></video>
             
                 
@@ -114,7 +112,6 @@
                             </div>
                         </div>
                     {% endfor %}
-
                 </div>
                 
                 <div class="widgets-column">
@@ -205,6 +202,7 @@
         <!-- Below Scripts handle API access to update page -->
         <script src="scripts/getWeather.js"></script> 
         <script src="scripts/getForecast.js"> </script>
+        <script src="scripts/saveFavs.js"></script>
         
     </body>
 </html>
