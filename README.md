@@ -23,7 +23,7 @@ A fully funcional Weather Forecasting System created and tested using XAMPP.
 2. Access phpMyAdmin by visiting http://localhost/phpmyadmin in your web browser.
 3. Create a new database for your project called WeatherDatabase
 4. Update the database with the sql: [WeatherDatbase](https://github.com/StaticRevo/GAPT-Weather-Forecasting-System/blob/main/LoginWeather/sql/WeatherDatabase.sql)
-5. Add user account with the following properties: User name: 'weatherhost' , Password: 'weather
+5. Add user account with the following properties: **Username**: 'weatherhost' , **Hostname**: localhost, **Password**: 'weather and ensure that all privelages are ticked
 
 **Ensure Permissions**
 1. To use the profile picture feature go on command line and type:
