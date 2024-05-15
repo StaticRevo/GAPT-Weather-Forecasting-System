@@ -91,7 +91,10 @@
     transition: transform 0.3s ease-out;
     text-align: center; /* Center text */
 }
-
+.city-name {
+    font-size: 24px; 
+    font-weight: bold;
+}
 .favs-box h2 {
     font-size: 20px;
     margin: 0;
