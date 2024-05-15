@@ -1,0 +1,118 @@
+.favourites {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-image: url('../images/background2.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.favs ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.favs h1 {
+    color: #29304B;
+    font-size: 3vw;
+}
+
+.favs li {
+    margin-bottom: 10px;
+    color: #29304B;
+}
+
+.favs .buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.favs .buttons a {
+    background-color: #0088a9;
+    border: 2px solid #0088a9;
+    color: #fff;
+    border-radius: 30px;
+    padding: 10px 20px;
+    font-size: 17px;
+    text-align: center;
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+.favs .buttons a:first-child {
+    margin-right: 5px;
+}
+
+.favs .buttons a:last-child {
+    margin-left: 5px;
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(0); }
+}
+
+@keyframes fadeInScaleUp {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+}
+  
+@keyframes slideUpFadeIn {
+    from {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+}
+
+.favs-box {
+    /* display: flex; */
+    flex-direction: row;
+    /* justify-content: space-between; */
+    /* align-items: center; */
+    margin-bottom: 20px;
+    border: 5px solid #ccc;
+    background-color: #29304B;
+    border-radius: 1em;
+    padding: 10px;
+    animation: transitionInSections 1s;
+    transition: transform 0.3s ease-out;
+    text-align: center; /* Center text */
+}
+
+.favs-box h2 {
+    font-size: 20px;
+    margin: 0;
+}
+
+.favs-box p {
+    margin: 0;
+    line-height: 1.5;
+    font-weight: bold;
+}
+
+.favs-box:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    transform: scale(1.02);
+}
+
+.button {
+    background-color: #0088a9;
+    border: 2px solid #0088a9;
+    color: #fff;
+    border-radius: 30px;
+    padding: 10px 20px;
+    font-size: 17px;
+}
