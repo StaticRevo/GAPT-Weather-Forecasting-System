@@ -1,0 +1,216 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<section class="favourites">
+    <div class="favs">
+        <h1>Favourite Locations:</h1>
+        {% if latitude is not empty and longitude is not empty %}
+        <ul>
+            {% for lat in latitude %}
+            <div class="favs-box">
+                <div class="weather-details">
+                    <div class="city-name" id="city-name{{ loop.index }}" data-latitude="{{ lat }}"
+                        data-longitude="{{ longitude[loop.index - 1] }}">Valletta</div>
+                    <div class="temperature" id="temperature{{ loop.index }}">Loading...</div>
+                    <div class="condition" id="condition{{ loop.index }}">Loading...</div>
+                    <div class="high-low" id="high-low{{ loop.index }}">Loading...</div>
+                    <div class="buttons">
+                        <a href="#" class="button removeFavsBtn" data-latitude="{{ lat }}"
+                            data-longitude="{{ longitude[loop.index - 1] }}">Remove</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No favourite items found.</p>
+        {% endif %}
+        <script src="scripts/removeFavs.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script>
+            const OPENCAGEAPIKEY = 'd22d3e2e4fe2447b831cc75d3b5a9d60';
+
+            function getWeatherCondition(weatherCode, cityName = "") {
+                // Weather condition mapping remains the same as before
+                // You can customize this function further if needed
+            }
+
+            function updateWeather(latitude, longitude, index, location) {
+                if (!latitude || !longitude) {
+                    console.error('Latitude or longitude is undefined.');
+                    return;
+                }
+                const apiUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,weather_code`;
+                fetch(apiUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        const roundedTemperature = Math.round(data.current.temperature_2m);
+                        const weatherCondition = getWeatherConditionTop(data.current.weather_code);
+                        const generalCategory = categorizeWeatherCondition(weatherCondition).toLowerCase();
+
+                        const cityNameElement = document.getElementById('city-name' + index);
+                        const temperatureElement = document.getElementById('temperature' + index);
+                        const conditionElement = document.getElementById('condition' + index);
+                        const highLowElement = document.getElementById('high-low' + index);
+
+                        if (cityNameElement && temperatureElement && conditionElement && highLowElement) {
+                            cityNameElement.innerText = location || 'Valletta';
+                            temperatureElement.innerText = `${roundedTemperature}°C`;
+                            conditionElement.innerText = getWeatherConditionTop(data.current.weather_code, location) || 'Valletta';
+                            highLowElement.innerText = '';
+                        } else {
+                            console.error('One or more elements not found.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching weather data:', error);
+                        const cityNameElement = document.getElementById('city-name' + index);
+                        const temperatureElement = document.getElementById('temperature' + index);
+                        const conditionElement = document.getElementById('condition' + index);
+                        const highLowElement = document.getElementById('high-low' + index);
+
+                        if (cityNameElement && temperatureElement && conditionElement && highLowElement) {
+                            cityNameElement.innerText = 'City not found';
+                            temperatureElement.innerText = '';
+                            conditionElement.innerText = '';
+                            highLowElement.innerText = '';
+                        } else {
+                            console.error('One or more elements not found.');
+                        }
+                    });
+            }
+
+            function getWeatherConditionTop(weatherCode, cityName = "") {
+                // You can customize this function further based on your needs
+                switch (weatherCode) {
+                    case 0:
+                        return "Sunny";
+                    case 1:
+                        return "Mainly Sunny";
+                    case 2:
+                        return "Partly Cloudy";
+                    case 3:
+                        return "Cloudy";
+                    case 45:
+                        return "Foggy";
+                    case 48:
+                        return "Rime Fog";
+                    case 51:
+                        return "Light Drizzle";
+                    case 53:
+                        return "Drizzle";
+                    case 55:
+                        return "Heavy Drizzle";
+                    case 56:
+                        return "Light Freezing Drizzle";
+                    case 57:
+                        return "Freezing Drizzle";
+                    case 61:
+                        return "Light Rain";
+                    case 63:
+                        return "Rain";
+                    case 65:
+                        return "Heavy Rain";
+                    case 66:
+                        return "Light Freezing Rain";
+                    case 67:
+                        return "Freezing Rain";
+                    case 71:
+                        return "Light Snow";
+                    case 73:
+                        return "Snow";
+                    case 75:
+                        return "Heavy Snow";
+                    case 77:
+                        return "Snow Grains";
+                    case 80:
+                        return "Light Showers";
+                    case 81:
+                        return "Showers";
+                    case 82:
+                        return "Heavy Showers";
+                    case 85:
+                        return "Light Snow Showers";
+                    case 86:
+                        return "Snow Showers";
+                    case 95:
+                        return "Thunderstorm";
+                    case 96:
+                        return "Light Thunderstorms With Hail";
+                    case 99:
+                        return "Thunderstorm With Hail";
+                    default:
+                        return "Unknown Weather";
+                }
+            }
+
+            function categorizeWeatherCondition(detailedDescription) { // new categorise function
+                if (["Light Drizzle", "Drizzle", "Heavy Drizzle", "Light Freezing Drizzle", "Freezing Drizzle", "Light Rain", "Rain", "Heavy Rain", "Light Freezing Rain", "Freezing Rain", "Light Showers", "Showers", "Heavy Showers", "Thunderstorm", "Light Thunderstorms With Hail", "Thunderstorm With Hail"].includes(detailedDescription)) {
+                    return "Rain";
+                } else if (["Light Snow", "Snow", "Heavy Snow", "Snow Grains", "Light Snow Showers", "Snow Showers"].includes(detailedDescription)) {
+                    return "Snow";
+                } else if (["Foggy", "Rime Fog"].includes(detailedDescription)) {
+                    return "Foggy";
+                } else if (["Partly Cloudy", "Cloudy"].includes(detailedDescription)) {
+                    return "Cloudy";
+                } else if (["Sunny", "Mainly Sunny"].includes(detailedDescription)) {
+                    return "Sunny";
+                } else {
+                    return "Unknown";
+                }
+            }
+
+            async function getCoordinates(location) {
+                const opencageApiKey = 'd22d3e2e4fe2447b831cc75d3b5a9d60';
+                const nominatimBaseUrl = 'https://nominatim.openstreetmap.org/search';
+
+                try {
+                    const response = await axios.get(`${nominatimBaseUrl}?q=${encodeURIComponent(location)}&format=json&addressdetails=1&limit=5`);
+                    console.log('Response:', response); // Debugging statement
+
+                    if (response.data && response.data.length > 0) {
+                        const { lat, lon } = response.data[0];
+                        console.log('Latitude:', lat, 'Longitude:', lon); // Debugging statement
+                        return { latitude: parseFloat(lat), longitude: parseFloat(lon) };
+                    } else {
+                        throw new Error('No matching results found');
+                    }
+                } catch (error) {
+                    console.error('Error fetching coordinates:', error);
+                    throw new Error('Unable to fetch coordinates for the location');
+                }
+            }
+
+
+            document.addEventListener('DOMContentLoaded', async function () {
+                const locationList = JSON.parse('{{ location|json_encode| raw }}');
+
+                for (let index = 0; index < locationList.length; index++) {
+                    const location = locationList[index];
+                    try {
+                        const { latitude, longitude } = await getCoordinates(location);
+                        updateWeather(latitude, longitude, index + 1, location);
+                    } catch (error) {
+                        console.error('Error fetching weather data:', error);
+                    }
+                }
+            });
+        </script>
+        <script>
+            function favouritesToIndex(elementId) {
+                const cityNameElement = document.getElementById(elementId);
+                const cityName = cityNameElement.innerText;
+                const latitude = cityNameElement.getAttribute('data-latitude');
+                const longitude = cityNameElement.getAttribute('data-longitude');
+                window.location.href = `index.html?city=${encodeURIComponent(cityName)}&lat=${latitude}&lon=${longitude}`;
+            }
+        </script>
+    </div>
+</section>
+<script>
+    window.onload = function () {
+        document.querySelector('header').classList.add('slideDown');
+    }
+</script>
+
+{% endblock %}
