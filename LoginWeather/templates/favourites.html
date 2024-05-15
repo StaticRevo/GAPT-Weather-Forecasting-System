@@ -9,8 +9,8 @@
             {% for lat in latitude %}
             <div class="favs-box">
                 <div class="weather-details">
-                    <div class="city-name" id="city-name{{ loop.index }}" data-latitude="{{ lat }}"
-                        data-longitude="{{ longitude[loop.index - 1] }}">Valletta</div>
+                    <h2 class="city-name" id="city-name{{ loop.index }}" data-latitude="{{ lat }}"
+                    data-longitude="{{ longitude[loop.index - 1] }}">Valletta</h2>
                     <div class="temperature" id="temperature{{ loop.index }}">Loading...</div>
                     <div class="condition" id="condition{{ loop.index }}">Loading...</div>
                     <div class="high-low" id="high-low{{ loop.index }}">Loading...</div>
