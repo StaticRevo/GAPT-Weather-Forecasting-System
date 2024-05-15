@@ -47,8 +47,11 @@ body {
     padding: 8px 12px;
     background-color: white;
     color: black; 
-    margin-left: 5px; 
     cursor: pointer;
+    align-items: center;
+    margin-left: auto; 
+    position: relative;
+    display: inline-block;
 }
 
 .toggle-favorites {
@@ -124,7 +127,7 @@ body {
 
 .search-bar {
     align-items: center;
-    margin-left: auto; 
+    margin-left: 20px; 
     position: relative;
     display: inline-block;
 
