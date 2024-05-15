@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<section class="quiz">
+    <div class="quizcontainer">
+      <h1>Games:</h1>
+      <button class="btn user-link" onclick="openPage('templates/wordscramble.html')">Word Scramble</button>
+      <button class="btn user-link" onclick="openPage('templates/wordguess.html')">Word Guess</button>
+      <button class="btn user-link" onclick="openPage('templates/quiz.html')">Quiz</button>
+    </div>
+    <!-- Modal -->
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closePage()">&times;</span>
+        <iframe id="modal-frame" src="" frameborder="0"></iframe>
+      </div>
+    </div>
+  <script src="scripts/modal.js"></script>
+</section>
+<script>
+  window.onload = function () {
+      document.querySelector('header').classList.add('slideDown');
+  }
+</script>
+
+{% endblock %}
