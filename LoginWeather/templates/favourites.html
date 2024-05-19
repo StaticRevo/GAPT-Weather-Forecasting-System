@@ -17,6 +17,8 @@
                     <div class="buttons">
                         <a href="#" class="button removeFavsBtn" data-latitude="{{ lat }}"
                             data-longitude="{{ longitude[loop.index - 1] }}">Remove</a>
+                            <a href="#" class="button ViewBtn" data-latitude="{{ lat }}"
+                            data-longitude="{{ longitude[loop.index - 1] }}">View</a>
                     </div>
                 </div>
             </div>
@@ -29,12 +31,13 @@
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script>
             const OPENCAGEAPIKEY = 'd22d3e2e4fe2447b831cc75d3b5a9d60';
-
+            const temperatureUnit = '<?php echo $_SESSION["temperature_unit"]; ?>'; // 'fahrenheit' or 'celsius'
+            
             function getWeatherCondition(weatherCode, cityName = "") {
                 // Weather condition mapping remains the same as before
                 // You can customize this function further if needed
             }
-
+            
             function updateWeather(latitude, longitude, index, location) {
                 if (!latitude || !longitude) {
                     console.error('Latitude or longitude is undefined.');
@@ -55,7 +58,11 @@
 
                         if (cityNameElement && temperatureElement && conditionElement && highLowElement) {
                             cityNameElement.innerText = location || 'Valletta';
-                            temperatureElement.innerText = `${roundedTemperature}°C`;
+                            if (temperatureUnit === 'fahrenheit') {
+                                temperatureElement.innerText = `${Math.round(roundedTemperature * 9/5 + 32)}°F`;
+                            } else {
+                                temperatureElement.innerText = `${roundedTemperature}°C`;
+                            }
                             conditionElement.innerText = getWeatherConditionTop(data.current.weather_code, location) || 'Valletta';
                             highLowElement.innerText = '';
                         } else {
