@@ -31,8 +31,10 @@ Note that without this step: The profile picture will not work!
 
 **Case 1: Windows machine**
 1. To use the profile picture feature go on command line and type:
-2. "C:\xampp\htdocs\WeatherApp\uploads" /grant Everyone:(F)/T
-3. Go to profile.php line 84 and ensure that the directory path matches:  $uploadDir = 'C:\\xampp\\htdocs\\WeatherApp\\uploads\\';
+2. cd C:\xampp\htdocs\WeatherApp
+3. After that type:
+4. icacls uploads /grant Everyone:(F)
+5. Go to profile.php line 84 and ensure that the directory path matches:  $uploadDir = 'C:\\xampp\\htdocs\\WeatherApp\\uploads\\';
    
 **Case 2: Mac machine**
 1. To use the profile picture feature go on command line and type:
