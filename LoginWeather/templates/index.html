@@ -18,12 +18,6 @@
     <body>
 
         <div class="container">
-            <div class="column favorites-column" id="favorites-column">
-                <!-- favorites column -->
-                <div class="favorites-header">
-        
-                    </div>
-                </div>
             <div class="column weather-column" id="weather-column">
 
                 <div class="header">
@@ -49,8 +43,9 @@
                     <!-- Search Bar -->
                     <div class="search-bar">
                         <input class="search-input" id="searchInput" type="text" placeholder="Search...">           
-                        <button onclick="searchLocation(), searchLocationForecast()" class="search-button">Search</button>
+                        <button onclick="searchLocation()" class="search-button">Search</button>
                         <ul id="suggestionsList"></ul>
+                        <div id="error-message" style="color: red; display: none;"></div>
                     </div>                   
                 </div>
 
@@ -59,9 +54,10 @@
                 data-sunny="images/sunny.mp4"
                 data-cloudy="images/cloudy.mp4"
                 data-rain="images/rainy.mp4"
-                data-snow="path/to/your/snowy.mp4"
-                data-foggy="path/to/your/foggy.mp4"></video>
-            
+                data-snow="images/snowy.mp4"
+                data-foggy="images/foggy.mp4"
+                day-thunderstorm="images/thunderstorm.mp4"
+                data-partly_cloudy="images/partly_cloudy.mp4"></video>
                 
                 <div class="weather-details">
                     <div class="city-name" id="city-name">Valletta</div>
@@ -74,7 +70,6 @@
                 <div class="weather-info">
                 <div class="forecast-header">
                 <div class="forecast-title">Today's Forecast</div>
-                <div class="current-date">February 19, 2024</div>
                 </div>
 
                 <!-- Container for time slots -->
@@ -112,41 +107,45 @@
                     {% endfor %}
                 </div>
                 
-                <div class="widgets-column">
-                    <!-- Pressure Widget -->
+                <div class="widgets-column" id= "precipitation-widget">
+                    <!-- Precipitation Widget -->
                     <div class="widget-small">
                         <h3>🌧️ Precipitation</h3>
                         <p class="widget-text" id="precipitation-amt">0mm of</p>
                         <p class="widget-text2">precipitation today</p>
                         <p class="widget-bottom-text" id="precip-tmr">3mm expected tomorrow</p>
+                        <iframe id="precipitation-iframe" class="iframe-popup"></iframe>
                     </div>
                 
                     <!-- UV Index Widget -->
-                    <div class="widget-small">
+                    <div class="widget-small" id= "UV-widget">
                         <h3>☀️ UV Index</h3>
                         <p class="widget-text" id="uv-index">6 of 10</p>
                         <p class="widget-text2" id="uv-text">High</p>
                         <p class="widget-bottom-text" id="uv-tomorrow">3 of 10 expect tomorrow</p>
+                        <iframe id="uv-iframe" class="iframe-popup"></iframe>
                     </div>
 
                     <!-- Real Feel Widget -->
-                    <div class="widget-small">
+                    <div class="widget-small" id= "realfeel-widget">
                         <h3>🌡️ Real Feel</h3>
                         <p class="widget-text" id="real-feel-temp">12°C</p>
                         <p class="widget-text2"></p>
                         <p class="widget-bottom-text" id="real-feel-text">Feels colder than actual temperature</p>
+                        <iframe id="realfeel-iframe" class="iframe-popup"></iframe>
                     </div>
 
                     <!-- Wind Widget -->
-                    <div class="widget-small">
+                    <div class="widget-small" id= "wind-widget">
                         <h3>💨 Wind</h3>
                         <p class="widget-text" id="wind-speed">0km/h</p>
                         <p class="widget-text2"></p>
                         <p class="widget-bottom-text" id="wind-direction">Wind is coming from the north</p>
+                        <iframe id="wind-iframe" class="iframe-popup"></iframe>
                     </div>
 
                     <!-- Sunrise/Sunset Widget -->
-                    <div class="widget-large">
+                    <div class="widget-large" id= "sun-widget">
                         <h3>🌕 Sunrise & Sunset</h3>
                         <p class="widget-text" id="sunrise-time">Sunrise: --:--</p>
                         <p class="widget-bottom-text" id="sunset-time">Sunset: --:--</p>
@@ -155,6 +154,7 @@
                                 <div class="sun-icon" id="sun-icon">🌞</div>
                             </div>
                         </div>
+                        <iframe id="sun-iframe" class="iframe-popup"></iframe>
                     </div>             
 
                     <!-- Vis Widget -->
@@ -162,25 +162,26 @@
                         <h3>👁️ Visibility</h3>
                         <p id="visibility-value" class="widget-text">Loading...</p>
                         <p id="visibility-description" class="widget-bottom-text">Loading...</p>
-                        <p class="widget-bottom-text">Click to view details</p> 
-                    </div>
-    
+                        <iframe id="visibility-iframe" class="iframe-popup"></iframe>
+                    </div>                    
                     
                     <!-- Pressure Widget -->
-                    <div class="widget-small">
+                    <div class="widget-small" id="pressure-widget">
                         <h3>🗜️ Pressure</h3>
                         <p class="widget-text" id="pressure-amt">1024hPa</p>
                         <div class="pressure-bar-wrapper">
                             <div class="pressure-bar" id="pressureBar"></div>
                         </div>
+                        <iframe id="pressure-iframe" class="iframe-popup"></iframe>
                     </div>
 
                     <!-- Humidity Widget -->
-                    <div class="widget-small">
+                    <div class="widget-small" id="humidity-widget">
                         <h3>💧 Humidity</h3>
                         <p id="humidity-value" class="widget-text">67%</p>
                         <p class="widget-text2"></p>
                         <p id="dew-value" class="widget-bottom-text">The dew point is 10°C</p>
+                        <iframe id="humidity-iframe" class="iframe-popup"></iframe>
                     </div>
                 </div>  
             </div>
@@ -203,18 +204,9 @@
         <script src="scripts/getWeather.js"></script> 
         <script src="scripts/getForecast.js"> </script>
         <script src="scripts/saveFavs.js"></script>
-        
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const visibilityWidget = document.getElementById('visibility-widget');
-                if (visibilityWidget) {
-                    visibilityWidget.addEventListener('click', function() {
-                        const lat = 35.8997;
-                        const lon = 14.5148;
-                        window.location.href = `templates/visibility.html?lat=${lat}&lon=${lon}`;
-                    });
-                }
-            });
-        </script>
+        <script src="scripts/widgets.js"></script>
+        <script src="scripts/visibilityAPI.js"></script>
+        <script src="scripts/visbilityDetails.js"></script>
+    
     </body>
 </html>
