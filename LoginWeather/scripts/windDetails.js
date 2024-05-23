@@ -13,9 +13,11 @@ document.addEventListener('DOMContentLoaded', function() {
 function updateWindSpeedDetails(lat, lon) {
     fetchWindSpeedData(lat, lon)
         .then(data => {
-            const windSpeed = data.current.wind_speed_10m; // Assuming the first entry is for the current wind speed
-            document.getElementById('windSpeedData').innerText = `Current Wind Speed: ${windSpeed} km/h`;
-            document.getElementById('windSpeedDescription').innerText = getWindSpeedDescription(windSpeed);
+            const windSpeedKmph = data.current.wind_speed_10m; // Assuming the first entry is for the current wind speed
+            const windSpeedBeaufort = kmphToBeaufort(windSpeedKmph);
+            console.error(windSpeedBeaufort);
+            document.getElementById('windSpeedData').innerText = `Current Wind Speed:\n ${windSpeedKmph} km/h / (${windSpeedBeaufort} Beaufort)`;
+            document.getElementById('windSpeedDescription').innerText = getWindSpeedDescription(windSpeedKmph);
         })
         .catch(error => {
             console.error('Error fetching wind speed details:', error);
@@ -23,14 +25,44 @@ function updateWindSpeedDetails(lat, lon) {
         });
 }
 
+function kmphToBeaufort(speed) {
+    if (speed < 1) {
+        return 0;
+    } else if (speed <= 5) {
+        return 1;
+    } else if (speed <= 11) {
+        return 2;
+    } else if (speed <= 19) {
+        return 3;
+    } else if (speed <= 28) {
+        return 4;
+    } else if (speed <= 38) {
+        return 5;
+    } else if (speed <= 49) {
+        return 6;
+    } else if (speed <= 61) {
+        return 7;
+    } else if (speed <= 74) {
+        return 8;
+    } else if (speed <= 88) {
+        return 9;
+    } else if (speed <= 102) {
+        return 10;
+    } else if (speed <= 117) {
+        return 11;
+    } else {
+        return 12;
+    }
+}
+
 function getWindSpeedDescription(speed) {
     if (speed < 5) {
-        return 'Calm, barely noticeable winds.';
+        return '\nCalm, barely noticeable winds.';
     } else if (speed < 20) {
-        return 'Light breeze, pleasant for outdoor activities.';
+        return '\nLight breeze, pleasant for outdoor activities.';
     } else if (speed < 40) {
-        return 'Moderate wind, noticeable and might affect certain activities.';
+        return '\nModerate wind, noticeable and might affect certain activities.';
     } else {
-        return 'Strong wind, potential for disruption and hazardous conditions.';
+        return '\nStrong wind, potential for disruption and hazardous conditions.';
     }
 }
