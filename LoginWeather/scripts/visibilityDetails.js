@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', function() {
     const searchParams = new URLSearchParams(window.location.search);
     const lat = searchParams.get('lat');
@@ -14,15 +13,21 @@ document.addEventListener('DOMContentLoaded', function() {
 function updateVisibilityDetails(lat, lon) {
     fetchVisibilityData(lat, lon)
         .then(data => {
-            const visibilityData = data.current.visibility;
-            document.getElementById('visibilityDistance').innerText = `${visibilityData} km`;
-            document.getElementById('visibilityDescription').innerText = getVisibilityDescription(visibilityData);
-            document.getElementById('visibilitySummary').innerText = `Today, the visibility is ${getVisibilityDescription(visibilityData).toLowerCase()}, at ${visibilityData} km.`;
-            document.getElementById('visibilityComparison').innerText = getVisibilityComparison(visibilityData);
+            const visibilityKm = data.current.visibility;
+            const visibilityMiles = kmToMiles(visibilityKm);
+            
+            document.getElementById('visibilityDistance').innerText = `${visibilityKm} km / ${visibilityMiles} miles`;
+            document.getElementById('visibilityDescription').innerText = getVisibilityDescription(visibilityKm);
+            document.getElementById('visibilitySummary').innerText = `Today, the visibility is ${getVisibilityDescription(visibilityKm).toLowerCase()}, at ${visibilityKm} km / ${visibilityMiles} miles.`;
+            document.getElementById('visibilityComparison').innerText = getVisibilityComparison(visibilityKm);
         })
         .catch(error => {
             console.error('Error fetching visibility details:', error);
         });
+}
+
+function kmToMiles(km) {
+    return (km * 0.621371).toFixed(2);  // Converts kilometers to miles and rounds to 2 decimal places
 }
 
 function getVisibilityDescription(visibility) {
