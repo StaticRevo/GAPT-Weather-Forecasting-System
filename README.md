@@ -26,6 +26,7 @@ A fully funcional Weather Forecasting System created and tested using XAMPP.
 5. Add user account with the following properties: **Username**: 'weatherhost' , **Hostname**: localhost, **Password**: 'weather and ensure that all privelages are ticked
 
 **Ensure Permissions**
+
 Note that without this step: The profile picture will not work!
 
 **Case 1: Windows machine**
