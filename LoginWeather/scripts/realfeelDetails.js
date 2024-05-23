@@ -13,9 +13,10 @@ document.addEventListener('DOMContentLoaded', function() {
 function updateRealFeelDetails(lat, lon) {
     fetchRealFeelData(lat, lon)
         .then(data => {
-            const realFeel = data.current.apparent_temperature;
-            document.getElementById('realFeelData').innerText = `Current RealFeel: ${realFeel}°C`;
-            document.getElementById('realFeelDescription').innerText = getRealFeelDescription(realFeel);
+            const realFeelCelsius = data.current.apparent_temperature;
+            const realFeelFahrenheit = convertCelsiusToFahrenheit(realFeelCelsius);
+            document.getElementById('realFeelData').innerText = `Current Real Feel:\n ${realFeelCelsius}°C / ${realFeelFahrenheit}°F\n`;
+            document.getElementById('realFeelDescription').innerText = getRealFeelDescription(realFeelCelsius);
         })
         .catch(error => {
             console.error('Error fetching RealFeel details:', error);
@@ -23,16 +24,20 @@ function updateRealFeelDetails(lat, lon) {
         });
 }
 
+function convertCelsiusToFahrenheit(celsius) {
+    return (celsius * 9/5) + 32;
+}
+
 function getRealFeelDescription(temperature) {
     if (temperature < 0) {
-        return 'Extremely cold, risk of frostbite';
+        return '\nExtremely cold, risk of frostbite';
     } else if (temperature < 10) {
-        return 'Very cold, dress warmly';
+        return '\nVery cold, dress warmly';
     } else if (temperature < 20) {
-        return 'Mild, pleasant with a light jacket';
+        return '\nMild, pleasant with a light jacket';
     } else if (temperature < 30) {
-        return 'Warm, perfect for outdoor activities';
+        return '\nWarm, perfect for outdoor activities';
     } else {
-        return 'Very hot, risk of heat exhaustion';
+        return '\nVery hot, risk of heat exhaustion';
     }
 }
