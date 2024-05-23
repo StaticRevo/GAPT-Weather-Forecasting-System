@@ -11,7 +11,8 @@
         <link rel="stylesheet" href="css/style.css">  
         <link rel="stylesheet" href="css/{{ filename }}-style.css">
         <link rel="stylesheet" href="css/layout-style.css">
-        <script type="text/javascript" src="javascript/header.js"></script> <!-- updated -->
+        <script type="text/javascript" src="javascript/header.js"></script>
+        <link rel="icon" href="images/favicon.ico" type="image/x-icon">
     </head>
         <header>
             <div class="header">
@@ -23,8 +24,10 @@
                     </div>
                         
                     <div>
-                        {% if logged_in %}
+                    {% if logged_in %}
                         <a href="profile.php" class="user user-link"><i class="ri-user-fill"></i>Profile</a>
+                        <a href="fetchfavs.php" class="user-link">Favourites</a>
+                        <a href="game.php" class="user-link">Games</a>
                         <a href="gen-php/signout.php" class="user-link">Sign Out</a>
                     {% else %}
                         <a href="login.php" class="user user-link"><i class="ri-user-fill"></i>Sign in</a>
