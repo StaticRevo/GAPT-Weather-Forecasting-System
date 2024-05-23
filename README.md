@@ -41,6 +41,8 @@ Note that without this step: The profile picture will not work!
 2. chmod 777 /Applications/XAMPP/xamppfiles/htdocs/(ProjectName)/uploads
 3. Go to profile.php line 84 and ensure that the directory path matches: $uploadDir = '/Applications/XAMPP/xamppfiles/htdocs/WeatherApp/uploads/';
 
+After this is done open the files, go on profile.php line 84 and ensure the file path is correct.
+
 ### **Start the Web Server**
 1. Place the project files in the appropriate directory within the XAMPP installation (usually htdocs).
 2. Access the project in your web browser by visiting http://localhost/project_directory where project_directory is the name of the directory containing your project files.
