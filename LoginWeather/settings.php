@@ -70,6 +70,9 @@ $stmt->execute();
 $result = $stmt->get_result();
 $preferences = $result->fetch_assoc();
 
+// Add temperature_unit to the session
+$_SESSION['temperature_unit'] = $preferences['temperature_unit'];
+
 // adds to the title tag
 $title = "Settings";
     
