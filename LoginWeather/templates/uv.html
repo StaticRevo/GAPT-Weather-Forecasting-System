@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>UV Index Details - Weather Channel</title>
+    <link rel="stylesheet" href="../css/widget-style.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="header">UV Index</h1>
+        <div class="content">
+            <div class="stats">
+                <span class="data" id="uvData">Loading...</span>
+                <span class="description" id="uvDescription">Loading...</span>
+            </div>
+            <!-- General Description about UV Index -->
+            <div class="uv-info">
+                <h2>What is the UV Index?</h2>
+                <p>The UV Index is a standard measurement of the strength of sunburn-producing ultraviolet radiation at a particular place and time. Values of the index range from zero upward - the higher the UVI value, the greater the potential for damage to the skin and eyes, and the less time it takes for harm to occur.</p>
+                <h3>UV Index Scale:</h3>
+                <ul>
+                    <li><strong>0-2 Low:</strong> A low risk of harm from unprotected sun exposure.</li>
+                    <li><strong>3-5 Moderate:</strong> A moderate risk of harm from unprotected sun exposure.</li>
+                    <li><strong>6-7 High:</strong> A high risk of harm from unprotected sun exposure. Protection against skin and eye damage is needed.</li>
+                    <li><strong>8-10 Very High:</strong> Very high risk of harm from unprotected sun exposure. Take extra precautions because unprotected skin and eyes will be damaged and can burn quickly.</li>
+                    <li><strong>11+ Extreme:</strong> Extreme risk of harm from unprotected sun exposure. Take all precautions because unprotected skin and eyes can burn in minutes.</li>
+                </ul>
+                <p>It's recommended to wear protective clothing, sunglasses, and sunscreen if you need to be outside during daylight hours when UV levels are high.</p>
+            </div>
+        </div>
+    </div>
+    <script src="../scripts/uvAPI.js"></script>
+    <script src="../scripts/uvDetails.js"></script>
+</body>
+</html>

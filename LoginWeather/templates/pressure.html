@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pressure Details - Weather Channel</title>
+    <link rel="stylesheet" href="../css/widget-style.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="header">Atmospheric Pressure</h1>
+        <div class="content">
+            <div class="stats">
+                <span class="data" id="pressureData">Loading...</span>
+
+            </div>
+            <div class="pressure-info">
+                <h2>Understanding Atmospheric Pressure</h2>
+                <p>Atmospheric pressure is the force exerted by the weight of the air above it. This pressure is measured using a barometer and is expressed in units called hectopascals (hPa), also known as millibars. Standard atmospheric pressure at sea level is about 1013.25 hPa.</p>
+                <h3>Why It Matters:</h3>
+                <ul>
+                    <li><strong>Weather Prediction:</strong> Changes in atmospheric pressure can indicate upcoming weather conditions. For example, falling pressure suggests worsening weather conditions, while rising pressure indicates improving weather.</li>
+                    <li><strong>Altitude Effects:</strong> Pressure decreases with higher altitudes which can affect breathing, boiling point of water, and aircraft operations.</li>
+                    <li><strong>Health and Well-being:</strong> Sudden changes in atmospheric pressure can influence human and animal behavior and health, such as joint pain or headaches in some people.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script src="../scripts/pressureAPI.js"></script>
+    <script src="../scripts/pressureDetails.js"></script>
+</body>
+</html>
