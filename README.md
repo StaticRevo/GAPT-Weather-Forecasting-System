@@ -5,7 +5,7 @@ A fully funcional Weather Forecasting System created and tested using XAMPP.
 
 ## Setup Instructions
 
-**XAMPP**
+### **XAMPP**
 1. Install XAMPP
 2. Download the latest version of XAMPP from the official website: XAMPP Downloads.
 3. Follow the installation instructions provided for your operating system (Windows, macOS, or Linux).
