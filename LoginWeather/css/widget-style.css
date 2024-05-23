@@ -1,0 +1,56 @@
+.container {
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+    background-color: rgba(16, 64, 132, 1); /* Adjust color to match your design */
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 600px; /* Adjust size as necessary */
+    margin: 0 auto;
+}
+
+.center-text {
+    text-align: center;
+}
+
+.header {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.content {
+    background: rgba(24, 48, 100, 1); /* Semi-transparent background */
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.stats {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.distance {
+    font-weight: bold;
+    font-size: 36px;
+    display: block;
+}
+
+.description {
+    font-style: italic;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.summary,
+.comparison {
+    text-align: center;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.current-pressure {
+    font-weight: bold;
+    font-size: 36px;
+    display: block;
+}
