@@ -27,11 +27,11 @@ A fully funcional Weather Forecasting System created and tested using XAMPP.
 
 **Ensure Permissions**
 Note that without this step: The profile picture will not work!
-**Case 1: Windows machine**
+** Case 1: Windows machine**
 1. To use the profile picture feature go on command line and type:
 2. "C:\xampp\htdocs\WeatherApp\uploads" /grant Everyone:(F)/T
 3. Go to profile.php line 84 and ensure that the directory path matches:  $uploadDir = 'C:\\xampp\\htdocs\\WeatherApp\\uploads\\';
-**Case 2: Mac machine  ** 
+** Case 2: Mac machine  ** 
 1. To use the profile picture feature go on command line and type:
 2. chmod 777 /Applications/XAMPP/xamppfiles/htdocs/(ProjectName)/uploads
 3. Go to profile.php line 84 and ensure that the directory path matches: $uploadDir = '/Applications/XAMPP/xamppfiles/htdocs/WeatherApp/uploads/';
